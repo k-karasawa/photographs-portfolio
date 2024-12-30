@@ -5,8 +5,8 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const THROTTLE_MS = 80
-const MAX_MOVE_SPEED = 30
+const MIN_DISTANCE_FOR_NEW_IMAGE = 80  // 新しい画像を生成するための最小移動距離
+const MAX_MOVE_SPEED = 50
 
 interface ArrowImage {
   id: number
@@ -19,13 +19,12 @@ interface ArrowImage {
 
 const Home: NextPage = () => {
   const [images, setImages] = useState<ArrowImage[]>([])
-  const [lastImageTime, setLastImageTime] = useState(0)
   const lastMousePos = useRef({ x: 0, y: 0 })
-
+  const accumulatedDistance = useRef(0)
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    const currentTime = Date.now()
     const currentMousePos = { x: e.clientX, y: e.clientY }
 
+    // マウスの移動距離を計算
     const moveDistance = Math.sqrt(
       Math.pow(currentMousePos.x - lastMousePos.current.x, 2) +
       Math.pow(currentMousePos.y - lastMousePos.current.y, 2)
@@ -33,29 +32,32 @@ const Home: NextPage = () => {
 
     const normalizedDistance = Math.min(moveDistance, MAX_MOVE_SPEED)
 
+    // 既存の画像のアニメーションを更新
     setImages(prev => prev.map(image => ({
       ...image,
       progress: Math.min(1, image.progress + (normalizedDistance / 300))
     })))
 
-    if (currentTime - lastImageTime < THROTTLE_MS) {
-      lastMousePos.current = currentMousePos
-      return
+    // 累積距離を更新
+    accumulatedDistance.current += moveDistance
+
+    // 十分な距離を移動した場合に新しい画像を生成
+    if (accumulatedDistance.current >= MIN_DISTANCE_FOR_NEW_IMAGE) {
+      const newImage: ArrowImage = {
+        id: Date.now(),
+        x: e.clientX,
+        y: e.clientY,
+        initialX: e.clientX,
+        initialY: e.clientY,
+        progress: 0
+      }
+
+      setImages(prev => [...prev.filter(img => img.progress < 1), newImage].slice(-10))
+      accumulatedDistance.current = 0  // 累積距離をリセット
     }
 
-    const newImage: ArrowImage = {
-      id: currentTime,
-      x: e.clientX,
-      y: e.clientY,
-      initialX: e.clientX,
-      initialY: e.clientY,
-      progress: 0
-    }
-
-    setImages(prev => [...prev.filter(img => img.progress < 1), newImage].slice(-10))
-    setLastImageTime(currentTime)
     lastMousePos.current = currentMousePos
-  }, [lastImageTime])
+  }, [])
 
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove)
@@ -75,8 +77,8 @@ const Home: NextPage = () => {
           <motion.div
             key={image.id}
             initial={{
-              scale: 1,
-              opacity: 1,
+              scale: 0.8,
+              opacity: 0,
               x: image.initialX - 75,
               y: image.initialY - 75,
             }}
@@ -87,8 +89,18 @@ const Home: NextPage = () => {
               y: image.initialY - 75,
             }}
             transition={{
-              duration: 0.05,
-              ease: "linear"
+              type: "spring",
+              stiffness: 400,
+              damping: 30,
+              mass: 1,
+              opacity: {
+                duration: 0.15,
+                ease: "easeOut"
+              },
+              scale: {
+                duration: 0.15,
+                ease: "easeOut"
+              }
             }}
             className="fixed pointer-events-none"
           >
