@@ -5,7 +5,6 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const ARROW_IMAGES = [1, 2, 3, 4]
 const THROTTLE_MS = 80
 const MAX_MOVE_SPEED = 30
 
@@ -19,7 +18,6 @@ interface ArrowImage {
 }
 
 const Home: NextPage = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [images, setImages] = useState<ArrowImage[]>([])
   const [lastImageTime, setLastImageTime] = useState(0)
   const lastMousePos = useRef({ x: 0, y: 0 })
@@ -27,7 +25,6 @@ const Home: NextPage = () => {
   const handleMouseMove = useCallback((e: MouseEvent) => {
     const currentTime = Date.now()
     const currentMousePos = { x: e.clientX, y: e.clientY }
-    setMousePosition(currentMousePos)
 
     const moveDistance = Math.sqrt(
       Math.pow(currentMousePos.x - lastMousePos.current.x, 2) +
