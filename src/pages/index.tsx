@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Top } from '@/Sections/Top/Top'
-
+import { CustomOrderSection } from '@/Sections/Custom/Custom'
 const Home: NextPage = () => {
   return (
     <>
@@ -12,6 +12,7 @@ const Home: NextPage = () => {
       </Head>
 
       <Top />
+      <CustomOrderSection />
     </>
   )
 }

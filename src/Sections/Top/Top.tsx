@@ -114,14 +114,14 @@ export const Top = () => {
       </AnimatePresence>
 
       <nav className="absolute top-0 left-0 w-full p-8 z-10">
-        <Link href="/" className="text-[#333333] text-xl font-medium">
+        <Link href="/" className="text-[#333333] text-xl font-medium hover:opacity-80 transition-opacity">
           mokubara.
         </Link>
       </nav>
 
       <div className="flex items-center justify-center min-h-screen relative z-10">
         <div className="relative">
-          <div className="max-w-3xl mx-auto text-center">
+          <div className="max-w-3xl mx-auto text-center px-4">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#333333] leading-tight mb-6">
               Realistic Mockups
               <br />
@@ -132,7 +132,7 @@ export const Top = () => {
               <br />
               And it works on your browser.
             </p>
-            <button className="bg-[#C84C38] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-colors">
+            <button className="bg-[#C84C38] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-colors shadow-lg hover:shadow-xl">
               Join Waitlist
             </button>
           </div>
