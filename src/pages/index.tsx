@@ -1,115 +1,139 @@
-import Image from "next/image";
-import localFont from "next/font/local";
+import type { NextPage } from 'next'
+import Head from 'next/head'
+import Link from 'next/link'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+const ARROW_IMAGES = [1, 2, 3, 4]
+const THROTTLE_MS = 80
+const MAX_MOVE_SPEED = 30
 
-export default function Home() {
+interface ArrowImage {
+  id: number
+  x: number
+  y: number
+  initialX: number
+  initialY: number
+  progress: number
+}
+
+const Home: NextPage = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [images, setImages] = useState<ArrowImage[]>([])
+  const [lastImageTime, setLastImageTime] = useState(0)
+  const lastMousePos = useRef({ x: 0, y: 0 })
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    const currentTime = Date.now()
+    const currentMousePos = { x: e.clientX, y: e.clientY }
+    setMousePosition(currentMousePos)
+
+    const moveDistance = Math.sqrt(
+      Math.pow(currentMousePos.x - lastMousePos.current.x, 2) +
+      Math.pow(currentMousePos.y - lastMousePos.current.y, 2)
+    )
+
+    const normalizedDistance = Math.min(moveDistance, MAX_MOVE_SPEED)
+
+    setImages(prev => prev.map(image => ({
+      ...image,
+      progress: Math.min(1, image.progress + (normalizedDistance / 300))
+    })))
+
+    if (currentTime - lastImageTime < THROTTLE_MS) {
+      lastMousePos.current = currentMousePos
+      return
+    }
+
+    const newImage: ArrowImage = {
+      id: currentTime,
+      x: e.clientX,
+      y: e.clientY,
+      initialX: e.clientX,
+      initialY: e.clientY,
+      progress: 0
+    }
+
+    setImages(prev => [...prev.filter(img => img.progress < 1), newImage].slice(-10))
+    setLastImageTime(currentTime)
+    lastMousePos.current = currentMousePos
+  }, [lastImageTime])
+
+  useEffect(() => {
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [handleMouseMove])
+
   return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/pages/index.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-white overflow-hidden">
+      <Head>
+        <title>mokubara. | Realistic Mockups Made Easy</title>
+        <meta name="description" content="The easiest way to create amazing mockups" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <AnimatePresence>
+        {images.map((image) => (
+          <motion.div
+            key={image.id}
+            initial={{
+              scale: 1,
+              opacity: 1,
+              x: image.initialX - 75,
+              y: image.initialY - 75,
+            }}
+            animate={{
+              scale: 1 - (image.progress * 0.5),
+              opacity: 1 - image.progress,
+              x: image.initialX - 75,
+              y: image.initialY - 75,
+            }}
+            transition={{
+              duration: 0.05,
+              ease: "linear"
+            }}
+            className="fixed pointer-events-none"
           >
             <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src={`/arrows/${Math.floor((image.id % 4) + 1)}.jpg`}
+              alt="Arrow image"
+              width={150}
+              height={150}
+              className="w-full h-full object-contain"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+
+      <nav className="absolute top-0 left-0 w-full p-8 z-10">
+        <Link href="/" className="text-[#333333] text-xl font-medium">
+          mokubara.
+        </Link>
+      </nav>
+
+      <main className="flex items-center justify-center min-h-screen relative z-10">
+        <div className="relative">
+          {/* Text Content */}
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#333333] leading-tight mb-6">
+              Realistic Mockups
+              <br />
+              Made Easy
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-xl mx-auto">
+              The easiest way to create amazing mockups.
+              <br />
+              And it works on your browser.
+            </p>
+            <button className="bg-[#C84C38] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-colors">
+              Join Waitlist
+            </button>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
-  );
+  )
 }
+
+export default Home
