@@ -1,7 +1,6 @@
-'use client'
-
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import Image from 'next/image'
 
 export const CustomOrderSection = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -91,16 +90,70 @@ export const CustomOrderSection = () => {
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ 
-            duration: 1.2,
-            ease: "easeOut",
-            delay: 0.3
-          }}
+          transition={{ duration: 1.2 }}
           className="mt-16 text-center"
         >
-          <button className="px-8 py-4 bg-gradient-to-r from-[#7B4B94] to-[#9A6BA5] text-white rounded-full text-lg font-bold hover:from-[#6A3A83] hover:to-[#895A94] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-[#7B4B94]/25">
-            カスタムオーダーを始める
-          </button>
+          <motion.div 
+            className="relative inline-block"
+            initial="initial"
+            animate="initial"
+            whileHover="hover"
+          >
+            <motion.button
+              className="relative px-8 py-4 bg-gradient-to-r from-[#7B4B94] to-[#9A6BA5] text-white rounded-full text-lg font-bold hover:from-[#6A3A83] hover:to-[#895A94] transition-all duration-300 shadow-lg hover:shadow-[#7B4B94]/25"
+            >
+              <span className="inline-flex items-center gap-6 -translate-y-0.5">
+                <span>
+                  カスタムオーダーを始める
+                </span>
+
+                <Image
+                  src="/icons/target.png"
+                  alt="Target"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6"
+                  style={{ width: "auto", height: "auto" }}
+                />
+              </span>
+            </motion.button>
+
+            {/* 矢のアニメーション */}
+            <motion.div
+              variants={{
+                initial: { 
+                  opacity: 0,
+                  x: 100,
+                  y: -50,
+                  scale: 0
+                },
+                hover: { 
+                  opacity: 1,
+                  x: -15,
+                  y: -5,
+                  scale: 1,
+                  transition: {
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 25,
+                    mass: 0.5,
+                    delay: 0.1
+                  }
+                }
+              }}
+              className="absolute top-2 -right-2 -translate-y-1/2 pointer-events-none"
+              style={{ rotate: '-45deg' }}
+            >
+              <Image
+                src="/icons/arrow.png"
+                alt="Arrow"
+                width={60}
+                height={12}
+                className="w-16"
+                style={{ width: "auto", height: "auto" }}
+              />
+            </motion.div>
+          </motion.div>
         </motion.div>
       </motion.div>
     </section>
