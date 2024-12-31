@@ -123,26 +123,31 @@ export const CustomOrderSection = () => {
               variants={{
                 initial: { 
                   opacity: 0,
-                  x: 100,
-                  y: -50,
-                  scale: 0
+                  x: 250,
+                  y: -250,
+                  scale: 0.5,
+                  rotate: -45
                 },
                 hover: { 
                   opacity: 1,
                   x: -15,
                   y: -5,
                   scale: 1,
+                  rotate: -45,
                   transition: {
                     type: "spring",
-                    stiffness: 400,
+                    stiffness: 200,
                     damping: 25,
                     mass: 0.5,
-                    delay: 0.1
+                    delay: 0.1,
+                    opacity: {
+                      duration: 0.2,
+                      ease: "easeOut"
+                    }
                   }
                 }
               }}
               className="absolute top-2 -right-2 -translate-y-1/2 pointer-events-none"
-              style={{ rotate: '-45deg' }}
             >
               <Image
                 src="/icons/arrow.png"
