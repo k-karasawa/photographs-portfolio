@@ -56,12 +56,15 @@ export const CustomOrderSection = () => {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              whileHover={{ 
-                scale: 1.05,
-                transition: { duration: 0.2 }
-              }}
-              className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-lg"
+              className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-lg relative overflow-hidden group"
             >
+              {/* 光のエフェクト用のオーバーレイ - トランジションを個別に設定 */}
+              <div 
+                className="absolute inset-0 -translate-x-full group-hover:translate-x-full pointer-events-none
+                bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12
+                transition-transform duration-[400ms] group-hover:duration-[1000ms] ease-in-out"
+              />
+
               <motion.div 
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
@@ -86,9 +89,13 @@ export const CustomOrderSection = () => {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ 
+            duration: 1.2,
+            ease: "easeOut",
+            delay: 0.3
+          }}
           className="mt-16 text-center"
         >
           <button className="px-8 py-4 bg-gradient-to-r from-[#7B4B94] to-[#9A6BA5] text-white rounded-full text-lg font-bold hover:from-[#6A3A83] hover:to-[#895A94] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-[#7B4B94]/25">
