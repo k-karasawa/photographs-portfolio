@@ -1,9 +1,11 @@
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useAnimationControls } from 'framer-motion'
 import Image from 'next/image'
 
 export const CustomOrderSection = () => {
   const containerRef = useRef<HTMLDivElement>(null)
+  const controls = useAnimationControls()
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
@@ -100,13 +102,23 @@ export const CustomOrderSection = () => {
             whileHover="hover"
           >
             <motion.button
-              className="relative px-8 py-4 bg-gradient-to-r from-[#7B4B94] to-[#9A6BA5] text-white rounded-full text-lg font-bold hover:from-[#6A3A83] hover:to-[#895A94] transition-all duration-300 shadow-lg hover:shadow-[#7B4B94]/25"
+              variants={{
+                initial: {
+                  scale: 1,
+                  x: 0
+                },
+                hover: {
+                  scale: 1,
+                  x: 0
+                }
+              }}
+              animate={controls}
+              className="relative px-8 py-4 bg-gradient-to-r from-[#7B4B94] to-[#9A6BA5] text-white rounded-full text-lg font-bold hover:from-[#6A3A83] hover:to-[#895A94] transition-colors duration-300 shadow-lg hover:shadow-[#7B4B94]/25"
             >
               <span className="inline-flex items-center gap-6 -translate-y-0.5">
                 <span>
                   カスタムオーダーを始める
                 </span>
-
                 <Image
                   src="/icons/target.png"
                   alt="Target"
@@ -124,35 +136,54 @@ export const CustomOrderSection = () => {
                 initial: { 
                   opacity: 0,
                   x: 250,
-                  y: -250,
+                  y: -300,
                   scale: 0.5,
-                  rotate: -45
+                  rotate: -45,
+                  transition: {
+                    opacity: {
+                      duration: 0
+                    }
+                  }
                 },
                 hover: { 
                   opacity: 1,
-                  x: -15,
-                  y: -5,
+                  x: -11,
+                  y: -27,
                   scale: 1,
                   rotate: -45,
                   transition: {
                     type: "spring",
-                    stiffness: 200,
-                    damping: 25,
-                    mass: 0.5,
+                    stiffness: 300,
+                    damping: 20,
+                    mass: 0.4,
                     delay: 0.1,
                     opacity: {
-                      duration: 0.2,
+                      duration: 0.15,
                       ease: "easeOut"
                     }
                   }
                 }
               }}
-              className="absolute top-2 -right-2 -translate-y-1/2 pointer-events-none"
+              onAnimationComplete={(definition) => {
+                if (definition === "hover") {
+                  controls.start({
+                    scale: [1, 0.97, 1.01, 0.99, 1],
+                    x: [0, -1.5, 0.5, -0.5, 0],
+                    rotate: [0, -0.3, 0.3, -0.1, 0],
+                    transition: {
+                      duration: 0.25,
+                      times: [0, 0.15, 0.3, 0.5, 1],
+                      ease: [0.19, 1, 0.22, 1]
+                    }
+                  })
+                }
+              }}
+              className="absolute top-0 -right-2 -translate-y-[10%] pointer-events-none"
             >
               <Image
                 src="/icons/arrow.png"
                 alt="Arrow"
-                width={60}
+                width={45}
                 height={12}
                 className="w-16"
                 style={{ width: "auto", height: "auto" }}
