@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import { MobileTrailEffect } from '@/components/MobileTrailEffect'
 
 const MIN_DISTANCE_FOR_NEW_IMAGE = 80
 const MAX_MOVE_SPEED = 50
@@ -63,6 +64,50 @@ export const Top = () => {
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [handleMouseMove])
+
+  // スクロール制御を改善
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches) {
+      // スクロールを無効化
+      document.body.style.overflow = 'hidden'
+
+      // Intersection Observerで次のセクションの監視
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // 次のセクションが表示されたらスクロールを再有効化
+              document.body.style.overflow = 'auto'
+            } else if (entry.boundingClientRect.top > 0) {
+              // Topセクションに戻ってきたらスクロールを無効化
+              document.body.style.overflow = 'hidden'
+            }
+          })
+        },
+        { threshold: 0.1 } // 10%見えたら発火
+      )
+
+      // 次のセクションを監視
+      const nextSection = document.getElementById('next-section')
+      if (nextSection) {
+        observer.observe(nextSection)
+      }
+
+      return () => {
+        // クリーンアップ
+        observer.disconnect()
+        document.body.style.overflow = 'auto'
+      }
+    }
+  }, [])
+
+  // 次のセクションへスクロール
+  const handleNextSection = () => {
+    const nextSection = document.getElementById('next-section')
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 
   return (
     <section className="min-h-screen bg-white overflow-hidden relative">
@@ -132,12 +177,69 @@ export const Top = () => {
               <br />
               And it works on your browser.
             </p>
-            <button className="bg-[#C84C38] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-colors shadow-lg hover:shadow-xl">
-              Join Waitlist
-            </button>
+
+            {/* PCとモバイルで異なるボタンを表示 */}
+            <div className="relative">
+              {/* PC用のボタン */}
+              <button className="hidden md:inline-block bg-[#C84C38] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-colors shadow-lg hover:shadow-xl">
+                Join Waitlist
+              </button>
+
+              {/* モバイル用のボタン */}
+              <motion.div
+                className="md:hidden inline-flex flex-col items-center"
+                whileHover={{ y: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              >
+                <motion.button
+                  onClick={handleNextSection}
+                  className="bg-[#C84C38] text-white px-8 py-3 rounded-full shadow-lg relative"
+                >
+                  Join Waitlist
+                </motion.button>
+                
+                {/* 下矢印のアニメーション */}
+                <motion.div
+                  className="mt-4"
+                  initial={{ opacity: 0.5, y: -5 }}
+                  animate={{ opacity: 1, y: 5 }}
+                  transition={{
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    duration: 1,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <svg 
+                    className="w-6 h-6 text-[#C84C38]" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M19 14l-7 7m0 0l-7-7m7 7V3" 
+                    />
+                  </svg>
+                </motion.div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </div>
+
+      <div className="hidden md:block">
+        <MobileTrailEffect 
+          images={[
+            '/icons/arrow-white.png',
+            '/icons/target-white.png',
+          ]} 
+        />
+      </div>
+
+      <MobileTrailEffect />
     </section>
   )
 }

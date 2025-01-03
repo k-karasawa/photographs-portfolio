@@ -4,7 +4,7 @@ import { Top } from '@/Sections/Top/Top'
 import { CustomOrderSection } from '@/Sections/Custom/Custom'
 const Home: NextPage = () => {
   return (
-    <>
+    <main>
       <Head>
         <title>mokubara. | Realistic Mockups Made Easy</title>
         <meta name="description" content="The easiest way to create amazing mockups" />
@@ -12,8 +12,10 @@ const Home: NextPage = () => {
       </Head>
 
       <Top />
-      <CustomOrderSection />
-    </>
+      <section id="next-section">
+        <CustomOrderSection />
+      </section>
+    </main>
   )
 }
 
