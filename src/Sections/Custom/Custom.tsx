@@ -39,12 +39,15 @@ export const CustomOrderSection = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="mb-8"
           >
-            <h2 className="text-5xl md:text-6xl font-bold text-[#7B4B94] mb-6 font-japanese">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-[#7B4B94] mb-6 font-japanese">
               オーダーメイドの楽しさ
             </h2>
             <p className="text-xl text-[#5B6B7C] max-w-2xl mx-auto">
-              あなただけの矢を、こだわりの素材と職人の技で。
-              伝統と現代の技術が織りなす、世界にひとつの弓道具。
+              革新を求めるも良し。伝統を尊重するも良し。
+              手から離れていくものが、心を高揚させる。
+              中るのは、ただの結果だとしても。
+
+              {/* 求めるのは、一瞬の解放。 */}
             </p>
           </motion.div>
         </div>

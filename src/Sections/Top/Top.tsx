@@ -11,12 +11,11 @@ const ROTATION_RANGE = 45
 
 export const Top = () => {
   const [images, setImages] = useState<ArrowImage[]>([])
-  const [isClient, setIsClient] = useState(false)  // クライアントサイドの判定用
+  const [isClient, setIsClient] = useState(false)
   const lastMousePos = useRef({ x: 0, y: 0 })
   const accumulatedDistance = useRef(0)
   const isMobile = useRef(false)
 
-  // クライアントサイドでのみ実行される処理
   useEffect(() => {
     setIsClient(true)
     if (typeof window !== 'undefined') {
@@ -69,7 +68,6 @@ export const Top = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [handleMouseMove])
 
-  // スクロール制御を改善
   useEffect(() => {
     if (typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches) {
       // スクロールを無効化
@@ -88,7 +86,7 @@ export const Top = () => {
             }
           })
         },
-        { threshold: 0.1 } // 10%見えたら発火
+        { threshold: 0.1 }
       )
 
       // 次のセクションを監視
@@ -98,7 +96,6 @@ export const Top = () => {
       }
 
       return () => {
-        // クリーンアップ
         observer.disconnect()
         document.body.style.overflow = 'auto'
       }
@@ -193,22 +190,20 @@ export const Top = () => {
 
       <nav className="absolute top-0 left-0 w-full p-8 z-10">
         <Link href="/" className="text-[#333333] text-xl font-medium hover:opacity-80 transition-opacity">
-          mokubara.
+          izu-tech presents.
         </Link>
       </nav>
 
       <div className="flex items-center justify-center min-h-screen relative z-10">
         <div className="relative">
-          <div className="max-w-3xl mx-auto text-center px-4">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#333333] leading-tight mb-6">
-              Realistic Mockups
+          <div className="max-w-3xl mx-auto text-left px-4">
+            <h1 className="text-3xl md:text-6xl lg:text-7xl font-normal text-[#333333] leading-tight mb-6">
+              あなたは出会う。
               <br />
-              Made Easy
+              ここで、運命の矢と。
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-xl mx-auto">
-              The easiest way to create amazing mockups.
-              <br />
-              And it works on your browser.
+            <p className="text-lg md:text-xl text-gray-600 mb-8">
+              Discover your destined arrow,
             </p>
 
             {/* PCとモバイルで異なるボタンを表示 */}
