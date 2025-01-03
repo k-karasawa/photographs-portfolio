@@ -1,6 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
-import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useCallback, useEffect, useRef } from 'react'
 
 interface ArrowImage {
   id: number
@@ -11,23 +9,29 @@ interface ArrowImage {
   progress: number
   rotation: number
   rotationDirection: number
+  timestamp: number
 }
 
-const MIN_DISTANCE_FOR_NEW_IMAGE = 40  // モバイルでは少し短めに
+const MIN_DISTANCE_FOR_NEW_IMAGE = 40
 const MAX_MOVE_SPEED = 50
 const ROTATION_RANGE = 45
+const IMAGE_LIFETIME = 1500
 
-export const MobileTrailEffect = () => {
-  const [images, setImages] = useState<ArrowImage[]>([])
+interface Props {
+  setParentImages: React.Dispatch<React.SetStateAction<ArrowImage[]>>
+}
+
+export const MobileTrailEffect = ({ setParentImages }: Props) => {
   const [lastTouchPos, setLastTouchPos] = useState({ x: 0, y: 0 })
   const [accumulatedDistance, setAccumulatedDistance] = useState(0)
+  const isMoving = useRef(false)
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
+    isMoving.current = true
     const touch = e.touches[0]
     if (!touch) return
 
     const currentTouchPos = { x: touch.clientX, y: touch.clientY }
-
     const moveDistance = Math.sqrt(
       Math.pow(currentTouchPos.x - lastTouchPos.x, 2) +
       Math.pow(currentTouchPos.y - lastTouchPos.y, 2)
@@ -35,7 +39,7 @@ export const MobileTrailEffect = () => {
 
     const normalizedDistance = Math.min(moveDistance, MAX_MOVE_SPEED)
 
-    setImages(prev => prev.map(image => ({
+    setParentImages(prev => prev.map(image => ({
       ...image,
       progress: Math.min(1, image.progress + (normalizedDistance / 400))
     })))
@@ -51,19 +55,21 @@ export const MobileTrailEffect = () => {
         initialY: touch.clientY,
         progress: 0,
         rotation: (Math.random() - 0.5) * ROTATION_RANGE,
-        rotationDirection: Math.random() > 0.5 ? 1 : -1
+        rotationDirection: Math.random() > 0.5 ? 1 : -1,
+        timestamp: Date.now()
       }
 
-      setImages(prev => [...prev.filter(img => img.progress < 1), newImage].slice(-10))
+      setParentImages(prev => [...prev.filter(img => img.progress < 1), newImage].slice(-10))
       setAccumulatedDistance(0)
     } else {
       setAccumulatedDistance(newAccumulatedDistance)
     }
 
     setLastTouchPos(currentTouchPos)
-  }, [lastTouchPos, accumulatedDistance])
+  }, [lastTouchPos, accumulatedDistance, setParentImages])
 
   const handleTouchStart = useCallback((e: TouchEvent) => {
+    isMoving.current = false
     const touch = e.touches[0]
     if (touch) {
       setLastTouchPos({ x: touch.clientX, y: touch.clientY })
@@ -71,11 +77,30 @@ export const MobileTrailEffect = () => {
   }, [])
 
   const handleTouchEnd = useCallback(() => {
+    if (!isMoving.current) {
+      const newImage: ArrowImage = {
+        id: Date.now(),
+        x: lastTouchPos.x,
+        y: lastTouchPos.y,
+        initialX: lastTouchPos.x,
+        initialY: lastTouchPos.y,
+        progress: 0,
+        rotation: (Math.random() - 0.5) * ROTATION_RANGE,
+        rotationDirection: Math.random() > 0.5 ? 1 : -1,
+        timestamp: Date.now()
+      }
+
+      setParentImages(prev => [...prev, newImage])
+
+      setTimeout(() => {
+        setParentImages(prev => prev.filter(img => img.id !== newImage.id))
+      }, IMAGE_LIFETIME)
+    }
+    isMoving.current = false
     setAccumulatedDistance(0)
-  }, [])
+  }, [lastTouchPos, setParentImages])
 
   useEffect(() => {
-    // モバイルデバイスの場合のみイベントリスナーを追加
     if (typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches) {
       document.addEventListener('touchmove', handleTouchMove)
       document.addEventListener('touchstart', handleTouchStart)
@@ -89,54 +114,5 @@ export const MobileTrailEffect = () => {
     }
   }, [handleTouchMove, handleTouchStart, handleTouchEnd])
 
-  return (
-    <div className="fixed inset-0 pointer-events-none md:hidden">
-      <AnimatePresence>
-        {images.map((image) => (
-          <motion.div
-            key={image.id}
-            initial={{
-              scale: 0.5,
-              opacity: 0,
-              x: image.initialX - 60,
-              y: image.initialY - 60,
-              rotate: image.rotation,
-              filter: 'blur(1px)'
-            }}
-            animate={{
-              scale: 0.8 - (image.progress * 0.2),
-              opacity: 1 - Math.pow(image.progress, 2),
-              x: image.initialX - 60,
-              y: image.initialY - 60,
-              rotate: image.rotation + (image.progress * 15 * image.rotationDirection),
-              filter: `blur(${Math.max(0, (image.progress - 0.5) * 8)}px)`
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 500,
-              damping: 25,
-              mass: 0.6,
-              opacity: { duration: 0.15, ease: "easeOut" },
-              scale: { duration: 0.2, ease: [0.23, 1, 0.32, 1] },
-              rotate: { duration: 0.3, ease: "easeOut" },
-              filter: { duration: 0.15, ease: "easeIn" }
-            }}
-            className="fixed pointer-events-none"
-            style={{
-              transformOrigin: 'center center',
-              willChange: 'transform, opacity, filter'
-            }}
-          >
-            <Image
-              src={`/arrows/${Math.floor((image.id % 4) + 1)}.jpg`}
-              alt="Arrow image"
-              width={140}
-              height={140}
-              className="w-[120px] h-[120px] object-contain"
-            />
-          </motion.div>
-        ))}
-      </AnimatePresence>
-    </div>
-  )
+  return null
 } 

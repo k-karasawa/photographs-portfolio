@@ -23,8 +23,19 @@ export const Top = () => {
   const [images, setImages] = useState<ArrowImage[]>([])
   const lastMousePos = useRef({ x: 0, y: 0 })
   const accumulatedDistance = useRef(0)
+  const isMobile = useRef(false)  // モバイル判定用
+
+  // モバイル判定を初期化
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      isMobile.current = window.matchMedia('(max-width: 768px)').matches
+    }
+  }, [])
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
+    // モバイルの場合はマウス操作を無視
+    if (isMobile.current) return
+
     const currentMousePos = { x: e.clientX, y: e.clientY }
 
     const moveDistance = Math.sqrt(
@@ -116,30 +127,32 @@ export const Top = () => {
           <motion.div
             key={image.id}
             initial={{
-              scale: 0.6,
+              scale: isMobile.current ? 0.5 : 0.6,  // モバイルの場合は小さく
               opacity: 0,
-              x: image.initialX - 75,
-              y: image.initialY - 75,
+              x: image.initialX - (isMobile.current ? 60 : 75),  // モバイルの場合は位置調整
+              y: image.initialY - (isMobile.current ? 60 : 75),
               rotate: image.rotation,
-              filter: 'blur(2px)'
+              filter: 'blur(1px)'
             }}
             animate={{
-              scale: 1 - (image.progress * 0.3),
+              scale: isMobile.current 
+                ? 0.8 - (image.progress * 0.3)  // モバイルの場合のスケール
+                : 1 - (image.progress * 0.3),
               opacity: 1 - Math.pow(image.progress, 2),
-              x: image.initialX - 75,
-              y: image.initialY - 75,
-              rotate: image.rotation + (image.progress * 20 * image.rotationDirection),
-              filter: `blur(${Math.max(0, (image.progress - 0.5) * 16)}px)`
+              x: image.initialX - (isMobile.current ? 60 : 75),
+              y: image.initialY - (isMobile.current ? 60 : 75),
+              rotate: image.rotation + (image.progress * (isMobile.current ? 15 : 20) * image.rotationDirection),
+              filter: `blur(${Math.max(0, (image.progress - 0.5) * (isMobile.current ? 8 : 16))}px)`
             }}
             transition={{
               type: "spring",
               stiffness: 500,
               damping: 25,
-              mass: 0.8,
-              opacity: { duration: 0.2, ease: "easeOut" },
-              scale: { duration: 0.3, ease: [0.23, 1, 0.32, 1] },
-              rotate: { duration: 0.4, ease: "easeOut" },
-              filter: { duration: 0.2, ease: "easeIn" }
+              mass: isMobile.current ? 0.6 : 0.8,
+              opacity: { duration: isMobile.current ? 0.15 : 0.2, ease: "easeOut" },
+              scale: { duration: isMobile.current ? 0.2 : 0.3, ease: [0.23, 1, 0.32, 1] },
+              rotate: { duration: isMobile.current ? 0.3 : 0.4, ease: "easeOut" },
+              filter: { duration: isMobile.current ? 0.15 : 0.2, ease: "easeIn" }
             }}
             className="fixed pointer-events-none"
             style={{
@@ -150,9 +163,9 @@ export const Top = () => {
             <Image
               src={`/arrows/${Math.floor((image.id % 4) + 1)}.jpg`}
               alt="Arrow image"
-              width={200}
-              height={200}
-              className="w-full h-full object-contain"
+              width={isMobile.current ? 140 : 200}    // モバイルの場合は小さく
+              height={isMobile.current ? 140 : 200}
+              className={isMobile.current ? "w-[120px] h-[120px] object-contain" : "w-full h-full object-contain"}
             />
           </motion.div>
         ))}
@@ -230,11 +243,16 @@ export const Top = () => {
         </div>
       </div>
 
-      <div className="hidden md:block">
-        <MobileTrailEffect />
-      </div>
-
-      <MobileTrailEffect />
+      {/* PCとモバイルで異なる動作を分ける */}
+      {typeof window !== 'undefined' && (
+        window.matchMedia('(max-width: 768px)').matches ? (
+          <MobileTrailEffect setParentImages={setImages} />
+        ) : (
+          <div className="hidden md:block">
+            <MobileTrailEffect setParentImages={setImages} />
+          </div>
+        )
+      )}
     </section>
   )
 }
