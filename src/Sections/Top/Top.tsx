@@ -21,12 +21,14 @@ interface ArrowImage {
 
 export const Top = () => {
   const [images, setImages] = useState<ArrowImage[]>([])
+  const [isClient, setIsClient] = useState(false)  // クライアントサイドの判定用
   const lastMousePos = useRef({ x: 0, y: 0 })
   const accumulatedDistance = useRef(0)
-  const isMobile = useRef(false)  // モバイル判定用
+  const isMobile = useRef(false)
 
-  // モバイル判定を初期化
+  // クライアントサイドでのみ実行される処理
   useEffect(() => {
+    setIsClient(true)
     if (typeof window !== 'undefined') {
       isMobile.current = window.matchMedia('(max-width: 768px)').matches
     }
@@ -243,9 +245,9 @@ export const Top = () => {
         </div>
       </div>
 
-      {/* PCとモバイルで異なる動作を分ける */}
-      {typeof window !== 'undefined' && (
-        window.matchMedia('(max-width: 768px)').matches ? (
+      {/* クライアントサイドでのみレンダリング */}
+      {isClient && (
+        isMobile.current ? (
           <MobileTrailEffect setParentImages={setImages} />
         ) : (
           <div className="hidden md:block">
