@@ -84,7 +84,7 @@ export const AnimatedTargetButton = ({
             rotate: -45,
             transition: {
               type: "spring",
-              stiffness: 300,
+              stiffness: 200,
               damping: 20,
               mass: 0.4,
               delay: 0.1,

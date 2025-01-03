@@ -3,22 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MobileTrailEffect } from '@/components/MobileTrailEffect'
+import { ArrowImage } from '@/types/arrow'
 
 const MIN_DISTANCE_FOR_NEW_IMAGE = 80
 const MAX_MOVE_SPEED = 50
 const ROTATION_RANGE = 45
-
-interface ArrowImage {
-  id: number
-  x: number
-  y: number
-  initialX: number
-  initialY: number
-  progress: number
-  rotation: number
-  rotationDirection: number
-  isTapImage?: boolean  // タップで生成された画像かどうかを判別
-}
 
 export const Top = () => {
   const [images, setImages] = useState<ArrowImage[]>([])
@@ -64,7 +53,8 @@ export const Top = () => {
         initialY: e.clientY,
         progress: 0,
         rotation: (Math.random() - 0.5) * ROTATION_RANGE,
-        rotationDirection: Math.random() > 0.5 ? 1 : -1
+        rotationDirection: Math.random() > 0.5 ? 1 : -1,
+        timestamp: 0
       }
 
       setImages(prev => [...prev.filter(img => img.progress < 1), newImage].slice(-10))
@@ -226,7 +216,7 @@ export const Top = () => {
             <div className="relative">
               {/* PC用のボタン */}
               <button className="hidden md:inline-block bg-[#C84C38] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-colors shadow-lg hover:shadow-xl">
-                Join Waitlist
+                オーダーメイド
               </button>
 
               {/* モバイル用のボタン */}
@@ -234,12 +224,18 @@ export const Top = () => {
                 className="md:hidden inline-flex flex-col items-center"
                 whileHover={{ y: 5 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                // タッチイベントの伝播を防止
+                onTouchStart={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => e.stopPropagation()}
               >
                 <motion.button
                   onClick={handleNextSection}
                   className="bg-[#C84C38] text-white px-8 py-3 rounded-full shadow-lg relative"
+                  // ボタンのタッチイベントも伝播を防止
+                  onTouchStart={(e) => e.stopPropagation()}
+                  onTouchEnd={(e) => e.stopPropagation()}
                 >
-                  Join Waitlist
+                  オーダーメイドの楽しさ
                 </motion.button>
                 
                 {/* 下矢印のアニメーション */}
@@ -253,6 +249,9 @@ export const Top = () => {
                     duration: 1,
                     ease: "easeInOut"
                   }}
+                  // 矢印のタッチイベントも伝播を防止
+                  onTouchStart={(e) => e.stopPropagation()}
+                  onTouchEnd={(e) => e.stopPropagation()}
                 >
                   <svg 
                     className="w-6 h-6 text-[#C84C38]" 
