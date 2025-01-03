@@ -96,30 +96,30 @@ export const MobileTrailEffect = () => {
           <motion.div
             key={image.id}
             initial={{
-              scale: 0.6,
+              scale: 0.5,
               opacity: 0,
-              x: image.initialX - 75,
-              y: image.initialY - 75,
+              x: image.initialX - 60,
+              y: image.initialY - 60,
               rotate: image.rotation,
-              filter: 'blur(2px)'
+              filter: 'blur(1px)'
             }}
             animate={{
-              scale: 1 - (image.progress * 0.3),
+              scale: 0.8 - (image.progress * 0.2),
               opacity: 1 - Math.pow(image.progress, 2),
-              x: image.initialX - 75,
-              y: image.initialY - 75,
-              rotate: image.rotation + (image.progress * 20 * image.rotationDirection),
-              filter: `blur(${Math.max(0, (image.progress - 0.5) * 16)}px)`
+              x: image.initialX - 60,
+              y: image.initialY - 60,
+              rotate: image.rotation + (image.progress * 15 * image.rotationDirection),
+              filter: `blur(${Math.max(0, (image.progress - 0.5) * 8)}px)`
             }}
             transition={{
               type: "spring",
               stiffness: 500,
               damping: 25,
-              mass: 0.8,
-              opacity: { duration: 0.2, ease: "easeOut" },
-              scale: { duration: 0.3, ease: [0.23, 1, 0.32, 1] },
-              rotate: { duration: 0.4, ease: "easeOut" },
-              filter: { duration: 0.2, ease: "easeIn" }
+              mass: 0.6,
+              opacity: { duration: 0.15, ease: "easeOut" },
+              scale: { duration: 0.2, ease: [0.23, 1, 0.32, 1] },
+              rotate: { duration: 0.3, ease: "easeOut" },
+              filter: { duration: 0.15, ease: "easeIn" }
             }}
             className="fixed pointer-events-none"
             style={{
@@ -130,9 +130,9 @@ export const MobileTrailEffect = () => {
             <Image
               src={`/arrows/${Math.floor((image.id % 4) + 1)}.jpg`}
               alt="Arrow image"
-              width={200}
-              height={200}
-              className="w-full h-full object-contain"
+              width={140}
+              height={140}
+              className="w-[120px] h-[120px] object-contain"
             />
           </motion.div>
         ))}

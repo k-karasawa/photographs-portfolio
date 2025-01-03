@@ -231,12 +231,7 @@ export const Top = () => {
       </div>
 
       <div className="hidden md:block">
-        <MobileTrailEffect 
-          images={[
-            '/icons/arrow-white.png',
-            '/icons/target-white.png',
-          ]} 
-        />
+        <MobileTrailEffect />
       </div>
 
       <MobileTrailEffect />
