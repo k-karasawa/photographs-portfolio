@@ -105,7 +105,6 @@ export const Top = () => {
     }
   }, [])
 
-  // 次のセクションへスクロール
   const handleNextSection = () => {
     const nextSection = document.getElementById('next-section')
     if (nextSection) {
@@ -121,7 +120,7 @@ export const Top = () => {
             key={image.id}
             initial={{
               scale: isMobile.current 
-                ? (image.isTapImage ? 0.9 : 0.5)  // タップ画像の初期スケールを大きく
+                ? (image.isTapImage ? 0.9 : 0.5)
                 : 0.6,
               opacity: 0,
               x: image.initialX - (isMobile.current 
@@ -136,11 +135,11 @@ export const Top = () => {
             animate={{
               scale: isMobile.current 
                 ? (image.isTapImage 
-                  ? 1.2 - (image.progress * 0.25)  // スケール変化をより緩やかに
+                  ? 1.2 - (image.progress * 0.25)
                   : 0.8 - (image.progress * 0.3))
                 : 1 - (image.progress * 0.3),
               opacity: image.isTapImage
-                ? Math.max(0, 1 - Math.pow(image.progress, 0.8))  // フェードアウトをより緩やかに
+                ? Math.max(0, 1 - Math.pow(image.progress, 0.8))
                 : 1 - Math.pow(image.progress, 2),
               x: image.initialX - (isMobile.current 
                 ? (image.isTapImage ? 100 : 60)
@@ -177,14 +176,14 @@ export const Top = () => {
               src={`/arrows/${Math.floor((image.id % 4) + 1)}.jpg`}
               alt="Arrow image"
               width={isMobile.current 
-                ? (image.isTapImage ? 200 : 140)  // タップ画像は大きめに
+                ? (image.isTapImage ? 200 : 140)
                 : 200}
               height={isMobile.current 
                 ? (image.isTapImage ? 200 : 140)
                 : 200}
               className={isMobile.current 
                 ? (image.isTapImage 
-                  ? "w-[200px] h-[200px] object-contain"  // タップ画像用のサイズ
+                  ? "w-[200px] h-[200px] object-contain"
                   : "w-[120px] h-[120px] object-contain")
                 : "w-full h-full object-contain"}
             />

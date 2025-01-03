@@ -1,17 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
-
-interface ArrowImage {
-  id: number
-  x: number
-  y: number
-  initialX: number
-  initialY: number
-  progress: number
-  rotation: number
-  rotationDirection: number
-  timestamp: number
-  isTapImage?: boolean
-}
+import { ArrowImage } from '@/types/arrow'
 
 const MIN_DISTANCE_FOR_NEW_IMAGE = 40
 const MAX_MOVE_SPEED = 50
