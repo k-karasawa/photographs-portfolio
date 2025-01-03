@@ -89,7 +89,7 @@ export const CustomOrderSection = () => {
         </div>
 
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1.2 }}
           className="mt-16 text-center"
