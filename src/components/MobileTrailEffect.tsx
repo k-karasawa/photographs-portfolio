@@ -10,12 +10,13 @@ interface ArrowImage {
   rotation: number
   rotationDirection: number
   timestamp: number
+  isTapImage?: boolean
 }
 
 const MIN_DISTANCE_FOR_NEW_IMAGE = 40
 const MAX_MOVE_SPEED = 50
 const ROTATION_RANGE = 45
-const IMAGE_LIFETIME = 1500
+const TAP_IMAGE_LIFETIME = 4000
 
 interface Props {
   setParentImages: React.Dispatch<React.SetStateAction<ArrowImage[]>>
@@ -41,7 +42,9 @@ export const MobileTrailEffect = ({ setParentImages }: Props) => {
 
     setParentImages(prev => prev.map(image => ({
       ...image,
-      progress: Math.min(1, image.progress + (normalizedDistance / 400))
+      progress: image.isTapImage 
+        ? image.progress 
+        : Math.min(1, image.progress + (normalizedDistance / 400))
     })))
 
     const newAccumulatedDistance = accumulatedDistance + moveDistance
@@ -87,14 +90,11 @@ export const MobileTrailEffect = ({ setParentImages }: Props) => {
         progress: 0,
         rotation: (Math.random() - 0.5) * ROTATION_RANGE,
         rotationDirection: Math.random() > 0.5 ? 1 : -1,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        isTapImage: true
       }
 
       setParentImages(prev => [...prev, newImage])
-
-      setTimeout(() => {
-        setParentImages(prev => prev.filter(img => img.id !== newImage.id))
-      }, IMAGE_LIFETIME)
     }
     isMoving.current = false
     setAccumulatedDistance(0)
@@ -113,6 +113,29 @@ export const MobileTrailEffect = ({ setParentImages }: Props) => {
       }
     }
   }, [handleTouchMove, handleTouchStart, handleTouchEnd])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setParentImages(prev => prev.map(image => {
+        if (!image.isTapImage) return image;
+        
+        const elapsed = Date.now() - image.timestamp;
+        const progress = elapsed < 200 
+          ? (elapsed / 200) * 0.1  // 最初の10%を0.2秒で
+          : 0.1 + (Math.min(elapsed - 200, TAP_IMAGE_LIFETIME - 200) / (TAP_IMAGE_LIFETIME - 200)) * 0.99;  // 残り90%を3.8秒で
+        
+        // よりなめらかな消失カーブを作成
+        const easedProgress = Math.min(1, progress * (1 + Math.pow(progress, 2)));
+        
+        return {
+          ...image,
+          progress: Math.min(1, easedProgress)
+        };
+      }));
+    }, 16);
+
+    return () => clearInterval(interval);
+  }, [setParentImages]);
 
   return null
 } 

@@ -17,6 +17,7 @@ interface ArrowImage {
   progress: number
   rotation: number
   rotationDirection: number
+  isTapImage?: boolean  // タップで生成された画像かどうかを判別
 }
 
 export const Top = () => {
@@ -129,30 +130,50 @@ export const Top = () => {
           <motion.div
             key={image.id}
             initial={{
-              scale: isMobile.current ? 0.5 : 0.6,  // モバイルの場合は小さく
+              scale: isMobile.current 
+                ? (image.isTapImage ? 0.9 : 0.5)  // タップ画像の初期スケールを大きく
+                : 0.6,
               opacity: 0,
-              x: image.initialX - (isMobile.current ? 60 : 75),  // モバイルの場合は位置調整
-              y: image.initialY - (isMobile.current ? 60 : 75),
+              x: image.initialX - (isMobile.current 
+                ? (image.isTapImage ? 100 : 60)
+                : 75),
+              y: image.initialY - (isMobile.current 
+                ? (image.isTapImage ? 100 : 60)
+                : 75),
               rotate: image.rotation,
               filter: 'blur(1px)'
             }}
             animate={{
               scale: isMobile.current 
-                ? 0.8 - (image.progress * 0.3)  // モバイルの場合のスケール
+                ? (image.isTapImage 
+                  ? 1.2 - (image.progress * 0.25)  // スケール変化をより緩やかに
+                  : 0.8 - (image.progress * 0.3))
                 : 1 - (image.progress * 0.3),
-              opacity: 1 - Math.pow(image.progress, 2),
-              x: image.initialX - (isMobile.current ? 60 : 75),
-              y: image.initialY - (isMobile.current ? 60 : 75),
+              opacity: image.isTapImage
+                ? Math.max(0, 1 - Math.pow(image.progress, 0.8))  // フェードアウトをより緩やかに
+                : 1 - Math.pow(image.progress, 2),
+              x: image.initialX - (isMobile.current 
+                ? (image.isTapImage ? 100 : 60)
+                : 75),
+              y: image.initialY - (isMobile.current 
+                ? (image.isTapImage ? 100 : 60)
+                : 75),
               rotate: image.rotation + (image.progress * (isMobile.current ? 15 : 20) * image.rotationDirection),
               filter: `blur(${Math.max(0, (image.progress - 0.5) * (isMobile.current ? 8 : 16))}px)`
             }}
             transition={{
               type: "spring",
-              stiffness: 500,
-              damping: 25,
+              stiffness: image.isTapImage ? 400 : 500,
+              damping: image.isTapImage ? 30 : 25,
               mass: isMobile.current ? 0.6 : 0.8,
-              opacity: { duration: isMobile.current ? 0.15 : 0.2, ease: "easeOut" },
-              scale: { duration: isMobile.current ? 0.2 : 0.3, ease: [0.23, 1, 0.32, 1] },
+              opacity: { 
+                duration: image.isTapImage ? 0.1 : 0.2,
+                ease: image.isTapImage ? "linear" : "easeOut"  // タップ画像は線形の減衰
+              },
+              scale: { 
+                duration: image.isTapImage ? 0.15 : 0.3,
+                ease: [0.23, 1, 0.32, 1]
+              },
               rotate: { duration: isMobile.current ? 0.3 : 0.4, ease: "easeOut" },
               filter: { duration: isMobile.current ? 0.15 : 0.2, ease: "easeIn" }
             }}
@@ -165,9 +186,17 @@ export const Top = () => {
             <Image
               src={`/arrows/${Math.floor((image.id % 4) + 1)}.jpg`}
               alt="Arrow image"
-              width={isMobile.current ? 140 : 200}    // モバイルの場合は小さく
-              height={isMobile.current ? 140 : 200}
-              className={isMobile.current ? "w-[120px] h-[120px] object-contain" : "w-full h-full object-contain"}
+              width={isMobile.current 
+                ? (image.isTapImage ? 200 : 140)  // タップ画像は大きめに
+                : 200}
+              height={isMobile.current 
+                ? (image.isTapImage ? 200 : 140)
+                : 200}
+              className={isMobile.current 
+                ? (image.isTapImage 
+                  ? "w-[200px] h-[200px] object-contain"  // タップ画像用のサイズ
+                  : "w-[120px] h-[120px] object-contain")
+                : "w-full h-full object-contain"}
             />
           </motion.div>
         ))}
