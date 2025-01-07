@@ -19,7 +19,7 @@ export const Message = () => {
       <div className="relative overflow-hidden rounded-3xl bg-white w-full max-h-[80vh] mx-auto">
         <div className="relative w-full h-[80vh]">
           <Image
-            src="/images/dojo.webp"
+            src="/images/hero.webp"
             alt="Traditional Japanese dojo with a view to a serene garden through wooden doorway"
             fill
             className="object-cover"
@@ -49,7 +49,7 @@ export const Message = () => {
                   transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                   className="mb-8 text-2xl md:text-2xl lg:text-4xl font-bold text-white"
                 >
-                  特製の矢
+                  自分だけのオリジナル
                 </motion.h2>
               </div>
 
