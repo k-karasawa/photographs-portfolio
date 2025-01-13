@@ -33,23 +33,14 @@ export const CustomOrderSection = () => {
         className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8"
       >
         <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="mb-8"
-          >
+          <div className="mb-8">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-[#7B4B94] mb-6 font-japanese">
               オーダーメイドの楽しさ
             </h2>
             <p className="text-xl text-[#5B6B7C] max-w-2xl mx-auto">
-              革新を求めるも良し。伝統を尊重するも良し。
-              手から離れていくものが、心を高揚させる。
-              中るのは、ただの結果だとしても。
-
-              {/* 求めるのは、一瞬の解放。 */}
+              矢のオーダーメイドシステムでは伝統の再現も、革新のデザインも作成できます。
             </p>
-          </motion.div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
