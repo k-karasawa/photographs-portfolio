@@ -1,10 +1,10 @@
-'use client'
-
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import { AnimatedTargetButton } from '@/components/AnimatedTargetButton'
 
 export const CustomOrderSection = () => {
   const containerRef = useRef<HTMLDivElement>(null)
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
@@ -33,20 +33,14 @@ export const CustomOrderSection = () => {
         className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8"
       >
         <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="mb-8"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold text-[#7B4B94] mb-6 font-japanese">
+          <div className="mb-8">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-[#7B4B94] mb-6 font-japanese">
               オーダーメイドの楽しさ
             </h2>
             <p className="text-xl text-[#5B6B7C] max-w-2xl mx-auto">
-              あなただけの矢を、こだわりの素材と職人の技で。
-              伝統と現代の技術が織りなす、世界にひとつの弓道具。
+              矢のオーダーメイドシステムでは伝統の再現も、革新のデザインも作成できます。
             </p>
-          </motion.div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -56,12 +50,15 @@ export const CustomOrderSection = () => {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              whileHover={{ 
-                scale: 1.05,
-                transition: { duration: 0.2 }
-              }}
-              className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-lg"
+              className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-lg relative overflow-hidden group"
             >
+              {/* 光のエフェクト用のオーバーレイ - トランジションを個別に設定 */}
+              <div 
+                className="absolute inset-0 -translate-x-full group-hover:translate-x-full pointer-events-none
+                bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12
+                transition-transform duration-[400ms] group-hover:duration-[1000ms] ease-in-out"
+              />
+
               <motion.div 
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
@@ -86,14 +83,14 @@ export const CustomOrderSection = () => {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          initial={{ opacity: 1 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1.2 }}
           className="mt-16 text-center"
         >
-          <button className="px-8 py-4 bg-gradient-to-r from-[#7B4B94] to-[#9A6BA5] text-white rounded-full text-lg font-bold hover:from-[#6A3A83] hover:to-[#895A94] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-[#7B4B94]/25">
+          <AnimatedTargetButton triggerOnScroll={true}>
             カスタムオーダーを始める
-          </button>
+          </AnimatedTargetButton>
         </motion.div>
       </motion.div>
     </section>
