@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { Top } from '@/Sections/Top/Top'
 import { CustomOrderSection } from '@/Sections/Custom/Custom'
 import { Message } from '@/Sections/Message/Message'
-
+import { Gallery } from '@/Sections/Gallery/Gallery'
 const Home: NextPage = () => {
   return (
     <main>
@@ -18,6 +18,7 @@ const Home: NextPage = () => {
         <CustomOrderSection />
       </section>
       <Message />
+      <Gallery />
     </main>
   )
 }
