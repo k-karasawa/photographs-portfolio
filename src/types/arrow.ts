@@ -8,5 +8,6 @@ export interface ArrowImage {
   rotation: number
   rotationDirection: number
   timestamp: number
+  imageNumber: number
   isTapImage?: boolean
 } 

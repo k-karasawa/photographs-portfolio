@@ -53,7 +53,8 @@ export const Top = () => {
         progress: 0,
         rotation: (Math.random() - 0.5) * ROTATION_RANGE,
         rotationDirection: Math.random() > 0.5 ? 1 : -1,
-        timestamp: 0
+        timestamp: 0,
+        imageNumber: Math.floor(Math.random() * 15) + 1
       }
 
       setImages(prev => [...prev.filter(img => img.progress < 1), newImage].slice(-10))
@@ -170,7 +171,7 @@ export const Top = () => {
             }}
           >
             <Image
-              src={`/arrows/${Math.floor((image.id % 4) + 1)}.jpg`}
+              src={`/arrows/${image.imageNumber}.jpg`}
               alt="Arrow image"
               width={isMobile.current 
                 ? (image.isTapImage ? 200 : 140)
@@ -210,7 +211,7 @@ export const Top = () => {
             <div className="relative">
               {/* PC用のボタン */}
               <button className="hidden md:inline-block bg-[#C84C38] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-colors shadow-lg hover:shadow-xl">
-                オーダーメイド
+                ギャラリーを見る
               </button>
 
               {/* モバイル用のボタン */}
