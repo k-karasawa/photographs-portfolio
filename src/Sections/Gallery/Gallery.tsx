@@ -17,6 +17,10 @@ export const Gallery = () => {
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
   const textY = useTransform(scrollYProgress, [0, 0.2], [0, -50])
 
+  // ギャラリータイトルのアニメーション用
+  const galleryTitleOpacity = useTransform(scrollYProgress, [0.3, 0.4], [0, 1])
+  const galleryTitleY = useTransform(scrollYProgress, [0.3, 0.4], [20, 0])
+
   return (
     <motion.div 
       ref={containerRef}
@@ -83,7 +87,21 @@ export const Gallery = () => {
             </motion.div>
           </motion.div>
 
-          <div className="absolute inset-0 grid grid-cols-5 grid-rows-3 gap-12 p-20">
+          {/* ギャラリータイトル */}
+          <motion.div 
+            className="absolute top-8 left-0 w-full z-30 px-20"
+            style={{ 
+              opacity: galleryTitleOpacity,
+              y: galleryTitleY
+            }}
+          >
+            <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-[#333333] mb-4">
+              Arrow Gallery
+            </h2>
+            <div className="w-full h-[1px] bg-[#333333] opacity-20"></div>
+          </motion.div>
+
+          <div className="absolute inset-0 grid grid-cols-5 grid-rows-3 gap-14 p-24 pt-32">
             {Array.from({ length: 15 }).map((_, index) => {
               const rowOffset = Math.floor(index / 5) - 1
               const colOffset = (index % 5) - 2
