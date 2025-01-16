@@ -47,7 +47,8 @@ export const MobileTrailEffect = ({ setParentImages }: Props) => {
         progress: 0,
         rotation: (Math.random() - 0.5) * ROTATION_RANGE,
         rotationDirection: Math.random() > 0.5 ? 1 : -1,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        imageNumber: Math.floor(Math.random() * 3) + 1
       }
 
       setParentImages(prev => [...prev.filter(img => img.progress < 1), newImage].slice(-10))
@@ -79,7 +80,8 @@ export const MobileTrailEffect = ({ setParentImages }: Props) => {
         rotation: (Math.random() - 0.5) * ROTATION_RANGE,
         rotationDirection: Math.random() > 0.5 ? 1 : -1,
         timestamp: Date.now(),
-        isTapImage: true
+        isTapImage: true,
+        imageNumber: Math.floor(Math.random() * 3) + 1
       }
 
       setParentImages(prev => [...prev, newImage])
