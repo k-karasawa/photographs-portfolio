@@ -1,23 +1,8 @@
 import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
-import { GalleryModal } from '@/components/GalleryModal'
-
-// 画像データの型定義
-interface GalleryImage {
-  id: number
-  src: string
-  title: string
-  description: string
-}
-
-// ギャラリー画像データを15枚分用意
-const galleryImages: GalleryImage[] = Array.from({ length: 15 }, (_, i) => ({
-  id: i + 1,
-  src: i === 7 ? "/gallery/gallery-1.jpg" : `/gallery/${i + 1}.jpg`, // index 7 (8番目) にgallery-1.jpgを配置
-  title: `Traditional Japanese Arrow ${i + 1}`,
-  description: "This arrow exemplifies the finest traditional Japanese craftsmanship. Made with carefully selected bamboo and featuring meticulous attention to detail in its fletching and arrowhead."
-}))
+import { GalleryModal } from './GalleryModal'
+import { GalleryImage, galleryImages } from './galleryData'
 
 export const Gallery = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -35,7 +20,6 @@ export const Gallery = () => {
   const galleryTitleOpacity = useTransform(scrollYProgress, [0.3, 0.4], [0, 1])
   const galleryTitleY = useTransform(scrollYProgress, [0.3, 0.4], [20, 0])
 
-  // すべての可能な変換を事前に計算
   const transforms = {
     x: {
       outer: useTransform(scrollYProgress, [0.1, 0.4], ['0%', '20%']),
@@ -196,9 +180,7 @@ export const Gallery = () => {
       <GalleryModal
         isOpen={!!selectedImage}
         onClose={() => setSelectedImage(null)}
-        imageSrc={selectedImage?.src || ''}
-        title={selectedImage?.title || ''}
-        description={selectedImage?.description || ''}
+        image={selectedImage}
       />
     </>
   )

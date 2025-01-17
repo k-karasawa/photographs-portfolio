@@ -70,7 +70,7 @@ export const Message = () => {
                   href="/explore"
                   className="inline-flex items-center justify-center rounded-full bg-[#C84C38] text-white px-8 py-3 text-lg font-medium transition-all hover:bg-opacity-90 hover:shadow-xl shadow-lg"
                 >
-                  ギャラリーを見に行く
+                  矢の選び方を学ぶ
                 </Link>
               </motion.div>
             </div>

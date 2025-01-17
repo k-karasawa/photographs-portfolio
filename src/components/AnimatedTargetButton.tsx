@@ -16,6 +16,7 @@ export const AnimatedTargetButton = ({
   triggerOnScroll = false
 }: AnimatedTargetButtonProps) => {
   const controls = useAnimationControls()
+  const scale = className.includes('scale-75') ? 0.75 : 1 // スケール値を取得
 
   return (
     <motion.div 
@@ -23,11 +24,12 @@ export const AnimatedTargetButton = ({
       initial="initial"
       animate="initial"
       whileHover="hover"
-      whileInView={triggerOnScroll ? "hover" : undefined}  // スクロール時のアニメーション
-      viewport={{ once: false, margin: "-100px" }}  // ビューポートの設定
+      style={{ scale }} // 親要素にスケールを適用
+      whileInView={triggerOnScroll ? "hover" : undefined}
+      viewport={{ once: false, margin: "-100px" }}
       onViewportLeave={() => {
         if (triggerOnScroll) {
-          controls.start("initial")  // ビューポートから外れたら初期状態に
+          controls.start("initial")
         }
       }}
     >
@@ -44,7 +46,7 @@ export const AnimatedTargetButton = ({
           }
         }}
         animate={controls}
-        className={`relative px-8 py-4 bg-gradient-to-r from-[#7B4B94] to-[#9A6BA5] text-white rounded-full text-lg font-bold hover:from-[#6A3A83] hover:to-[#895A94] transition-colors duration-300 shadow-lg hover:shadow-[#7B4B94]/25 ${className}`}
+        className={`relative px-8 py-4 bg-gradient-to-r from-[#7B4B94] to-[#9A6BA5] text-white rounded-full text-lg font-bold hover:from-[#6A3A83] hover:to-[#895A94] transition-colors duration-300 shadow-lg hover:shadow-[#7B4B94]/25`}
       >
         <span className="inline-flex items-center gap-6 -translate-y-0.5">
           <span>
