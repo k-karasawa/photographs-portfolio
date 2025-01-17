@@ -11,16 +11,13 @@ interface GalleryImage {
   description: string
 }
 
-// ギャラリー画像データ
-const galleryImages: GalleryImage[] = [
-  {
-    id: 1,
-    src: "/gallery/gallery-1.jpg",
-    title: "Traditional Japanese Arrow",
-    description: "This arrow exemplifies the finest traditional Japanese craftsmanship. Made with carefully selected bamboo and featuring meticulous attention to detail in its fletching and arrowhead."
-  },
-  // 他の画像データを追加
-]
+// ギャラリー画像データを15枚分用意
+const galleryImages: GalleryImage[] = Array.from({ length: 15 }, (_, i) => ({
+  id: i + 1,
+  src: i === 7 ? "/gallery/gallery-1.jpg" : `/gallery/${i + 1}.jpg`, // index 7 (8番目) にgallery-1.jpgを配置
+  title: `Traditional Japanese Arrow ${i + 1}`,
+  description: "This arrow exemplifies the finest traditional Japanese craftsmanship. Made with carefully selected bamboo and featuring meticulous attention to detail in its fletching and arrowhead."
+}))
 
 export const Gallery = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -168,7 +165,7 @@ export const Gallery = () => {
                   <motion.div 
                     key={index}
                     className="relative rounded-2xl overflow-hidden cursor-pointer z-30"
-                    onClick={() => setSelectedImage(galleryImages[index] || galleryImages[0])}
+                    onClick={() => setSelectedImage(galleryImages[index])}
                     style={{
                       scale: index === 7 ? centerScale : galleryScale,
                       opacity: index === 7 ? 1 : galleryOpacity,
@@ -182,8 +179,8 @@ export const Gallery = () => {
                   >
                     <div className="relative w-full h-full">
                       <Image
-                        src={index === 7 ? "/gallery/gallery-1.jpg" : "/gallery/8.jpg"}
-                        alt="Traditional Japanese arrow with detailed craftsmanship"
+                        src={galleryImages[index].src}
+                        alt={`Traditional Japanese arrow ${index + 1}`}
                         fill
                         className="object-cover"
                       />
