@@ -18,7 +18,6 @@ export const CustomOrderSection = () => {
       ref={containerRef} 
       className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#B5D8D6] to-[#9CC7C5]"
     >
-      {/* Diagonal white section */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div 
           initial={{ opacity: 0 }}
@@ -32,14 +31,11 @@ export const CustomOrderSection = () => {
         style={{ y, opacity }}
         className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8"
       >
-        <div className="text-center mb-16">
+        <div className="text-center mb-24">
           <div className="mb-8">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-[#7B4B94] mb-6 font-japanese">
               オーダーメイドの楽しさ
             </h2>
-            <p className="text-xl text-[#5B6B7C] max-w-2xl mx-auto">
-              矢のオーダーメイドシステムでは伝統の再現も、革新のデザインも作成できます。
-            </p>
           </div>
         </div>
 
@@ -86,7 +82,7 @@ export const CustomOrderSection = () => {
           initial={{ opacity: 1 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1.2 }}
-          className="mt-16 text-center"
+          className="mt-24 text-center"
         >
           <AnimatedTargetButton triggerOnScroll={true}>
             カスタムオーダーを始める
