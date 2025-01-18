@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MobileTrailEffect } from '@/components/MobileTrailEffect'
 import { ArrowImage } from '@/types/arrow'
+import { PrimaryButton } from '@/components/PrimaryButton'
+import { HiOutlineArrowLongRight, HiOutlineChevronDown } from 'react-icons/hi2'
 
 const MIN_DISTANCE_FOR_NEW_IMAGE = 80
 const MAX_MOVE_SPEED = 50
@@ -210,28 +212,28 @@ export const Top = () => {
             {/* PCとモバイルで異なるボタンを表示 */}
             <div className="relative">
               {/* PC用のボタン */}
-              <button className="hidden md:inline-block bg-[#C84C38] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-colors shadow-lg hover:shadow-xl">
-                オーダーメイドの楽しさ
-              </button>
+              <PrimaryButton 
+                href="/custom" 
+                className="hidden md:inline-flex"
+                icon={<HiOutlineArrowLongRight className="w-6 h-6" />}
+              >
+                矢のオーダーメイド
+              </PrimaryButton>
 
               {/* モバイル用のボタン */}
               <motion.div
                 className="md:hidden inline-flex flex-col items-center"
                 whileHover={{ y: 5 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                // タッチイベントの伝播を防止
                 onTouchStart={(e) => e.stopPropagation()}
                 onTouchEnd={(e) => e.stopPropagation()}
               >
-                <motion.button
+                <PrimaryButton 
                   onClick={handleNextSection}
-                  className="bg-[#C84C38] text-white px-8 py-3 rounded-full shadow-lg relative"
-                  // ボタンのタッチイベントも伝播を防止
-                  onTouchStart={(e) => e.stopPropagation()}
-                  onTouchEnd={(e) => e.stopPropagation()}
+                  icon={<HiOutlineArrowLongRight className="w-6 h-6" />}
                 >
                   オーダーメイドの楽しさ
-                </motion.button>
+                </PrimaryButton>
                 
                 {/* 下矢印のアニメーション */}
                 <motion.div
@@ -244,23 +246,10 @@ export const Top = () => {
                     duration: 1,
                     ease: "easeInOut"
                   }}
-                  // 矢印のタッチイベントも伝播を防止
                   onTouchStart={(e) => e.stopPropagation()}
                   onTouchEnd={(e) => e.stopPropagation()}
                 >
-                  <svg 
-                    className="w-6 h-6 text-[#C84C38]" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M19 14l-7 7m0 0l-7-7m7 7V3" 
-                    />
-                  </svg>
+                  <HiOutlineChevronDown className="w-6 h-6 text-[#C84C38]" />
                 </motion.div>
               </motion.div>
             </div>

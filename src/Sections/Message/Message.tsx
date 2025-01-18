@@ -1,7 +1,8 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
-import Link from 'next/link'
+import { PrimaryButton } from '@/components/PrimaryButton'
+import { HiOutlineAcademicCap } from 'react-icons/hi2'
 
 export const Message = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -66,12 +67,12 @@ export const Message = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                <Link
+                <PrimaryButton 
                   href="/explore"
-                  className="inline-flex items-center justify-center rounded-full bg-[#C84C38] text-white px-8 py-3 text-lg font-medium transition-all hover:bg-opacity-90 hover:shadow-xl shadow-lg"
+                  icon={<HiOutlineAcademicCap className="w-6 h-6" />}
                 >
                   矢の選び方を学ぶ
-                </Link>
+                </PrimaryButton>
               </motion.div>
             </div>
           </div>
