@@ -34,7 +34,7 @@ export const CustomOrderSection = () => {
       >
         <div className="text-center mb-24">
           <div className="mb-8">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-[#7B4B94] mb-6 font-japanese">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#333333] leading-tight font-sans">
               オーダーメイドの楽しさ
             </h2>
           </div>
@@ -49,7 +49,7 @@ export const CustomOrderSection = () => {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-lg relative overflow-hidden group"
             >
-              {/* 光のエフェクト用のオーバーレイ - トランジションを個別に設定 */}
+              {/* 光のエフェクト用のオーバーレイ */}
               <div 
                 className="absolute inset-0 -translate-x-full group-hover:translate-x-full pointer-events-none
                 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12
@@ -65,14 +65,14 @@ export const CustomOrderSection = () => {
                   damping: 20,
                   delay: index * 0.2 + 0.3
                 }}
-                className="h-16 w-16 rounded-2xl bg-gradient-to-br from-[#7B4B94] to-[#5B6B7C]/20 flex items-center justify-center mb-6"
+                className="h-16 w-16 rounded-2xl bg-gradient-to-br from-[#C84C38] to-[#D85F4D]/20 flex items-center justify-center mb-6"
               >
                 <feature.icon className="h-8 w-8 text-white" />
               </motion.div>
-              <h3 className="text-2xl font-bold text-[#7B4B94] mb-3 font-japanese">
+              <h3 className="text-2xl font-normal text-[#333333] mb-3 leading-tight font-sans">
                 {feature.title}
               </h3>
-              <p className="text-[#5B6B7C] text-lg">
+              <p className="text-lg text-[#666666] leading-relaxed font-sans">
                 {feature.description}
               </p>
             </motion.div>
