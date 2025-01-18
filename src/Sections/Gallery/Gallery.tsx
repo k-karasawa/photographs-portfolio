@@ -1,26 +1,8 @@
 import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
-import { GalleryModal } from '@/components/GalleryModal'
-
-// 画像データの型定義
-interface GalleryImage {
-  id: number
-  src: string
-  title: string
-  description: string
-}
-
-// ギャラリー画像データ
-const galleryImages: GalleryImage[] = [
-  {
-    id: 1,
-    src: "/gallery/gallery-1.jpg",
-    title: "Traditional Japanese Arrow",
-    description: "This arrow exemplifies the finest traditional Japanese craftsmanship. Made with carefully selected bamboo and featuring meticulous attention to detail in its fletching and arrowhead."
-  },
-  // 他の画像データを追加
-]
+import { GalleryModal } from './GalleryModal'
+import { GalleryImage, galleryImages } from './galleryData'
 
 export const Gallery = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -38,7 +20,6 @@ export const Gallery = () => {
   const galleryTitleOpacity = useTransform(scrollYProgress, [0.3, 0.4], [0, 1])
   const galleryTitleY = useTransform(scrollYProgress, [0.3, 0.4], [20, 0])
 
-  // すべての可能な変換を事前に計算
   const transforms = {
     x: {
       outer: useTransform(scrollYProgress, [0.1, 0.4], ['0%', '20%']),
@@ -168,7 +149,7 @@ export const Gallery = () => {
                   <motion.div 
                     key={index}
                     className="relative rounded-2xl overflow-hidden cursor-pointer z-30"
-                    onClick={() => setSelectedImage(galleryImages[index] || galleryImages[0])}
+                    onClick={() => setSelectedImage(galleryImages[index])}
                     style={{
                       scale: index === 7 ? centerScale : galleryScale,
                       opacity: index === 7 ? 1 : galleryOpacity,
@@ -182,8 +163,8 @@ export const Gallery = () => {
                   >
                     <div className="relative w-full h-full">
                       <Image
-                        src={index === 7 ? "/gallery/gallery-1.jpg" : "/gallery/8.jpg"}
-                        alt="Traditional Japanese arrow with detailed craftsmanship"
+                        src={galleryImages[index].src}
+                        alt={`Traditional Japanese arrow ${index + 1}`}
                         fill
                         className="object-cover"
                       />
@@ -199,9 +180,7 @@ export const Gallery = () => {
       <GalleryModal
         isOpen={!!selectedImage}
         onClose={() => setSelectedImage(null)}
-        imageSrc={selectedImage?.src || ''}
-        title={selectedImage?.title || ''}
-        description={selectedImage?.description || ''}
+        image={selectedImage}
       />
     </>
   )

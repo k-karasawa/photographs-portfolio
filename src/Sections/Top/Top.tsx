@@ -211,7 +211,7 @@ export const Top = () => {
             <div className="relative">
               {/* PC用のボタン */}
               <button className="hidden md:inline-block bg-[#C84C38] text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-colors shadow-lg hover:shadow-xl">
-                ギャラリーを見る
+                オーダーメイドの楽しさ
               </button>
 
               {/* モバイル用のボタン */}
