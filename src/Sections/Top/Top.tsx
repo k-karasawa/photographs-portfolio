@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { MobileTrailEffect } from '@/components/MobileTrailEffect'
 import { ArrowImage } from '@/types/arrow'
 import { PrimaryButton } from '@/components/PrimaryButton'
-import { HiOutlineArrowLongRight, HiOutlineChevronDown } from 'react-icons/hi2'
+import { HiOutlineChevronRight, HiOutlineChevronDown } from 'react-icons/hi2'
 
 const MIN_DISTANCE_FOR_NEW_IMAGE = 80
 const MAX_MOVE_SPEED = 50
@@ -215,9 +215,9 @@ export const Top = () => {
               <PrimaryButton 
                 href="/custom" 
                 className="hidden md:inline-flex"
-                icon={<HiOutlineArrowLongRight className="w-6 h-6" />}
+                icon={<HiOutlineChevronRight className="w-6 h-6" />}
               >
-                矢のオーダーメイド
+                矢のオーダーメイド　
               </PrimaryButton>
 
               {/* モバイル用のボタン */}
@@ -230,7 +230,7 @@ export const Top = () => {
               >
                 <PrimaryButton 
                   onClick={handleNextSection}
-                  icon={<HiOutlineArrowLongRight className="w-6 h-6" />}
+                  icon={<HiOutlineChevronRight className="w-6 h-6" />}
                 >
                   オーダーメイドの楽しさ
                 </PrimaryButton>
