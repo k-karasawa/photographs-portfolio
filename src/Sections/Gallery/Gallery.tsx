@@ -42,7 +42,8 @@ export const Gallery = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="h-[200vh] bg-[#B5D8D6] relative z-40"
+        // className="h-[200vh] bg-[#B5D8D6] relative z-40"
+        className="h-[200vh] bg-[#f5f5f5] relative z-40"
       >
         <div className="sticky top-0 w-full h-screen flex items-center">
           <motion.div 

@@ -17,7 +17,8 @@ export const CustomOrderSection = () => {
   return (
     <section 
       ref={containerRef} 
-      className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#B5D8D6] to-[#9CC7C5]"
+      className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#f5f5f5] to-[#f5f5f5]"
+      // className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#B5D8D6] to-[#9CC7C5]"
     >
       <div className="absolute inset-0 overflow-hidden">
         <motion.div 
