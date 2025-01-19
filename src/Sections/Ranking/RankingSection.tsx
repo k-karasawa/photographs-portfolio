@@ -30,7 +30,10 @@ export const RankingSection = ({ section }: RankingSectionProps) => {
             prevEl: `.prev-${section.title}`,
           }}
           breakpoints={{
-            320: { slidesPerView: 1 },
+            320: { 
+              slidesPerView: "auto",
+              slidesPerGroup: 1     // 1枚ずつスクロール
+            },
             640: { slidesPerView: 2 },
             768: { slidesPerView: 3 },
             1024: { slidesPerView: 4 },
@@ -38,7 +41,10 @@ export const RankingSection = ({ section }: RankingSectionProps) => {
           className="!px-0"
         >
           {section.items.map((item, index) => (
-            <SwiperSlide key={item.id} className="!w-auto">
+            <SwiperSlide 
+              key={item.id} 
+              className="!w-auto"
+            >
               <RankingCard item={item} index={index} />
             </SwiperSlide>
           ))}
