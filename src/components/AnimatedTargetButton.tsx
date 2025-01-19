@@ -46,7 +46,14 @@ export const AnimatedTargetButton = ({
           }
         }}
         animate={controls}
-        className={`relative px-8 py-4 bg-gradient-to-r from-[#7B4B94] to-[#9A6BA5] text-white rounded-full text-lg font-bold hover:from-[#6A3A83] hover:to-[#895A94] transition-colors duration-300 shadow-lg hover:shadow-[#7B4B94]/25`}
+        className={`
+          relative px-8 py-4 
+          bg-gradient-to-r from-[#C84C38] to-[#D85F4D] 
+          text-white rounded-full text-lg font-bold 
+          hover:from-[#B73D2D] hover:to-[#C74E3C] 
+          transition-colors duration-300 
+          shadow-lg hover:shadow-[#C84C38]/25
+        `}
       >
         <span className="inline-flex items-center gap-6 -translate-y-0.5">
           <span>

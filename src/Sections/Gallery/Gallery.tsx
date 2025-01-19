@@ -20,6 +20,12 @@ export const Gallery = () => {
   const galleryTitleOpacity = useTransform(scrollYProgress, [0.3, 0.4], [0, 1])
   const galleryTitleY = useTransform(scrollYProgress, [0.3, 0.4], [20, 0])
 
+  const patternOpacity = useTransform(
+    scrollYProgress,
+    [0.2, 0.3],
+    [0, 1]
+  )
+
   const transforms = {
     x: {
       outer: useTransform(scrollYProgress, [0.1, 0.4], ['0%', '20%']),
@@ -42,9 +48,21 @@ export const Gallery = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="h-[200vh] bg-[#B5D8D6] relative z-40"
+        className="h-[200vh] relative z-40 bg-white"
       >
-        <div className="sticky top-0 w-full h-screen flex items-center">
+        <div className="sticky top-0 w-full h-screen flex items-center bg-white">
+          <motion.div 
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            style={{
+              background: `
+                radial-gradient(circle at center, rgba(51, 51, 51, 0.5) 0.7px, transparent 0.7px) 0 0 / 16px 16px,
+                #f5f5f5
+              `,
+              opacity: patternOpacity,
+              backgroundAttachment: 'fixed'
+            }}
+          />
+
           <motion.div 
             className="absolute inset-0 z-10 bg-black/15 pointer-events-none"
             style={{ opacity: textOpacity }}
