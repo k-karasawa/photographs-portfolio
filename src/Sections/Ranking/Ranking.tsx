@@ -3,15 +3,17 @@ import { rankingData } from './rankingData';
 
 export const Ranking: React.FC = () => {
   return (
-    <div className="container mx-auto py-12">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold px-4">Ranking</h1>
-      </div>
-      
-      <div className="space-y-8">
-        {rankingData.map((section) => (
-          <RankingSection key={section.title} section={section} />
-        ))}
+    <div className="bg-white relative z-10">
+      <div className="container mx-auto py-12 px-4 md:px-8">
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold">Ranking</h1>
+        </div>
+        
+        <div className="space-y-8">
+          {rankingData.map((section) => (
+            <RankingSection key={section.title} section={section} />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -20,22 +20,22 @@ export const RankingSection = ({ section }: RankingSectionProps) => {
         )}
       </div>
 
-      <div className="relative px-4">
+      <div className="relative">
         <Swiper
           modules={[Navigation]}
           spaceBetween={16}
-          slidesPerView={5.4}
+          slidesPerView="auto"
           navigation={{
             nextEl: `.next-${section.title}`,
             prevEl: `.prev-${section.title}`,
           }}
           breakpoints={{
-            320: { slidesPerView: 1.4 },
-            640: { slidesPerView: 2.4 },
-            768: { slidesPerView: 3.4 },
-            1024: { slidesPerView: 5.4 },
+            320: { slidesPerView: 1 },
+            640: { slidesPerView: 2 },
+            768: { slidesPerView: 3 },
+            1024: { slidesPerView: 4 },
           }}
-          className="!px-4"
+          className="!px-0"
         >
           {section.items.map((item, index) => (
             <SwiperSlide key={item.id} className="!w-auto">
@@ -45,12 +45,12 @@ export const RankingSection = ({ section }: RankingSectionProps) => {
         </Swiper>
 
         <button
-          className={`prev-${section.title} absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-lg hover:bg-white transition-all disabled:opacity-0`}
+          className={`prev-${section.title} absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-lg hover:bg-white transition-all disabled:opacity-0`}
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
         <button
-          className={`next-${section.title} absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-lg hover:bg-white transition-all disabled:opacity-0`}
+          className={`next-${section.title} absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-lg hover:bg-white transition-all disabled:opacity-0`}
         >
           <ChevronRight className="h-6 w-6" />
         </button>
