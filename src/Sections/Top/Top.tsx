@@ -199,63 +199,65 @@ export const Top = () => {
 
       <div className="flex items-center justify-center min-h-screen relative z-10">
         <div className="relative">
-          <div className="max-w-3xl mx-auto text-left px-4">
-            <h1 className="text-3xl md:text-6xl lg:text-7xl font-normal text-[#333333] leading-tight mb-6">
-              あなたは出会う。
-              <br />
-              ここで、運命の矢と。
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-8">
-              Discover your destined arrow,
-            </p>
-
-            {/* PCとモバイルで異なるボタンを表示 */}
-            <div className="relative">
-              {/* PC用のボタン */}
-              <PrimaryButton 
-                href="/custom" 
-                className="hidden md:inline-flex"
-                icon={<HiOutlineChevronRight className="w-6 h-6" />}
+          <div className="max-w-3xl mx-auto text-left md:text-left px-4">
+            <div className="md:max-w-3xl max-w-[280px] mx-auto md:mx-0">
+              <h1 className="text-3xl md:text-6xl lg:text-7xl font-normal text-[#333333] leading-tight mb-6 
+                text-center md:text-left"
               >
-                矢のオーダーメイド　
-              </PrimaryButton>
-
-              {/* モバイル用のボタン */}
-              <motion.div
-                className="md:hidden inline-flex flex-col items-center"
-                whileHover={{ y: 5 }}
-                transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                onTouchStart={(e) => e.stopPropagation()}
-                onTouchEnd={(e) => e.stopPropagation()}
+                <span className="whitespace-nowrap">あなたは出会う。</span>
+                <br />
+                <span className="whitespace-nowrap">ここで、運命の矢と。</span>
+              </h1>
+              <p className="text-lg md:text-xl text-gray-600 mb-8
+                text-center md:text-left"
               >
+                Discover your destined arrow,
+              </p>
+
+              <div className="relative flex justify-center md:justify-start">
                 <PrimaryButton 
-                  onClick={handleNextSection}
+                  href="/custom" 
+                  className="hidden md:inline-flex"
+                  icon={<HiOutlineChevronRight className="w-6 h-6" />}
                 >
-                  オーダーメイドの楽しさ
+                  矢のオーダーメイド　
                 </PrimaryButton>
-                
+
                 <motion.div
-                  className="mt-4"
-                  initial={{ opacity: 0.5, y: -5 }}
-                  animate={{ opacity: 1, y: 5 }}
-                  transition={{
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    duration: 1,
-                    ease: "easeInOut"
-                  }}
+                  className="md:hidden inline-flex flex-col items-center"
+                  whileHover={{ y: 5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
                   onTouchStart={(e) => e.stopPropagation()}
                   onTouchEnd={(e) => e.stopPropagation()}
                 >
-                  <HiOutlineChevronDown className="w-6 h-6 text-[#C84C38]" />
+                  <PrimaryButton 
+                    onClick={handleNextSection}
+                  >
+                    オーダーメイドの楽しさ
+                  </PrimaryButton>
+                  
+                  <motion.div
+                    className="mt-4"
+                    initial={{ opacity: 0.5, y: -5 }}
+                    animate={{ opacity: 1, y: 5 }}
+                    transition={{
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      duration: 1,
+                      ease: "easeInOut"
+                    }}
+                    onTouchStart={(e) => e.stopPropagation()}
+                    onTouchEnd={(e) => e.stopPropagation()}
+                  >
+                    <HiOutlineChevronDown className="w-6 h-6 text-[#C84C38]" />
+                  </motion.div>
                 </motion.div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* クライアントサイドでのみレンダリング */}
       {isClient && (
         isMobile.current ? (
           <MobileTrailEffect setParentImages={setImages} />
