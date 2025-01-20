@@ -46,12 +46,19 @@ export const Message = () => {
 
         <div className="absolute inset-0 flex items-center">
           <div className="mx-8 md:mx-16 max-w-2xl">
-            <div>
+            <motion.div 
+              className="mb-24"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="mb-8 text-3xl md:text-5xl lg:text-6xl font-normal text-[#333333] leading-tight font-sans"
+                className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#333333] leading-tight font-sans mb-4"
               >
                 自分だけの矢
               </motion.h2>
@@ -59,8 +66,9 @@ export const Message = () => {
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="mb-12 text-xl md:text-2xl lg:text-2xl text-[#333333] leading-tight font-sans"
+                className="text-lg text-[#666666] leading-relaxed font-sans mb-12"
               >
                 手から離れていくものが、心を高揚させる。
                 <br />
@@ -70,6 +78,7 @@ export const Message = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
                 <PrimaryButton 
@@ -79,7 +88,7 @@ export const Message = () => {
                   矢の選び方を学ぶ　
                 </PrimaryButton>
               </motion.div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

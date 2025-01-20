@@ -55,8 +55,8 @@ export const Gallery = () => {
             className="absolute inset-0 w-full h-full pointer-events-none"
             style={{
               background: `
-                radial-gradient(circle at center, rgba(51, 51, 51, 0.5) 0.7px, transparent 0.7px) 0 0 / 16px 16px,
-                #f5f5f5
+                radial-gradient(circle at center, rgba(51, 51, 51, 0.08) 1.5px, transparent 1.5px) 0 0 / 16px 16px,
+                #ffffff
               `,
               opacity: patternOpacity,
               backgroundAttachment: 'fixed'
