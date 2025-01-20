@@ -56,7 +56,7 @@ export const Gallery = () => {
             style={{
               background: `
                 radial-gradient(circle at center, rgba(51, 51, 51, 0.08) 1.5px, transparent 1.5px) 0 0 / 16px 16px,
-                #f5f5f5
+                #ffffff
               `,
               opacity: patternOpacity,
               backgroundAttachment: 'fixed'
