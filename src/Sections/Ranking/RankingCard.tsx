@@ -10,7 +10,10 @@ interface RankingCardProps {
 export const RankingCard = ({ item, index }: RankingCardProps) => {
   return (
     <div className="flex flex-col w-48 md:w-64">
-      <div className="relative overflow-hidden rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow">
+      <div className="relative overflow-hidden rounded-lg bg-white shadow-sm hover:shadow-md 
+        transition-all duration-200 ease-in-out
+        hover:shadow-lg hover:-translate-y-0.5"
+      >
         <div className="relative aspect-[16/9]">
           <Image
             src={item.imageUrl}
@@ -33,4 +36,3 @@ export const RankingCard = ({ item, index }: RankingCardProps) => {
     </div>
   );
 }
-

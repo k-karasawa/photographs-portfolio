@@ -32,7 +32,7 @@ export const RankingSection = ({ section }: RankingSectionProps) => {
           breakpoints={{
             320: { 
               slidesPerView: "auto",
-              slidesPerGroup: 1     // 1枚ずつスクロール
+              slidesPerGroup: 1
             },
             640: { slidesPerView: 2 },
             768: { slidesPerView: 3 },
