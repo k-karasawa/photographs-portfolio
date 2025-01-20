@@ -230,12 +230,10 @@ export const Top = () => {
               >
                 <PrimaryButton 
                   onClick={handleNextSection}
-                  icon={<HiOutlineChevronRight className="w-6 h-6" />}
                 >
                   オーダーメイドの楽しさ
                 </PrimaryButton>
                 
-                {/* 下矢印のアニメーション */}
                 <motion.div
                   className="mt-4"
                   initial={{ opacity: 0.5, y: -5 }}

@@ -21,8 +21,11 @@ export const RankingCard = ({ item, index }: RankingCardProps) => {
             fill
             className="object-cover"
           />
-          <div className="absolute top-2 left-2 flex items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-sm font-bold text-primary">
-            <Crown className="h-3 w-3 md:h-4 md:w-4" />
+          <div className="absolute top-2 left-2 flex items-center gap-1.5 rounded-full 
+            bg-white/95 backdrop-blur-sm px-2.5 py-1 text-sm font-bold text-gray-800
+            shadow-sm"
+          >
+            <Crown className="h-3 w-3 md:h-4 md:w-4 text-gray-700" />
             <span className="md:text-base">{index + 1}</span>
           </div>
         </div>
