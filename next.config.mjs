@@ -2,7 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['sakuya-kyudogu.jp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'sakuya-kyudogu.jp',
+        pathname: '/html/upload/**',
+      },
+    ],
   },
 };
 
