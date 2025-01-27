@@ -5,7 +5,7 @@ import { CustomOrderSection } from '@/Sections/Custom/Custom'
 import { Message } from '@/Sections/Message/Message'
 import { Gallery } from '@/Sections/Gallery/Gallery'
 import { Ranking } from '@/Sections/Ranking/Ranking'
-
+import { Other } from '@/Sections/Other/Other'
 const Home: NextPage = () => {
   return (
     <main>
@@ -19,8 +19,9 @@ const Home: NextPage = () => {
       <section id="next-section">
         <CustomOrderSection />
       </section>
-      <Message />
+      {/* <Message /> */}
       <Gallery />
+      <Other />
       <Ranking />
     </main>
   )

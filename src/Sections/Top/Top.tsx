@@ -216,7 +216,7 @@ export const Top = () => {
 
               <div className="relative flex justify-center md:justify-start">
                 <PrimaryButton 
-                  href="/custom" 
+                  href="#" 
                   className="hidden md:inline-flex"
                   icon={<HiOutlineChevronRight className="w-6 h-6" />}
                 >
