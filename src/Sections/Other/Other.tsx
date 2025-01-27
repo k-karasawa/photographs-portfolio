@@ -26,17 +26,17 @@ interface CardProps {
 const Card = ({ index, total, title, scrollProgress }: CardProps) => {
   const getCardShadowColor = (index: number) => {
     const colors = [
-      'rgba(255, 0, 0, 0.1)',    // 赤
-      'rgba(255, 127, 0, 0.1)',  // オレンジ
-      'rgba(255, 255, 0, 0.1)',  // 黄
-      'rgba(0, 255, 0, 0.1)',    // 緑
-      'rgba(0, 255, 255, 0.1)',  // シアン
-      'rgba(0, 127, 255, 0.1)',  // 青
-      'rgba(139, 0, 255, 0.1)',  // 紫
-      'rgba(255, 0, 255, 0.1)',  // マゼンタ
-      'rgba(255, 20, 147, 0.1)', // ピンク
-      'rgba(255, 105, 180, 0.1)',// ホットピンク
-      'rgba(255, 0, 127, 0.1)'   // ローズ
+      'rgba(255, 0, 0, 0.15)',    // 赤
+      'rgba(255, 127, 0, 0.15)',  // オレンジ
+      'rgba(255, 255, 0, 0.15)',  // 黄
+      'rgba(0, 255, 0, 0.15)',    // 緑
+      'rgba(0, 255, 255, 0.15)',  // シアン
+      'rgba(0, 127, 255, 0.15)',  // 青
+      'rgba(139, 0, 255, 0.15)',  // 紫
+      'rgba(255, 0, 255, 0.15)',  // マゼンタ
+      'rgba(255, 20, 147, 0.15)', // ピンク
+      'rgba(255, 105, 180, 0.15)',// ホットピンク
+      'rgba(255, 0, 127, 0.15)'   // ローズ
     ];
     return colors[index % colors.length];
   };
@@ -96,7 +96,7 @@ const Card = ({ index, total, title, scrollProgress }: CardProps) => {
         right: '20%',
         top: '50%',
         y: `-50%`,
-        boxShadow: `0 8px 16px -4px ${getCardShadowColor(index)}, 0 2px 6px -2px rgba(0, 0, 0, 0.1)`
+        boxShadow: `0 8px 16px -4px rgba(0, 0, 0, 0.08), 0 2px 6px -2px rgba(0, 0, 0, 0.1)`
       }}
       whileHover={{ 
         scale: 1.02,
@@ -170,7 +170,7 @@ export const Other = () => {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-lg text-[#666666] leading-relaxed font-sans mb-12"
               >
-                見た目だけじゃない、性能にだってこだわれる
+                見た目だけじゃない、性能にだってこだわれる。
               </motion.p>
 
               <motion.div
