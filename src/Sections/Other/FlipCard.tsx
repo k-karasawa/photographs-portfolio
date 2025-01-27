@@ -41,14 +41,49 @@ const Card = ({ title }: CardProps) => {
   };
 
   return (
-    <div className="w-full bg-white rounded-xl shadow-lg p-6 mb-4">
-      <div className="flex items-center gap-4">
-        {getIcon(title)}
-        <span className="text-2xl text-[#333333] font-medium">{title}</span>
+    <div className="w-full bg-white rounded-xl shadow-lg perspective-1000">
+      <div className="relative w-full h-full preserve-3d">
+        {/* 表面 */}
+        <div className="w-full p-6 bg-white rounded-xl backface-hidden">
+          <div className="flex items-center gap-4">
+            {getIcon(title)}
+            <span className="text-2xl text-[#333333] font-medium">{title}</span>
+          </div>
+        </div>
+
+        {/* 裏面 */}
+        <div 
+          className="absolute inset-0 w-full h-full backface-hidden bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl"
+          style={{ transform: 'rotateY(180deg)' }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-12 h-12 border-2 border-white/20 rounded-full" />
+          </div>
+        </div>
       </div>
     </div>
   );
 };
+
+// グローバルスタイルを追加
+const styles = `
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+`;
+
+// スタイルをheadに追加
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement("style");
+  styleSheet.textContent = styles;
+  document.head.appendChild(styleSheet);
+}
 
 export const FlipCard = () => {
   const customItems = [
