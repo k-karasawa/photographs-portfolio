@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, MotionValue } from 'framer-motion'
 import { 
   GiArrowhead,        // 矢尻用
   GiArrowFlights,     // 筈用
@@ -20,7 +20,7 @@ interface CardProps {
   index: number;
   total: number;
   title: string;
-  scrollProgress: number;
+  scrollProgress: MotionValue<number>;
 }
 
 const Card = ({ index, total, title, scrollProgress }: CardProps) => {
