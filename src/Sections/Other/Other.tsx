@@ -9,7 +9,8 @@ import {
   GiRibbonShield,     // 筈巻用
   GiSparkles,         // ラメ加工用
   GiFeather,          // 羽中加工用
-  GiPowerLightning    // ZERO流用
+  GiPowerLightning,   // ZERO流用
+  GiStarFormation     // プチデコ用
 } from 'react-icons/gi';
 import { MdTextFields } from 'react-icons/md';  // 文字刻印用
 
@@ -32,6 +33,7 @@ const Card = ({ index, total, title, scrollProgress }: CardProps) => {
       case "ラメ加工": return <GiSparkles className="text-3xl text-[#333333]" />;
       case "文字刻印": return <MdTextFields className="text-3xl text-[#333333]" />;
       case "羽中加工": return <GiFeather className="text-3xl text-[#333333]" />;
+      case "プチデコ": return <GiStarFormation className="text-3xl text-[#333333]" />;
       case "ZERO流": return <GiPowerLightning className="text-3xl text-[#333333]" />;
       default: return null;
     }
@@ -72,7 +74,7 @@ const Card = ({ index, total, title, scrollProgress }: CardProps) => {
           delay: 0
         }
       }}
-      className="absolute w-[80%] h-24 bg-white rounded-xl shadow-lg flex items-center px-10"
+      className="absolute w-[80%] h-28 bg-white rounded-xl shadow-lg flex items-center px-10"
       style={{
         rotate: rotationAngle,
         transformOrigin: 'right center',
