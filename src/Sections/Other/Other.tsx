@@ -136,7 +136,7 @@ export const Other = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#333333] leading-tight font-sans mb-4"
+                className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#333333] leading-tight font-sans mb-4 whitespace-nowrap"
               >
                 その他のカスタマイズ
               </motion.h2>
@@ -148,7 +148,7 @@ export const Other = () => {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-lg text-[#666666] leading-relaxed font-sans"
               >
-                おしゃれも性能もこだわってカスタマイズすることができます
+                見た目だけじゃない、性能にだってこだわれる
               </motion.p>
             </motion.div>
           </div>
