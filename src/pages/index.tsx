@@ -5,6 +5,8 @@ import { CustomOrderSection } from '@/Sections/Custom/Custom'
 import { Gallery } from '@/Sections/Gallery/Gallery'
 import { Ranking } from '@/Sections/Ranking/Ranking'
 import { Other } from '@/Sections/Other/Other'
+import { FlipCard } from '@/Sections/Other/FlipCard'
+
 const Home: NextPage = () => {
   return (
     <main>
@@ -20,6 +22,7 @@ const Home: NextPage = () => {
       </section>
       <Gallery />
       <Other />
+      <FlipCard />
       <Ranking />
     </main>
   )
