@@ -13,6 +13,8 @@ import {
   GiStarFormation     // プチデコ用
 } from 'react-icons/gi';
 import { MdTextFields } from 'react-icons/md';  // 文字刻印用
+import { PrimaryButton } from '@/components/PrimaryButton'
+import { HiOutlineAcademicCap } from 'react-icons/hi2'
 
 interface CardProps {
   index: number;
@@ -22,6 +24,23 @@ interface CardProps {
 }
 
 const Card = ({ index, total, title, scrollProgress }: CardProps) => {
+  const getCardShadowColor = (index: number) => {
+    const colors = [
+      'rgba(255, 0, 0, 0.1)',    // 赤
+      'rgba(255, 127, 0, 0.1)',  // オレンジ
+      'rgba(255, 255, 0, 0.1)',  // 黄
+      'rgba(0, 255, 0, 0.1)',    // 緑
+      'rgba(0, 255, 255, 0.1)',  // シアン
+      'rgba(0, 127, 255, 0.1)',  // 青
+      'rgba(139, 0, 255, 0.1)',  // 紫
+      'rgba(255, 0, 255, 0.1)',  // マゼンタ
+      'rgba(255, 20, 147, 0.1)', // ピンク
+      'rgba(255, 105, 180, 0.1)',// ホットピンク
+      'rgba(255, 0, 127, 0.1)'   // ローズ
+    ];
+    return colors[index % colors.length];
+  };
+
   const getIcon = (title: string) => {
     switch (title) {
       case "筈": return <GiArrowFlights className="text-3xl text-[#333333]" />;
@@ -53,10 +72,6 @@ const Card = ({ index, total, title, scrollProgress }: CardProps) => {
     <motion.div
       initial={{ opacity: 0, x: 100 }}
       whileInView={{ opacity: 1, x: 0 }}
-      whileHover={{ 
-        scale: 1.02,
-        boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.2)"
-      }}
       viewport={{ once: true }}
       transition={{
         default: {  // 初期表示のアニメーション
@@ -74,13 +89,18 @@ const Card = ({ index, total, title, scrollProgress }: CardProps) => {
           delay: 0
         }
       }}
-      className="absolute w-[80%] h-28 bg-white rounded-xl shadow-lg flex items-center px-10"
+      className="absolute w-[80%] h-28 bg-white rounded-xl flex items-center px-10"
       style={{
         rotate: rotationAngle,
         transformOrigin: 'right center',
-        right: '20%', //中心の位置
+        right: '20%',
         top: '50%',
         y: `-50%`,
+        boxShadow: `0 8px 16px -4px ${getCardShadowColor(index)}, 0 2px 6px -2px rgba(0, 0, 0, 0.1)`
+      }}
+      whileHover={{ 
+        scale: 1.02,
+        boxShadow: `0 12px 20px -4px ${getCardShadowColor(index)}, 0 4px 8px -4px rgba(0, 0, 0, 0.1)`
       }}
     >
       <div className="flex items-center gap-4">
@@ -148,10 +168,24 @@ export const Other = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-lg text-[#666666] leading-relaxed font-sans"
+                className="text-lg text-[#666666] leading-relaxed font-sans mb-12"
               >
                 見た目だけじゃない、性能にだってこだわれる
               </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                <PrimaryButton 
+                  href="/customize"
+                  icon={<HiOutlineAcademicCap className="w-6 h-6" />}
+                >
+                  矢の選び方を学ぶ　
+                </PrimaryButton>
+              </motion.div>
             </motion.div>
           </div>
 
