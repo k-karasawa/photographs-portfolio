@@ -9,8 +9,7 @@ import {
   GiRibbonShield,     // 筈巻用
   GiSparkles,         // ラメ加工用
   GiFeather,          // 羽中加工用
-  GiPowerLightning,   // ZERO流用
-  GiStarFormation     // プチデコ用
+  GiPowerLightning    // ZERO流用
 } from 'react-icons/gi';
 import { MdTextFields } from 'react-icons/md';  // 文字刻印用
 
@@ -34,7 +33,6 @@ const Card = ({ index, total, title, scrollProgress }: CardProps) => {
       case "文字刻印": return <MdTextFields className="text-3xl text-[#333333]" />;
       case "羽中加工": return <GiFeather className="text-3xl text-[#333333]" />;
       case "ZERO流": return <GiPowerLightning className="text-3xl text-[#333333]" />;
-      case "プチデコ": return <GiStarFormation className="text-3xl text-[#333333]" />;
       default: return null;
     }
   };
@@ -53,8 +51,27 @@ const Card = ({ index, total, title, scrollProgress }: CardProps) => {
     <motion.div
       initial={{ opacity: 0, x: 100 }}
       whileInView={{ opacity: 1, x: 0 }}
+      whileHover={{ 
+        scale: 1.02,
+        boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.2)"
+      }}
       viewport={{ once: true }}
-      transition={{ duration: 0.8, delay: index * 0.1 }}
+      transition={{
+        default: {  // 初期表示のアニメーション
+          duration: 0.8,
+          delay: index * 0.1,
+        },
+        scale: {    // ホバー時のscaleアニメーション
+          duration: 0.3,
+          ease: "easeOut",
+          delay: 0
+        },
+        boxShadow: {  // ホバー時のshadowアニメーション
+          duration: 0.3,
+          ease: "easeOut",
+          delay: 0
+        }
+      }}
       className="absolute w-[80%] h-24 bg-white rounded-xl shadow-lg flex items-center px-10"
       style={{
         rotate: rotationAngle,
