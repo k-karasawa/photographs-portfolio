@@ -27,7 +27,7 @@ const Card = ({ title }: CardProps) => {
   const controls = useAnimationControls();
 
   const getCardShadowColor = (title: string) => {
-    const colorMap = {
+    const colorMap: { [key: string]: string } = {
       "筈": 'rgba(255, 0, 0, 0.15)',      // 赤
       "矢尻": 'rgba(255, 127, 0, 0.15)',  // オレンジ
       "矢尺": 'rgba(255, 255, 0, 0.15)',  // 黄
