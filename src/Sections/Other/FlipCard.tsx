@@ -178,7 +178,7 @@ export const FlipCard = () => {
 
           {/* 右側: 2列のカードグリッド */}
           <div className="h-full flex items-center">
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-6 w-full">
               {customItems.map((item, index) => (
                 <Card 
                   key={index}
