@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, useAnimationControls } from 'framer-motion'
 import { 
   GiArrowhead,        // 矢尻用
   GiArrowFlights,     // 筈用
@@ -15,6 +15,7 @@ import { MdTextFields } from 'react-icons/md';  // 文字刻印用
 import { PrimaryButton } from '@/components/PrimaryButton'
 import { HiOutlineAcademicCap } from 'react-icons/hi2'
 import { RiSortNumberAsc } from "react-icons/ri";
+import { useState } from 'react';
 
 
 interface CardProps {
@@ -22,6 +23,9 @@ interface CardProps {
 }
 
 const Card = ({ title }: CardProps) => {
+  const [isAnimating, setIsAnimating] = useState(false);
+  const controls = useAnimationControls();
+
   const getIcon = (title: string) => {
     switch (title) {
       case "筈": return <GiArrowFlights className="text-3xl text-[#333333]" />;
@@ -37,6 +41,23 @@ const Card = ({ title }: CardProps) => {
       case "ZERO流": return <GiPowerLightning className="text-3xl text-[#333333]" />;
       case "家紋": return <GiFleurDeLys className="text-3xl text-[#333333]" />;
       default: return null;
+    }
+  };
+
+  const handleHoverStart = async () => {
+    if (!isAnimating) {
+      setIsAnimating(true);
+      await controls.start({
+        y: [0, -20, -20, 0],
+        rotateX: [0, 0, 360, 360],
+        scale: [1, 1.05, 1.05, 1],
+        transition: {
+          duration: 1.2,
+          times: [0, 0.25, 0.5, 0.7],
+          ease: "easeInOut",
+        }
+      });
+      setIsAnimating(false);
     }
   };
 
@@ -60,30 +81,8 @@ const Card = ({ title }: CardProps) => {
       viewport={{ 
         amount: 0.8
       }}
-      whileHover={{
-        y: [0, -20, -20, 0],
-        rotateX: [0, 0, 360, 360],
-        scale: [1, 1.05, 1.05, 1],
-        transition: {
-          duration: 1.2,
-          times: [0, 0.25, 0.5, 0.7],
-          ease: "easeInOut",
-          animationDirection: "normal",
-          repeat: 0,
-          repeatType: "loop",
-          repeatDelay: 0,
-          delay: 0,
-          stiffness: 100,
-          damping: 10,
-          restDelta: 0.001,
-          restSpeed: 0.001,
-          bounce: 0,
-          type: "keyframes",
-          autoplay: true,
-          velocity: 0,
-          complete: true
-        }
-      }}
+      animate={controls}
+      onHoverStart={handleHoverStart}
       className="w-full bg-white rounded-xl shadow-lg perspective-1000 cursor-pointer"
     >
       <div className="relative w-full h-full preserve-3d">
