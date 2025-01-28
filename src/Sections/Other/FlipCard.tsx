@@ -42,9 +42,26 @@ const Card = ({ title }: CardProps) => {
 
   return (
     <motion.div
-      initial={{ y: 0, scale: 1, rotateX: 0 }}
+      initial={{ 
+        opacity: 0,
+        y: 20,
+        scale: 0.95
+      }}
+      whileInView={{ 
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+          duration: 0.8,
+          ease: "easeOut",
+          delay: 0.2
+        }
+      }}
+      viewport={{ 
+        amount: 0.8
+      }}
       whileHover={{
-        y: [0, -10, -10, 0],
+        y: [0, -20, -20, 0],
         rotateX: [0, 0, 360, 360],
         scale: [1, 1.05, 1.05, 1],
         transition: {
