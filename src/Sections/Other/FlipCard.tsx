@@ -26,6 +26,24 @@ const Card = ({ title }: CardProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const controls = useAnimationControls();
 
+  const getCardShadowColor = (title: string) => {
+    const colorMap = {
+      "筈": 'rgba(255, 0, 0, 0.15)',      // 赤
+      "矢尻": 'rgba(255, 127, 0, 0.15)',  // オレンジ
+      "矢尺": 'rgba(255, 255, 0, 0.15)',  // 黄
+      "セット本数": 'rgba(0, 255, 0, 0.15)',    // 緑
+      "インサート": 'rgba(0, 255, 255, 0.15)',  // シアン
+      "筈巻": 'rgba(0, 127, 255, 0.15)',  // 青
+      "ラメ加工": 'rgba(139, 0, 255, 0.15)',  // 紫
+      "文字刻印": 'rgba(255, 0, 255, 0.15)',  // マゼンタ
+      "羽中加工": 'rgba(255, 20, 147, 0.15)', // ピンク
+      "プチデコ": 'rgba(255, 105, 180, 0.15)', // ホットピンク
+      "ZERO流": 'rgba(255, 0, 127, 0.15)',   // ローズ
+      "家紋": 'rgba(147, 112, 219, 0.15)',   // ラベンダー
+    };
+    return colorMap[title] || 'rgba(0, 0, 0, 0.15)';
+  };
+
   const getIcon = (title: string) => {
     switch (title) {
       case "筈": return <GiArrowFlights className="text-3xl text-[#333333]" />;
@@ -48,9 +66,15 @@ const Card = ({ title }: CardProps) => {
     if (!isAnimating) {
       setIsAnimating(true);
       await controls.start({
-        y: [0, -20, -20, 0],
+        y: [0, -15, -15, 0],
         rotateX: [0, 0, 360, 360],
         scale: [1, 1.05, 1.05, 1],
+        boxShadow: [
+          '0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
+          `0 12px 20px -4px ${getCardShadowColor(title)}, 0 4px 8px -4px rgba(0, 0, 0, 0.1)`,
+          `0 12px 20px -4px ${getCardShadowColor(title)}, 0 4px 8px -4px rgba(0, 0, 0, 0.1)`,
+          '0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 2px 6px -2px rgba(0, 0, 0, 0.1)'
+        ],
         transition: {
           duration: 1.2,
           times: [0, 0.25, 0.5, 0.7],
@@ -66,7 +90,8 @@ const Card = ({ title }: CardProps) => {
       initial={{ 
         opacity: 0,
         y: 20,
-        scale: 0.95
+        scale: 0.95,
+        boxShadow: '0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 2px 6px -2px rgba(0, 0, 0, 0.1)'
       }}
       whileInView={{ 
         opacity: 1,
