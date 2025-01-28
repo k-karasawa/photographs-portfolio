@@ -41,7 +41,34 @@ const Card = ({ title }: CardProps) => {
   };
 
   return (
-    <div className="w-full bg-white rounded-xl shadow-lg perspective-1000">
+    <motion.div
+      initial={{ y: 0, scale: 1, rotateX: 0 }}
+      whileHover={{
+        y: [0, -10, -10, 0],
+        rotateX: [0, 0, 360, 360],
+        scale: [1, 1.05, 1.05, 1],
+        transition: {
+          duration: 1.2,
+          times: [0, 0.25, 0.5, 0.7],
+          ease: "easeInOut",
+          animationDirection: "normal",
+          repeat: 0,
+          repeatType: "loop",
+          repeatDelay: 0,
+          delay: 0,
+          stiffness: 100,
+          damping: 10,
+          restDelta: 0.001,
+          restSpeed: 0.001,
+          bounce: 0,
+          type: "keyframes",
+          autoplay: true,
+          velocity: 0,
+          complete: true
+        }
+      }}
+      className="w-full bg-white rounded-xl shadow-lg perspective-1000 cursor-pointer"
+    >
       <div className="relative w-full h-full preserve-3d">
         {/* 表面 */}
         <div className="w-full p-6 bg-white rounded-xl backface-hidden">
@@ -54,14 +81,14 @@ const Card = ({ title }: CardProps) => {
         {/* 裏面 */}
         <div 
           className="absolute inset-0 w-full h-full backface-hidden bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl"
-          style={{ transform: 'rotateY(180deg)' }}
+          style={{ transform: 'rotateX(180deg)' }}
         >
           <div className="w-full h-full flex items-center justify-center">
             <div className="w-12 h-12 border-2 border-white/20 rounded-full" />
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
