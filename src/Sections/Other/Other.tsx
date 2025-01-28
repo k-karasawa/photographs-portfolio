@@ -72,7 +72,7 @@ const Card = ({ index, total, title, scrollProgress }: CardProps) => {
     <motion.div
       initial={{ opacity: 0, x: 100 }}
       whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: false }}
       transition={{
         default: {  // 初期表示のアニメーション
           duration: 0.8,
@@ -149,14 +149,14 @@ export const Other = () => {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ duration: 0.8 }}
               className="mb-8"
             >
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#333333] leading-tight font-sans mb-4 whitespace-nowrap"
               >
@@ -166,7 +166,7 @@ export const Other = () => {
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-lg text-[#666666] leading-relaxed font-sans mb-12"
               >
@@ -176,7 +176,7 @@ export const Other = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
                 <PrimaryButton 
