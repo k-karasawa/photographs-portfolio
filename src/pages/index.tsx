@@ -11,8 +11,8 @@ const Home: NextPage = () => {
   return (
     <main>
       <Head>
-        <title>mokubara. | Realistic Mockups Made Easy</title>
-        <meta name="description" content="The easiest way to create amazing mockups" />
+        <title>矢のオーダーメイドシステム | 咲矢弓道具で自分だけの矢を作ろう</title>
+        <meta name="description" content="矢のオーダーメイドシステム | 咲矢弓道具で自分だけの矢を作ろう" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
