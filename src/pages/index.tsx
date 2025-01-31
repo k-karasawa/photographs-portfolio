@@ -9,7 +9,7 @@ import { Other } from '@/Sections/Other/Other'
 
 const Home: NextPage = () => {
   return (
-    <main>
+    <main className="pt-16">
       <Head>
         <title>矢のオーダーメイドシステム | 咲矢弓道具で自分だけの矢を作ろう</title>
         <meta name="description" content="矢のオーダーメイドシステム | 咲矢弓道具で自分だけの矢を作ろう" />
