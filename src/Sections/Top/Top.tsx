@@ -191,12 +191,6 @@ export const Top = () => {
         ))}
       </AnimatePresence>
 
-      <nav className="absolute top-0 left-0 w-full p-8 z-10">
-        <Link href="/" className="text-[#333333] text-xl font-medium hover:opacity-80 transition-opacity">
-          izu-tech presents.
-        </Link>
-      </nav>
-
       <div className="flex items-center justify-center min-h-screen relative z-10">
         <div className="relative">
           <div className="max-w-3xl mx-auto text-left md:text-left px-4">
