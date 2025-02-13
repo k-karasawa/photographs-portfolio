@@ -31,9 +31,8 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
     >
       <div className="sticky top-0 w-full h-screen flex items-center bg-white overflow-hidden">
         <div className="relative w-full h-[95vh]">
-          {/* メイン画像 */}
           <motion.div
-            className="absolute inset-0 flex items-center justify-center z-10"
+            className="absolute inset-0 flex items-center justify-center z-[1]"
             style={{
               opacity: mainImageOpacity,
               scale: mainImageScale
@@ -52,9 +51,8 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
             </div>
           </motion.div>
 
-          {/* タイトルテキスト */}
           <motion.div 
-            className="absolute inset-0 z-20 flex flex-col items-center justify-center"
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none"
             style={{ opacity: textOpacity, y: textY }}
           >
             <motion.h2 
@@ -67,9 +65,33 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
             >
               Scroll to explore
             </motion.p>
+            <motion.div
+              className="mt-4 drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
+              initial={{ opacity: 0.5, y: -5 }}
+              animate={{ opacity: 1, y: 5 }}
+              transition={{
+                repeat: Infinity,
+                repeatType: "reverse",
+                duration: 1,
+                ease: "easeInOut"
+              }}
+            >
+              <svg 
+                className="w-6 h-6 text-[#333333]" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M19 14l-7 7m0 0l-7-7m7 7V3" 
+                />
+              </svg>
+            </motion.div>
           </motion.div>
 
-          {/* ギャラリータイトル */}
           <motion.div 
             className="absolute top-8 left-0 w-full z-30 px-4"
             style={{ 
@@ -83,9 +105,8 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
             <div className="w-full h-[1px] bg-[#333333] opacity-20"></div>
           </motion.div>
 
-          {/* ギャラリーグリッド */}
           <motion.div 
-            className="absolute inset-0 grid grid-cols-3 gap-2 p-2 pt-32"
+            className="absolute inset-0 grid grid-cols-3 gap-2 p-2 pt-32 z-[2]"
             style={{
               opacity: galleryOpacity,
               scale: galleryScale
@@ -96,6 +117,8 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
                 key={index}
                 className="relative rounded-lg overflow-hidden cursor-pointer"
                 onClick={() => setSelectedImage(image)}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2 }}
               >
                 <div className="relative aspect-[3/4] w-full">
                   <Image
