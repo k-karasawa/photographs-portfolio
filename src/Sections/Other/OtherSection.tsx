@@ -6,18 +6,18 @@ import { FlipCard } from './FlipCard';
 
 export const OtherSection = () => {
   const customItems = [
-    "ZERO流",
+    "家紋",
+    "プチデコ",
+    "セット本数",
+    "ラメ加工",
     "筈",
     "矢尻",
-    "矢尺",
+    "ZERO流",
     "インサート",
-    "セット本数",
-    "筈巻",
-    "ラメ加工",
     "文字刻印",
+    "筈巻",
+    "矢尺",
     "羽中加工",
-    "プチデコ",
-    "家紋"
   ];
 
   return (
