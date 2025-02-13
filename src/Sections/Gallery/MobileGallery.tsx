@@ -23,6 +23,7 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
   const textY = useTransform(scrollYProgress, [0, 0.2], [0, -50])
   const galleryTitleOpacity = useTransform(scrollYProgress, [0.3, 0.4], [0, 1])
   const galleryTitleY = useTransform(scrollYProgress, [0.3, 0.4], [20, 0])
+  const patternOpacity = useTransform(scrollYProgress, [0.2, 0.3], [0, 1])
 
   return (
     <motion.div
@@ -31,6 +32,23 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
     >
       <div className="sticky top-0 w-full h-screen flex items-center bg-white overflow-hidden">
         <div className="relative w-full h-[95vh]">
+          <motion.div 
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            style={{
+              background: `
+                radial-gradient(circle at center, rgba(51, 51, 51, 0.08) 1.5px, transparent 1.5px) 0 0 / 16px 16px,
+                #ffffff
+              `,
+              opacity: patternOpacity,
+              backgroundAttachment: 'fixed'
+            }}
+          />
+
+          <motion.div 
+            className="absolute inset-0 z-10 bg-black/15 pointer-events-none"
+            style={{ opacity: textOpacity }}
+          />
+
           <motion.div
             className="absolute inset-0 flex items-center justify-center z-[1]"
             style={{
