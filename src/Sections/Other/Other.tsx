@@ -137,6 +137,7 @@ export const Other = () => {
 
   return (
     <section 
+      id="other"
       ref={containerRef}
       className="relative h-screen overflow-hidden bg-white flex items-center"
     >

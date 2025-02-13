@@ -44,13 +44,23 @@ export const Gallery = () => {
   return (
     <>
       <motion.div 
+        id="gallery"
         ref={containerRef}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         className="h-[200vh] relative z-40 bg-white"
+        style={{ 
+          willChange: 'transform',
+          transform: 'translateZ(0)'
+        }}
       >
-        <div className="sticky top-0 w-full h-screen flex items-center bg-white">
+        <div className="sticky top-0 w-full h-screen flex items-center bg-white"
+          style={{ 
+            willChange: 'transform',
+            transform: 'translateZ(0)'
+          }}
+        >
           <motion.div 
             className="absolute inset-0 w-full h-full pointer-events-none"
             style={{

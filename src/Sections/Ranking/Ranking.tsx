@@ -4,7 +4,10 @@ import { rankingData } from './rankingData';
 
 export const Ranking: React.FC = () => {
   return (
-    <div className="bg-[#fafafa] relative z-10">
+    <div 
+      id="ranking"
+      className="bg-[#fafafa] relative z-10"
+    >
       <div className="container mx-auto py-24 px-4 md:px-8">
         <motion.div 
           className="text-center mb-24"

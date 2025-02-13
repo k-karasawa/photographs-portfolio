@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MobileTrailEffect } from '@/components/MobileTrailEffect'
 import { ArrowImage } from '@/types/arrow'
@@ -202,7 +201,7 @@ export const Top = () => {
                 <br />
                 <span className="whitespace-nowrap">ここで、運命の矢と。</span>
               </h1>
-              <p className="text-lg md:text-xl text-gray-600 mb-8
+              <p className="text-lg md:text-xl text-gray-600 mb-6
                 text-center md:text-left"
               >
                 Discover your destined arrow,
