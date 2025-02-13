@@ -13,18 +13,18 @@ import {
 } from 'react-icons/gi';
 import { MdTextFields } from 'react-icons/md';  // 文字刻印用
 import { RiSortNumberAsc } from "react-icons/ri"; // セット本数用
-import { useState, useRef } from 'react';
-
+import { useState, useRef, useImperativeHandle, forwardRef, useEffect } from 'react';
 
 interface CardProps {
   title: string;
-  index: number;
 }
 
-const Card = ({ title, index }: CardProps) => {
+export interface CardHandle {
+  triggerFlip: () => void;
+}
+
+const Card = forwardRef<CardHandle, CardProps>(({ title }, ref) => {
   const [isAnimating, setIsAnimating] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const cardRef = useRef(null);
   const controls = useAnimationControls();
 
   const getCardShadowColor = (title: string) => {
@@ -64,7 +64,7 @@ const Card = ({ title, index }: CardProps) => {
   };
 
   const playFlipAnimation = () => {
-    if (!isAnimating && !hasAnimated) {
+    if (!isAnimating) {
       setIsAnimating(true);
       controls.start({
         y: [0, -15, -15, 0],
@@ -83,12 +83,11 @@ const Card = ({ title, index }: CardProps) => {
         }
       }).then(() => {
         setIsAnimating(false);
-        setHasAnimated(true);
       });
     }
   };
 
-  // ホバー時のアニメーション
+  // ホバー時にアニメーションを開始
   const handleHoverStart = () => {
     if (!isAnimating) {
       setIsAnimating(true);
@@ -113,9 +112,13 @@ const Card = ({ title, index }: CardProps) => {
     }
   };
 
+  // 外部から triggerFlip を呼び出せるようにする
+  useImperativeHandle(ref, () => ({
+    triggerFlip: playFlipAnimation
+  }));
+
   return (
     <motion.div
-      ref={cardRef}
       initial={{ 
         opacity: 0,
         y: 20,
@@ -125,15 +128,6 @@ const Card = ({ title, index }: CardProps) => {
         opacity: 1,
         y: 0,
         scale: 1,
-      }}
-      viewport={{ 
-        once: true,
-        margin: "-100px",
-      }}
-      onViewportEnter={() => {
-        setTimeout(() => {
-          playFlipAnimation();
-        }, index * 200);
       }}
       animate={controls}
       onHoverStart={handleHoverStart}
@@ -158,7 +152,9 @@ const Card = ({ title, index }: CardProps) => {
       </div>
     </motion.div>
   );
-};
+});
+
+Card.displayName = 'Card';
 
 // グローバルスタイルを追加
 const styles = `
@@ -196,13 +192,33 @@ export const FlipCard = () => {
     "家紋"
   ];
 
+  const cardRefs = useRef<(CardHandle | null)[]>([]);
+
+  // コンポーネントマウント後、ランダムなタイミングでカードのフリップを実行
+  useEffect(() => {
+    const randomFlip = () => {
+      // 3000～5000ミリ秒のランダムな遅延を設定
+      const delay = Math.floor(Math.random() * 1500) + 3400;
+      setTimeout(() => {
+        const randIndex = Math.floor(Math.random() * customItems.length);
+        const cardRef = cardRefs.current[randIndex];
+        if (cardRef) {
+          cardRef.triggerFlip();
+        }
+        randomFlip();
+      }, delay);
+    };
+
+    randomFlip();
+  }, [customItems.length]);
+
   return (
     <div className="grid grid-cols-2 gap-x-3 gap-y-4">
       {customItems.map((item, index) => (
         <Card 
           key={index}
           title={item}
-          index={index}
+          ref={(el) => { cardRefs.current[index] = el; }}
         />
       ))}
     </div>
