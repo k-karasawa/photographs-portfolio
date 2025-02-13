@@ -134,7 +134,7 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
               <motion.div 
                 key={index}
                 className="relative rounded-lg overflow-hidden cursor-pointer"
-                onClick={() => setSelectedImage(image)}
+                onTap={() => setSelectedImage(image)}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
               >

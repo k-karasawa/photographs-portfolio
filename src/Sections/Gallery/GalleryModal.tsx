@@ -32,7 +32,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={onClose}
+            onTap={onClose}
             className="fixed inset-0 bg-black/70 z-50"
           />
           
@@ -48,7 +48,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
               duration: 0.5
             }}
             className="fixed inset-x-0 bottom-0 top-[10%] md:inset-0 z-50 flex items-end md:items-center justify-center"
-            onClick={onClose}
+            onTap={onClose}
           >
             <motion.div 
               initial={{ opacity: 0, scale: 1 }}
@@ -60,14 +60,14 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
             >
               <div className="sticky top-0 right-0 z-50 flex items-center justify-center w-full md:absolute md:w-auto md:-top-3 md:-right-3">
                 <div className="h-1 w-16 bg-gray-300 rounded-full md:hidden mx-auto mb-3" />
-                <button
-                  onClick={onClose}
+                <motion.button
+                  onTap={onClose}
                   className="absolute right-2 top-0 md:static bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
                 >
                   <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                </button>
+                </motion.button>
               </div>
 
               <div className="w-full md:w-[55%] pt-8 md:pt-0">
