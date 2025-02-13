@@ -60,33 +60,34 @@ export const OtherSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-lg text-[#666666] leading-relaxed font-sans mb-12"
+                className="text-lg text-[#666666] leading-relaxed font-sans"
               >
                 見た目だけじゃない、性能にだってこだわれる。
               </motion.p>
+            </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.8, delay: 0.6 }}
+            <div className="md:hidden mb-12">
+              <FlipCard items={customItems} />
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="flex justify-center md:justify-start"
+            >
+              <PrimaryButton 
+                href="/customize"
+                icon={<HiOutlineAcademicCap className="w-6 h-6" />}
               >
-                <PrimaryButton 
-                  href="/customize"
-                  icon={<HiOutlineAcademicCap className="w-6 h-6" />}
-                >
-                  矢の選び方を学ぶ　
-                </PrimaryButton>
-              </motion.div>
+                矢の選び方を学ぶ　
+              </PrimaryButton>
             </motion.div>
           </div>
 
-          <div className="w-full h-full flex items-center justify-center">
-            {isMobile ? (
-              <FlipCard items={customItems} />
-            ) : (
-              <Other items={customItems} />
-            )}
+          <div className="hidden md:flex w-full h-full items-center justify-center">
+            <Other items={customItems} />
           </div>
         </div>
       </div>
