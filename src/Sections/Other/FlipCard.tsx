@@ -12,18 +12,19 @@ import {
   GiFleurDeLys        // 家紋用
 } from 'react-icons/gi';
 import { MdTextFields } from 'react-icons/md';  // 文字刻印用
-import { PrimaryButton } from '@/components/PrimaryButton'
-import { HiOutlineAcademicCap } from 'react-icons/hi2'
-import { RiSortNumberAsc } from "react-icons/ri";
-import { useState } from 'react';
+import { RiSortNumberAsc } from "react-icons/ri"; // セット本数用
+import { useState, useRef } from 'react';
 
 
 interface CardProps {
   title: string;
+  index: number;
 }
 
-const Card = ({ title }: CardProps) => {
+const Card = ({ title, index }: CardProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const cardRef = useRef(null);
   const controls = useAnimationControls();
 
   const getCardShadowColor = (title: string) => {
@@ -62,10 +63,10 @@ const Card = ({ title }: CardProps) => {
     }
   };
 
-  const handleHoverStart = async () => {
-    if (!isAnimating) {
+  const playFlipAnimation = () => {
+    if (!isAnimating && !hasAnimated) {
       setIsAnimating(true);
-      await controls.start({
+      controls.start({
         y: [0, -15, -15, 0],
         rotateX: [0, 0, 360, 360],
         scale: [1, 1.05, 1.05, 1],
@@ -80,46 +81,72 @@ const Card = ({ title }: CardProps) => {
           times: [0, 0.25, 0.5, 0.7],
           ease: "easeInOut",
         }
+      }).then(() => {
+        setIsAnimating(false);
+        setHasAnimated(true);
       });
-      setIsAnimating(false);
+    }
+  };
+
+  // ホバー時のアニメーション
+  const handleHoverStart = () => {
+    if (!isAnimating) {
+      setIsAnimating(true);
+      controls.start({
+        y: [0, -15, -15, 0],
+        rotateX: [0, 0, 360, 360],
+        scale: [1, 1.05, 1.05, 1],
+        boxShadow: [
+          '0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
+          `0 12px 20px -4px ${getCardShadowColor(title)}, 0 4px 8px -4px rgba(0, 0, 0, 0.1)`,
+          `0 12px 20px -4px ${getCardShadowColor(title)}, 0 4px 8px -4px rgba(0, 0, 0, 0.1)`,
+          '0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 2px 6px -2px rgba(0, 0, 0, 0.1)'
+        ],
+        transition: {
+          duration: 1.2,
+          times: [0, 0.25, 0.5, 0.7],
+          ease: "easeInOut",
+        }
+      }).then(() => {
+        setIsAnimating(false);
+      });
     }
   };
 
   return (
     <motion.div
+      ref={cardRef}
       initial={{ 
         opacity: 0,
         y: 20,
         scale: 0.95,
-        boxShadow: '0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 2px 6px -2px rgba(0, 0, 0, 0.1)'
       }}
       whileInView={{ 
         opacity: 1,
         y: 0,
         scale: 1,
-        transition: {
-          duration: 0.8,
-          ease: "easeOut",
-          delay: 0.2
-        }
       }}
       viewport={{ 
-        amount: 0.8
+        once: true,
+        margin: "-100px",
+      }}
+      onViewportEnter={() => {
+        setTimeout(() => {
+          playFlipAnimation();
+        }, index * 200);
       }}
       animate={controls}
       onHoverStart={handleHoverStart}
       className="w-full bg-white rounded-xl shadow-lg perspective-1000 cursor-pointer"
     >
       <div className="relative w-full h-full preserve-3d">
-        {/* 表面 */}
-        <div className="w-full p-6 bg-white rounded-xl backface-hidden">
-          <div className="flex items-center gap-4">
+        <div className="w-full p-4 bg-white rounded-xl backface-hidden">
+          <div className="flex items-center gap-3">
             {getIcon(title)}
-            <span className="text-2xl text-[#333333] font-medium">{title}</span>
+            <span className="text-lg text-[#333333] font-medium">{title}</span>
           </div>
         </div>
 
-        {/* 裏面 */}
         <div 
           className="absolute inset-0 w-full h-full backface-hidden bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl"
           style={{ transform: 'rotateX(180deg)' }}
@@ -155,81 +182,29 @@ if (typeof document !== 'undefined') {
 
 export const FlipCard = () => {
   const customItems = [
+    "ZERO流",
     "筈",
     "矢尻",
     "矢尺",
-    "セット本数",
     "インサート",
+    "セット本数",
     "筈巻",
     "ラメ加工",
     "文字刻印",
     "羽中加工",
     "プチデコ",
-    "ZERO流",
     "家紋"
   ];
 
   return (
-    <section className="relative h-screen bg-white flex items-center">
-      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center h-full">
-          <div className="flex flex-col justify-center">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }}
-              transition={{ duration: 0.8 }}
-              className="mb-8"
-            >
-              <motion.h2 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#333333] leading-tight font-sans mb-4 whitespace-nowrap"
-              >
-                その他のカスタマイズ
-              </motion.h2>
-
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-lg text-[#666666] leading-relaxed font-sans mb-12"
-              >
-                見た目だけじゃない、性能にだってこだわれる。
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-              >
-                <PrimaryButton 
-                  href="/customize"
-                  icon={<HiOutlineAcademicCap className="w-6 h-6" />}
-                >
-                  矢の選び方を学ぶ　
-                </PrimaryButton>
-              </motion.div>
-            </motion.div>
-          </div>
-
-          {/* 右側: 2列のカードグリッド */}
-          <div className="h-full flex items-center">
-            <div className="grid grid-cols-2 gap-x-4 gap-y-6 w-full">
-              {customItems.map((item, index) => (
-                <Card 
-                  key={index}
-                  title={item}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div className="grid grid-cols-2 gap-x-3 gap-y-4">
+      {customItems.map((item, index) => (
+        <Card 
+          key={index}
+          title={item}
+          index={index}
+        />
+      ))}
+    </div>
   );
 };

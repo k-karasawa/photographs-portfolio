@@ -4,12 +4,10 @@ import { Top } from '@/Sections/Top/Top'
 import { CustomOrderSection } from '@/Sections/Custom/Custom'
 import { Gallery } from '@/Sections/Gallery/Gallery'
 import { Ranking } from '@/Sections/Ranking/Ranking'
-import { Other } from '@/Sections/Other/Other'
-// import { FlipCard } from '@/Sections/Other/FlipCard'
-
+import { OtherSection } from '@/Sections/Other/OtherSection'
 const Home: NextPage = () => {
   return (
-    <main>
+    <main className="pt-16">
       <Head>
         <title>矢のオーダーメイドシステム | 咲矢弓道具で自分だけの矢を作ろう</title>
         <meta name="description" content="矢のオーダーメイドシステム | 咲矢弓道具で自分だけの矢を作ろう" />
@@ -21,8 +19,7 @@ const Home: NextPage = () => {
         <CustomOrderSection />
       </section>
       <Gallery />
-      <Other />
-      {/* <FlipCard /> */}
+      <OtherSection />
       <Ranking />
     </main>
   )

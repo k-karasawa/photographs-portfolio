@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MobileTrailEffect } from '@/components/MobileTrailEffect'
 import { ArrowImage } from '@/types/arrow'
@@ -191,12 +190,6 @@ export const Top = () => {
         ))}
       </AnimatePresence>
 
-      <nav className="absolute top-0 left-0 w-full p-8 z-10">
-        <Link href="/" className="text-[#333333] text-xl font-medium hover:opacity-80 transition-opacity">
-          izu-tech presents.
-        </Link>
-      </nav>
-
       <div className="flex items-center justify-center min-h-screen relative z-10">
         <div className="relative">
           <div className="max-w-3xl mx-auto text-left md:text-left px-4">
@@ -208,7 +201,7 @@ export const Top = () => {
                 <br />
                 <span className="whitespace-nowrap">ここで、運命の矢と。</span>
               </h1>
-              <p className="text-lg md:text-xl text-gray-600 mb-8
+              <p className="text-lg md:text-xl text-gray-600 mb-6
                 text-center md:text-left"
               >
                 Discover your destined arrow,
