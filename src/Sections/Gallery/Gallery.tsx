@@ -1,12 +1,26 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { GalleryModal } from './GalleryModal'
 import { GalleryImage, galleryImages } from './galleryData'
+import { MobileGallery } from './MobileGallery'
 
 export const Gallery = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -41,6 +55,22 @@ export const Gallery = () => {
     }
   }
 
+  if (isMobile) {
+    return (
+      <>
+        <MobileGallery 
+          setSelectedImage={setSelectedImage} 
+          galleryImages={galleryImages}
+        />
+        <GalleryModal
+          isOpen={!!selectedImage}
+          onClose={() => setSelectedImage(null)}
+          image={selectedImage}
+        />
+      </>
+    )
+  }
+
   return (
     <>
       <motion.div 
@@ -50,17 +80,8 @@ export const Gallery = () => {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         className="h-[200vh] relative z-40 bg-white"
-        style={{ 
-          willChange: 'transform',
-          transform: 'translateZ(0)'
-        }}
       >
-        <div className="sticky top-0 w-full h-screen flex items-center bg-white"
-          style={{ 
-            willChange: 'transform',
-            transform: 'translateZ(0)'
-          }}
-        >
+        <div className="sticky top-0 w-full h-screen flex items-center bg-white">
           <motion.div 
             className="absolute inset-0 w-full h-full pointer-events-none"
             style={{
