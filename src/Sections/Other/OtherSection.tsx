@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { HiOutlineAcademicCap } from 'react-icons/hi2';
 import { PrimaryButton } from '@/components/PrimaryButton';
@@ -6,18 +5,6 @@ import { Other } from './Other';
 import { FlipCard } from './FlipCard';
 
 export const OtherSection = () => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
   const customItems = [
     "ZERO流",
     "筈",
@@ -67,7 +54,7 @@ export const OtherSection = () => {
             </motion.div>
 
             <div className="md:hidden mb-12">
-              <FlipCard items={customItems} />
+              <FlipCard />
             </div>
 
             <motion.div

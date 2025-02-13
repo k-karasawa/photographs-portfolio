@@ -12,16 +12,19 @@ import {
   GiFleurDeLys        // 家紋用
 } from 'react-icons/gi';
 import { MdTextFields } from 'react-icons/md';  // 文字刻印用
-import { RiSortNumberAsc } from "react-icons/ri";
-import { useState } from 'react';
+import { RiSortNumberAsc } from "react-icons/ri"; // セット本数用
+import { useState, useRef } from 'react';
 
 
 interface CardProps {
   title: string;
+  index: number;
 }
 
-const Card = ({ title }: CardProps) => {
+const Card = ({ title, index }: CardProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const cardRef = useRef(null);
   const controls = useAnimationControls();
 
   const getCardShadowColor = (title: string) => {
@@ -60,6 +63,32 @@ const Card = ({ title }: CardProps) => {
     }
   };
 
+  const playFlipAnimation = () => {
+    if (!isAnimating && !hasAnimated) {
+      setIsAnimating(true);
+      controls.start({
+        y: [0, -15, -15, 0],
+        rotateX: [0, 0, 360, 360],
+        scale: [1, 1.05, 1.05, 1],
+        boxShadow: [
+          '0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
+          `0 12px 20px -4px ${getCardShadowColor(title)}, 0 4px 8px -4px rgba(0, 0, 0, 0.1)`,
+          `0 12px 20px -4px ${getCardShadowColor(title)}, 0 4px 8px -4px rgba(0, 0, 0, 0.1)`,
+          '0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 2px 6px -2px rgba(0, 0, 0, 0.1)'
+        ],
+        transition: {
+          duration: 1.2,
+          times: [0, 0.25, 0.5, 0.7],
+          ease: "easeInOut",
+        }
+      }).then(() => {
+        setIsAnimating(false);
+        setHasAnimated(true);
+      });
+    }
+  };
+
+  // ホバー時のアニメーション
   const handleHoverStart = () => {
     if (!isAnimating) {
       setIsAnimating(true);
@@ -86,39 +115,38 @@ const Card = ({ title }: CardProps) => {
 
   return (
     <motion.div
+      ref={cardRef}
       initial={{ 
         opacity: 0,
         y: 20,
         scale: 0.95,
-        boxShadow: '0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 2px 6px -2px rgba(0, 0, 0, 0.1)'
       }}
       whileInView={{ 
         opacity: 1,
         y: 0,
         scale: 1,
-        transition: {
-          duration: 0.8,
-          ease: "easeOut",
-          delay: 0.2
-        }
       }}
       viewport={{ 
-        amount: 0.8
+        once: true,
+        margin: "-100px",
+      }}
+      onViewportEnter={() => {
+        setTimeout(() => {
+          playFlipAnimation();
+        }, index * 200);
       }}
       animate={controls}
       onHoverStart={handleHoverStart}
       className="w-full bg-white rounded-xl shadow-lg perspective-1000 cursor-pointer"
     >
       <div className="relative w-full h-full preserve-3d">
-        {/* 表面 */}
-        <div className="w-full p-6 bg-white rounded-xl backface-hidden">
-          <div className="flex items-center gap-4">
+        <div className="w-full p-4 bg-white rounded-xl backface-hidden">
+          <div className="flex items-center gap-3">
             {getIcon(title)}
-            <span className="text-2xl text-[#333333] font-medium">{title}</span>
+            <span className="text-lg text-[#333333] font-medium">{title}</span>
           </div>
         </div>
 
-        {/* 裏面 */}
         <div 
           className="absolute inset-0 w-full h-full backface-hidden bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl"
           style={{ transform: 'rotateX(180deg)' }}
@@ -152,21 +180,31 @@ if (typeof document !== 'undefined') {
   document.head.appendChild(styleSheet);
 }
 
-interface FlipCardProps {
-  items: string[];
-}
+export const FlipCard = () => {
+  const customItems = [
+    "ZERO流",
+    "筈",
+    "矢尻",
+    "矢尺",
+    "インサート",
+    "セット本数",
+    "筈巻",
+    "ラメ加工",
+    "文字刻印",
+    "羽中加工",
+    "プチデコ",
+    "家紋"
+  ];
 
-export const FlipCard = ({ items }: FlipCardProps) => {
   return (
-    <div className="w-full py-8">
-      <div className="grid grid-cols-2 gap-x-4 gap-y-6 w-full">
-        {items.map((item, index) => (
-          <Card 
-            key={index}
-            title={item}
-          />
-        ))}
-      </div>
+    <div className="grid grid-cols-2 gap-x-3 gap-y-4">
+      {customItems.map((item, index) => (
+        <Card 
+          key={index}
+          title={item}
+          index={index}
+        />
+      ))}
     </div>
   );
 };

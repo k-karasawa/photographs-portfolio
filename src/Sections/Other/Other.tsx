@@ -4,7 +4,6 @@ import {
   GiArrowhead,        // 矢尻用
   GiArrowFlights,     // 筈用
   GiResize,           // 矢尺用
-  GiArrowDunk,        // セット本数用
   GiWeight,           // インサート用
   GiRibbonShield,     // 筈巻用
   GiSparkles,         // ラメ加工用
@@ -13,6 +12,7 @@ import {
   GiStarFormation     // プチデコ用
 } from 'react-icons/gi';
 import { MdTextFields } from 'react-icons/md';  // 文字刻印用
+import { RiSortNumberAsc } from "react-icons/ri"; // セット本数用
 
 interface CardProps {
   index: number;
@@ -44,7 +44,7 @@ const Card = ({ index, total, title, scrollProgress }: CardProps) => {
       case "筈": return <GiArrowFlights className="text-3xl text-[#333333]" />;
       case "矢尻": return <GiArrowhead className="text-3xl text-[#333333]" />;
       case "矢尺": return <GiResize className="text-3xl text-[#333333]" />;
-      case "セット本数": return <GiArrowDunk className="text-3xl text-[#333333]" />;
+      case "セット本数": return <RiSortNumberAsc className="text-3xl text-[#333333]" />;
       case "インサート": return <GiWeight className="text-3xl text-[#333333]" />;
       case "筈巻": return <GiRibbonShield className="text-3xl text-[#333333]" />;
       case "ラメ加工": return <GiSparkles className="text-3xl text-[#333333]" />;
