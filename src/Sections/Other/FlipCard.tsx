@@ -12,8 +12,6 @@ import {
   GiFleurDeLys        // 家紋用
 } from 'react-icons/gi';
 import { MdTextFields } from 'react-icons/md';  // 文字刻印用
-import { PrimaryButton } from '@/components/PrimaryButton'
-import { HiOutlineAcademicCap } from 'react-icons/hi2'
 import { RiSortNumberAsc } from "react-icons/ri";
 import { useState } from 'react';
 
@@ -62,10 +60,10 @@ const Card = ({ title }: CardProps) => {
     }
   };
 
-  const handleHoverStart = async () => {
+  const handleHoverStart = () => {
     if (!isAnimating) {
       setIsAnimating(true);
-      await controls.start({
+      controls.start({
         y: [0, -15, -15, 0],
         rotateX: [0, 0, 360, 360],
         scale: [1, 1.05, 1.05, 1],
@@ -80,8 +78,9 @@ const Card = ({ title }: CardProps) => {
           times: [0, 0.25, 0.5, 0.7],
           ease: "easeInOut",
         }
+      }).then(() => {
+        setIsAnimating(false);
       });
-      setIsAnimating(false);
     }
   };
 
@@ -153,83 +152,21 @@ if (typeof document !== 'undefined') {
   document.head.appendChild(styleSheet);
 }
 
-export const FlipCard = () => {
-  const customItems = [
-    "筈",
-    "矢尻",
-    "矢尺",
-    "セット本数",
-    "インサート",
-    "筈巻",
-    "ラメ加工",
-    "文字刻印",
-    "羽中加工",
-    "プチデコ",
-    "ZERO流",
-    "家紋"
-  ];
+interface FlipCardProps {
+  items: string[];
+}
 
+export const FlipCard = ({ items }: FlipCardProps) => {
   return (
-    <section className="relative h-screen bg-white flex items-center">
-      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center h-full">
-          <div className="flex flex-col justify-center">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }}
-              transition={{ duration: 0.8 }}
-              className="mb-8"
-            >
-              <motion.h2 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#333333] leading-tight font-sans mb-4 whitespace-nowrap"
-              >
-                その他のカスタマイズ
-              </motion.h2>
-
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-lg text-[#666666] leading-relaxed font-sans mb-12"
-              >
-                見た目だけじゃない、性能にだってこだわれる。
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-              >
-                <PrimaryButton 
-                  href="/customize"
-                  icon={<HiOutlineAcademicCap className="w-6 h-6" />}
-                >
-                  矢の選び方を学ぶ　
-                </PrimaryButton>
-              </motion.div>
-            </motion.div>
-          </div>
-
-          {/* 右側: 2列のカードグリッド */}
-          <div className="h-full flex items-center">
-            <div className="grid grid-cols-2 gap-x-4 gap-y-6 w-full">
-              {customItems.map((item, index) => (
-                <Card 
-                  key={index}
-                  title={item}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+    <div className="w-full py-8">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-6 w-full">
+        {items.map((item, index) => (
+          <Card 
+            key={index}
+            title={item}
+          />
+        ))}
       </div>
-    </section>
+    </div>
   );
 };

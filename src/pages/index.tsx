@@ -4,9 +4,7 @@ import { Top } from '@/Sections/Top/Top'
 import { CustomOrderSection } from '@/Sections/Custom/Custom'
 import { Gallery } from '@/Sections/Gallery/Gallery'
 import { Ranking } from '@/Sections/Ranking/Ranking'
-import { Other } from '@/Sections/Other/Other'
-// import { FlipCard } from '@/Sections/Other/FlipCard'
-
+import { OtherSection } from '@/Sections/Other/OtherSection'
 const Home: NextPage = () => {
   return (
     <main className="pt-16">
@@ -21,8 +19,7 @@ const Home: NextPage = () => {
         <CustomOrderSection />
       </section>
       <Gallery />
-      <Other />
-      {/* <FlipCard /> */}
+      <OtherSection />
       <Ranking />
     </main>
   )
