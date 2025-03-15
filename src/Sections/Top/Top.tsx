@@ -105,9 +105,9 @@ export const Top = () => {
   }, [])
 
   const handleNextSection = () => {
-    const nextSection = document.getElementById('next-section')
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: 'smooth' })
+    const customSection = document.getElementById('custom')
+    if (customSection) {
+      customSection.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
@@ -194,13 +194,14 @@ export const Top = () => {
         <div className="relative">
           <div className="max-w-3xl mx-auto text-left md:text-left px-4">
             <div className="md:max-w-3xl max-w-[280px] mx-auto md:mx-0">
-              <h1 className="text-3xl md:text-6xl lg:text-7xl font-normal text-[#333333] leading-tight mb-6 
+              <h1 className="sr-only">矢のオーダーメイド</h1>
+              <div className="text-3xl md:text-6xl lg:text-7xl font-normal text-[#333333] leading-tight mb-6 
                 text-center md:text-left"
               >
                 <span className="whitespace-nowrap">あなたは出会う。</span>
                 <br />
                 <span className="whitespace-nowrap">ここで、運命の矢と。</span>
-              </h1>
+              </div>
               <p className="text-lg md:text-xl text-gray-600 mb-6
                 text-center md:text-left"
               >
@@ -209,11 +210,11 @@ export const Top = () => {
 
               <div className="relative flex justify-center md:justify-start">
                 <PrimaryButton 
-                  href="#" 
                   className="hidden md:inline-flex"
                   icon={<HiOutlineChevronRight className="w-6 h-6" />}
+                  onClick={handleNextSection}
                 >
-                  矢のオーダーメイド　
+                  詳しくみていく
                 </PrimaryButton>
 
                 <motion.div
@@ -226,7 +227,7 @@ export const Top = () => {
                   <PrimaryButton 
                     onClick={handleNextSection}
                   >
-                    オーダーメイドの楽しさ
+                    詳しくみていく
                   </PrimaryButton>
                   
                   <motion.div

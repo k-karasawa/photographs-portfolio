@@ -73,13 +73,14 @@ export const Gallery = () => {
 
   return (
     <>
-      <motion.div 
+      <motion.section 
         id="gallery"
         ref={containerRef}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         className="h-[200vh] relative z-40 bg-white"
+        aria-label="ギャラリーセクション"
       >
         <div className="sticky top-0 w-full h-screen flex items-center bg-white">
           <motion.div 
@@ -224,7 +225,7 @@ export const Gallery = () => {
             </div>
           </div>
         </div>
-      </motion.div>
+      </motion.section>
 
       <GalleryModal
         isOpen={!!selectedImage}

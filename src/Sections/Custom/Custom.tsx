@@ -19,6 +19,7 @@ export const CustomOrderSection = () => {
       id="custom"
       ref={containerRef} 
       className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#f5f5f5] to-[#f5f5f5]"
+      aria-label="オーダーメイドについての説明をするセクション"
       // className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#B5D8D6] to-[#9CC7C5]"
     >
       <div className="absolute inset-0 overflow-hidden">
@@ -34,7 +35,7 @@ export const CustomOrderSection = () => {
         style={{ y, opacity }}
         className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8"
       >
-        <div className="text-center mb-24">
+        <div className="text-center mb-12 md:mb-24">
           <div className="mb-8">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#333333] leading-tight font-sans">
               オーダーメイドの楽しさ

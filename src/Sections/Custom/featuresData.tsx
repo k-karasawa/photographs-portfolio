@@ -9,7 +9,7 @@ interface Feature {
 export const features: Feature[] = [
   {
     title: "伝統のデザインが作れる",
-    description: "伝統のデザインを再現した矢を作成できます。",
+    description: "自然色の羽根に紫や濃紺の落ち着きを合わせたり、縁起の良い亀甲やとんぼ柄をあしらう事もできます。",
     icon: ({ className }: { className?: string }) => (
       <svg 
         className={className} 
@@ -28,7 +28,7 @@ export const features: Feature[] = [
   },
   {
     title: "オリジナリティも出せる",
-    description: "オリジナリティを出した矢を作成できます。",
+    description: "誰とも違う、あなたのためだけの矢を作ることができます。カスタマイズできる組み合わせの数は無限大。",
     icon: ({ className }: { className?: string }) => (
       <svg 
         className={className} 
@@ -47,7 +47,7 @@ export const features: Feature[] = [
   },
   {
     title: "高品質な仕上がり",
-    description: "あなたの体格や射法八節に合わせた、世界でたった一つの矢をお作りします。",
+    description: "注文頂いたその時から、職人が材料や細部にこだわり一つ一つ、丁寧に手作りで製作します。",
     icon: ({ className }: { className?: string }) => (
       <svg 
         className={className} 
