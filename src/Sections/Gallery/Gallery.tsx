@@ -108,10 +108,10 @@ export const Gallery = () => {
                 y: galleryTitleY
               }}
             >
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#333333] mb-4 drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#333333] mb-4 drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)] ml-[-40px]">
                 Arrow Gallery
               </h2>
-              <div className="w-full h-[1px] bg-[#333333] opacity-20"></div>
+              <div className="w-full h-[1px] bg-[#333333] opacity-20 mx-[-40px] w-[calc(100%+80px)]"></div>
             </motion.div>
 
             <motion.div 
