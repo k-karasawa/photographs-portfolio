@@ -52,8 +52,7 @@ export const CustomOrderSection = () => {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-lg relative overflow-hidden group"
             >
-              {/* 光のエフェクト用のオーバーレイ */}
-              <div 
+              <div
                 className="absolute inset-0 -translate-x-full group-hover:translate-x-full pointer-events-none
                 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12
                 transition-transform duration-[400ms] group-hover:duration-[1000ms] ease-in-out"
@@ -88,7 +87,10 @@ export const CustomOrderSection = () => {
           transition={{ duration: 1.2 }}
           className="mt-24 text-center"
         >
-          <AnimatedTargetButton triggerOnScroll={true}>
+          <AnimatedTargetButton 
+            triggerOnScroll={true}
+            href="https://sakuya-kyudogu.jp/order_made"
+          >
             カスタムオーダーを始める
           </AnimatedTargetButton>
         </motion.div>

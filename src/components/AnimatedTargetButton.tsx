@@ -5,6 +5,8 @@ import { ReactNode } from 'react'
 type AnimatedTargetButtonProps = {
   children: ReactNode
   onClick?: () => void
+  href?: string
+  target?: string
   className?: string
   triggerOnScroll?: boolean  // スクロールトリガーを有効にするかどうか
 }
@@ -12,11 +14,22 @@ type AnimatedTargetButtonProps = {
 export const AnimatedTargetButton = ({ 
   children, 
   onClick,
+  href,
+  target = "_blank",
   className = "",
   triggerOnScroll = false
 }: AnimatedTargetButtonProps) => {
   const controls = useAnimationControls()
   const scale = className.includes('scale-75') ? 0.75 : 1 // スケール値を取得
+
+  const handleClick = () => {
+    if (href) {
+      window.open(href, target);
+    }
+    if (onClick) {
+      onClick();
+    }
+  };
 
   return (
     <motion.div 
@@ -34,7 +47,7 @@ export const AnimatedTargetButton = ({
       }}
     >
       <motion.button
-        onClick={onClick}
+        onClick={handleClick}
         variants={{
           initial: {
             scale: 1,
@@ -53,6 +66,7 @@ export const AnimatedTargetButton = ({
           hover:from-[#B73D2D] hover:to-[#C74E3C] 
           transition-colors duration-300 
           shadow-lg hover:shadow-[#C84C38]/25
+          ${href ? 'cursor-pointer' : ''}
         `}
       >
         <span className="inline-flex items-center gap-6 -translate-y-0.5">
