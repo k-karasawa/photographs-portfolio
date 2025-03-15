@@ -20,7 +20,10 @@ export const OtherSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen md:h-screen bg-white py-16 md:py-0 md:flex md:items-center overflow-hidden">
+    <section 
+      id="other"
+      className="relative min-h-screen md:h-screen bg-white py-16 md:py-0 md:flex md:items-center overflow-hidden"
+    >
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center h-full">
           <div className="flex flex-col justify-center mt-8 md:mt-0">

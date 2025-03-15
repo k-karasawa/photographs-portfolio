@@ -10,7 +10,7 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   { label: "オーダーメイドの楽しさ", sectionId: "custom" },
   { label: "ギャラリー", sectionId: "gallery" },
-  { label: "カスタマイズ", sectionId: "other" },
+  { label: "その他のカスタマイズ", sectionId: "other" },
   { label: "ランキング", sectionId: "ranking" },
 ]
 
@@ -100,6 +100,20 @@ export const Header = () => {
                   {item.label}
                 </button>
               ))}
+              
+              <a
+                href="https://sakuya-kyudogu.jp/contact"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`text-sm font-medium transition-colors duration-200
+                  ${isScrolled 
+                    ? 'text-[#333333] hover:text-[#C84C38]' 
+                    : 'text-[#333333]/80 hover:text-[#333333]'
+                  }
+                `}
+              >
+                お問い合わせ
+              </a>
             </nav>
 
             <button className="md:hidden text-[#333333]">
