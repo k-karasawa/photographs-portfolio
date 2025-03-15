@@ -6,7 +6,6 @@ import { FlipCard } from './FlipCard';
 
 export const OtherSection = () => {
   const customItems = [
-    "家紋",
     "プチデコ",
     "セット本数",
     "ラメ加工",
@@ -47,7 +46,7 @@ export const OtherSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-lg text-[#666666] leading-relaxed font-sans"
+                className="text-lg md:text-lg text-[#666666] leading-relaxed font-sans whitespace-nowrap text-[clamp(0.875rem,3vw,1.125rem)]"
               >
                 見た目だけじゃない、性能にだってこだわれる。
               </motion.p>
@@ -65,7 +64,8 @@ export const OtherSection = () => {
               className="flex justify-center md:justify-start"
             >
               <PrimaryButton 
-                href="/customize"
+                href="https://sakuya-kyudogu.jp/select_guide"
+                target="_blank"
                 icon={<HiOutlineAcademicCap className="w-6 h-6" />}
               >
                 矢の選び方を学ぶ　

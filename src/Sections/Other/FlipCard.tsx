@@ -9,10 +9,8 @@ import {
   GiFeather,          // 羽中加工用
   GiPowerLightning,   // ZERO流用
   GiStarFormation,    // プチデコ用
-  GiFleurDeLys        // 家紋用
 } from 'react-icons/gi';
 import { MdTextFields } from 'react-icons/md';  // 文字刻印用
-import { RiSortNumberAsc } from "react-icons/ri"; // セット本数用
 import { useState, useRef, useImperativeHandle, forwardRef, useEffect } from 'react';
 
 interface CardProps {
@@ -50,7 +48,6 @@ const Card = forwardRef<CardHandle, CardProps>(({ title }, ref) => {
       case "筈": return <GiArrowFlights className="text-3xl text-[#333333]" />;
       case "矢尻": return <GiArrowhead className="text-3xl text-[#333333]" />;
       case "矢尺": return <GiResize className="text-3xl text-[#333333]" />;
-      case "セット本数": return <RiSortNumberAsc className="text-3xl text-[#333333]" />;
       case "インサート": return <GiWeight className="text-3xl text-[#333333]" />;
       case "筈巻": return <GiRibbonShield className="text-3xl text-[#333333]" />;
       case "ラメ加工": return <GiSparkles className="text-3xl text-[#333333]" />;
@@ -58,7 +55,6 @@ const Card = forwardRef<CardHandle, CardProps>(({ title }, ref) => {
       case "羽中加工": return <GiFeather className="text-3xl text-[#333333]" />;
       case "プチデコ": return <GiStarFormation className="text-3xl text-[#333333]" />;
       case "ZERO流": return <GiPowerLightning className="text-3xl text-[#333333]" />;
-      case "家紋": return <GiFleurDeLys className="text-3xl text-[#333333]" />;
       default: return null;
     }
   };
@@ -183,13 +179,11 @@ export const FlipCard = () => {
     "矢尻",
     "矢尺",
     "インサート",
-    "セット本数",
     "筈巻",
     "ラメ加工",
     "文字刻印",
     "羽中加工",
     "プチデコ",
-    "家紋"
   ];
 
   const cardRefs = useRef<(CardHandle | null)[]>([]);

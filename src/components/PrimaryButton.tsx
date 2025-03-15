@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import Link from 'next/link'
+import { useCallback } from 'react'
 
 interface PrimaryButtonProps {
   children: React.ReactNode
@@ -9,6 +9,7 @@ interface PrimaryButtonProps {
   triggerOnScroll?: boolean
   icon?: React.ReactNode
   iconPosition?: 'left' | 'right'
+  target?: string
 }
 
 export const PrimaryButton = ({ 
@@ -18,7 +19,8 @@ export const PrimaryButton = ({
   className = "",
   triggerOnScroll = false,
   icon,
-  iconPosition = 'right'
+  iconPosition = 'right',
+  target
 }: PrimaryButtonProps) => {
   const buttonClasses = `
     inline-flex items-center justify-center gap-2
@@ -40,21 +42,51 @@ export const PrimaryButton = ({
     </>
   )
 
+  // リンクを開く処理を明示的に定義
+  const handleClick = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    // デフォルトの動作を防止
+    e.preventDefault();
+    
+    // イベントの伝播を停止
+    e.stopPropagation();
+    
+    // カスタムのクリックハンドラがあれば実行
+    if (onClick) {
+      onClick();
+    }
+    
+    // リンクがあれば開く
+    if (href) {
+      if (target === '_blank') {
+        window.open(href, target, 'noopener,noreferrer');
+      } else {
+        window.location.href = href;
+      }
+    }
+  }, [href, onClick, target]);
+
   if (href) {
     return (
-      <Link href={href} className={buttonClasses}>
+      <button 
+        onClick={handleClick}
+        onTouchEnd={handleClick}
+        className={buttonClasses}
+        style={{ touchAction: 'manipulation' }}
+      >
         {content}
-      </Link>
+      </button>
     )
   }
 
   if (triggerOnScroll) {
     return (
       <motion.button
-        onClick={onClick}
+        onClick={handleClick}
+        onTouchEnd={handleClick}
         className={buttonClasses}
         whileHover={{ scale: 1.05 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        style={{ touchAction: 'manipulation' }}
       >
         {content}
       </motion.button>
@@ -63,8 +95,10 @@ export const PrimaryButton = ({
 
   return (
     <button 
-      onClick={onClick} 
+      onClick={handleClick}
+      onTouchEnd={handleClick}
       className={buttonClasses}
+      style={{ touchAction: 'manipulation' }}
     >
       {content}
     </button>
