@@ -1,6 +1,6 @@
 import { motion, useAnimationControls } from 'framer-motion'
 import Image from 'next/image'
-import { ReactNode } from 'react'
+import { ReactNode, useCallback } from 'react'
 
 type AnimatedTargetButtonProps = {
   children: ReactNode
@@ -8,7 +8,7 @@ type AnimatedTargetButtonProps = {
   href?: string
   target?: string
   className?: string
-  triggerOnScroll?: boolean  // スクロールトリガーを有効にするかどうか
+  triggerOnScroll?: boolean
 }
 
 export const AnimatedTargetButton = ({ 
@@ -20,16 +20,29 @@ export const AnimatedTargetButton = ({
   triggerOnScroll = false
 }: AnimatedTargetButtonProps) => {
   const controls = useAnimationControls()
-  const scale = className.includes('scale-75') ? 0.75 : 1 // スケール値を取得
+  const scale = className.includes('scale-75') ? 0.75 : 1
 
-  const handleClick = () => {
-    if (href) {
-      window.open(href, target);
-    }
+  // リンクを開く処理を明示的に定義
+  const openLink = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    // デフォルトの動作を防止
+    e.preventDefault();
+    
+    // イベントの伝播を停止
+    e.stopPropagation();
+    
+    // カスタムのクリックハンドラがあれば実行
     if (onClick) {
       onClick();
     }
-  };
+    
+    if (href) {
+      if (target === '_blank') {
+        window.open(href, target, 'noopener,noreferrer');
+      } else {
+        window.location.href = href;
+      }
+    }
+  }, [href, onClick, target]);
 
   return (
     <motion.div 
@@ -37,7 +50,7 @@ export const AnimatedTargetButton = ({
       initial="initial"
       animate="initial"
       whileHover="hover"
-      style={{ scale }} // 親要素にスケールを適用
+      style={{ scale }}
       whileInView={triggerOnScroll ? "hover" : undefined}
       viewport={{ once: false, margin: "-100px" }}
       onViewportLeave={() => {
@@ -47,7 +60,8 @@ export const AnimatedTargetButton = ({
       }}
     >
       <motion.button
-        onClick={handleClick}
+        onClick={openLink}
+        onTouchEnd={openLink}
         variants={{
           initial: {
             scale: 1,
@@ -67,9 +81,10 @@ export const AnimatedTargetButton = ({
           transition-colors duration-300 
           shadow-lg hover:shadow-[#C84C38]/25
           ${href ? 'cursor-pointer' : ''}
+          touch-action: manipulation;
         `}
       >
-        <span className="inline-flex items-center gap-6 -translate-y-0.5">
+        <span className="inline-flex items-center gap-6 -translate-y-0.5 whitespace-nowrap">
           <span>
             {children}
           </span>
