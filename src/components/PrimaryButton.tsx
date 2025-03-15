@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useCallback } from 'react'
+import { useCallback, useRef, useState, useEffect } from 'react'
 
 interface PrimaryButtonProps {
   children: React.ReactNode
@@ -33,6 +33,19 @@ export const PrimaryButton = ({
     transition-all
     ${className}
   `
+  
+  // 重複実行を防ぐためのフラグ
+  const isProcessingRef = useRef(false);
+  // タッチデバイスかどうかのフラグ
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  
+  // クライアントサイドでのみタッチデバイス検出を行う
+  useEffect(() => {
+    setIsTouchDevice(
+      typeof window !== 'undefined' && 
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    );
+  }, []);
 
   const content = (
     <>
@@ -50,6 +63,12 @@ export const PrimaryButton = ({
     // イベントの伝播を停止
     e.stopPropagation();
     
+    // 既に処理中なら何もしない
+    if (isProcessingRef.current) return;
+    
+    // 処理中フラグを立てる
+    isProcessingRef.current = true;
+    
     // カスタムのクリックハンドラがあれば実行
     if (onClick) {
       onClick();
@@ -63,13 +82,22 @@ export const PrimaryButton = ({
         window.location.href = href;
       }
     }
+    
+    // 少し遅延してフラグをリセット（次のタップのため）
+    setTimeout(() => {
+      isProcessingRef.current = false;
+    }, 300);
   }, [href, onClick, target]);
+  
+  // タッチデバイスの場合はonClickを無効化し、onTouchEndのみを使用
+  const clickHandler = isTouchDevice ? undefined : handleClick;
+  const touchEndHandler = isTouchDevice ? handleClick : undefined;
 
   if (href) {
     return (
       <button 
-        onClick={handleClick}
-        onTouchEnd={handleClick}
+        onClick={clickHandler}
+        onTouchEnd={touchEndHandler}
         className={buttonClasses}
         style={{ touchAction: 'manipulation' }}
       >
@@ -81,8 +109,8 @@ export const PrimaryButton = ({
   if (triggerOnScroll) {
     return (
       <motion.button
-        onClick={handleClick}
-        onTouchEnd={handleClick}
+        onClick={clickHandler}
+        onTouchEnd={touchEndHandler}
         className={buttonClasses}
         whileHover={{ scale: 1.05 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -95,8 +123,8 @@ export const PrimaryButton = ({
 
   return (
     <button 
-      onClick={handleClick}
-      onTouchEnd={handleClick}
+      onClick={clickHandler}
+      onTouchEnd={touchEndHandler}
       className={buttonClasses}
       style={{ touchAction: 'manipulation' }}
     >

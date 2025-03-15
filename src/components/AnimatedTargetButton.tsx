@@ -1,6 +1,6 @@
 import { motion, useAnimationControls } from 'framer-motion'
 import Image from 'next/image'
-import { ReactNode, useCallback } from 'react'
+import { ReactNode, useCallback, useRef, useState, useEffect } from 'react'
 
 type AnimatedTargetButtonProps = {
   children: ReactNode
@@ -21,6 +21,19 @@ export const AnimatedTargetButton = ({
 }: AnimatedTargetButtonProps) => {
   const controls = useAnimationControls()
   const scale = className.includes('scale-75') ? 0.75 : 1
+  
+  // 重複実行を防ぐためのフラグ
+  const isProcessingRef = useRef(false);
+  // タッチデバイスかどうかのフラグ
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  
+  // クライアントサイドでのみタッチデバイス検出を行う
+  useEffect(() => {
+    setIsTouchDevice(
+      typeof window !== 'undefined' && 
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    );
+  }, []);
 
   // リンクを開く処理を明示的に定義
   const openLink = useCallback((e: React.MouseEvent | React.TouchEvent) => {
@@ -29,6 +42,12 @@ export const AnimatedTargetButton = ({
     
     // イベントの伝播を停止
     e.stopPropagation();
+    
+    // 既に処理中なら何もしない
+    if (isProcessingRef.current) return;
+    
+    // 処理中フラグを立てる
+    isProcessingRef.current = true;
     
     // カスタムのクリックハンドラがあれば実行
     if (onClick) {
@@ -42,7 +61,16 @@ export const AnimatedTargetButton = ({
         window.location.href = href;
       }
     }
+    
+    // 少し遅延してフラグをリセット（次のタップのため）
+    setTimeout(() => {
+      isProcessingRef.current = false;
+    }, 300);
   }, [href, onClick, target]);
+  
+  // タッチデバイスの場合はonClickを無効化し、onTouchEndのみを使用
+  const clickHandler = isTouchDevice ? undefined : openLink;
+  const touchEndHandler = isTouchDevice ? openLink : undefined;
 
   return (
     <motion.div 
@@ -60,8 +88,8 @@ export const AnimatedTargetButton = ({
       }}
     >
       <motion.button
-        onClick={openLink}
-        onTouchEnd={openLink}
+        onClick={clickHandler}
+        onTouchEnd={touchEndHandler}
         variants={{
           initial: {
             scale: 1,
