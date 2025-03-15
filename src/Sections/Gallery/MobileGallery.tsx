@@ -45,7 +45,7 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
           />
 
           <motion.div 
-            className="absolute inset-0 z-10 bg-black/15 pointer-events-none"
+            className="absolute inset-0 z-10 bg-black/10 pointer-events-none"
             style={{ opacity: textOpacity }}
           />
 
@@ -65,6 +65,7 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
                   className="object-cover"
                   priority
                 />
+                <div className="absolute inset-0 bg-black/10"></div>
               </div>
             </div>
           </motion.div>
@@ -74,17 +75,17 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
             style={{ opacity: textOpacity, y: textY }}
           >
             <motion.h2 
-              className="text-3xl font-bold text-[#333333] mb-4 drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
+              className="text-4xl sm:text-5xl font-bold text-white mb-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] whitespace-nowrap"
             >
               Arrow Gallery
             </motion.h2>
             <motion.p 
-              className="text-lg text-[#333333] opacity-80 drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
+              className="text-lg sm:text-xl text-white opacity-80 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]"
             >
               Scroll to explore
             </motion.p>
             <motion.div
-              className="mt-4 drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
+              className="mt-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]"
               initial={{ opacity: 0.5, y: -5 }}
               animate={{ opacity: 1, y: 5 }}
               transition={{
@@ -95,7 +96,7 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
               }}
             >
               <svg 
-                className="w-6 h-6 text-[#333333]" 
+                className="w-6 h-6 text-white" 
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
