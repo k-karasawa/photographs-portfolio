@@ -102,7 +102,7 @@ export const Gallery = () => {
 
           <div className="relative w-full h-[95vh] p-2 md:p-4">
             <motion.div 
-              className="absolute top-8 left-0 w-full z-30 px-20"
+              className="absolute top-16 left-0 w-full z-30 px-20"
               style={{ 
                 opacity: galleryTitleOpacity,
                 y: galleryTitleY
@@ -115,14 +115,14 @@ export const Gallery = () => {
             </motion.div>
 
             <motion.div 
-              className="absolute inset-0 z-20 flex flex-col items-center justify-center pt-[140px] pointer-events-none"
+              className="absolute inset-0 z-20 flex flex-col items-center justify-center pt-[160px] pointer-events-none"
               style={{ opacity: textOpacity, y: textY }}
             >
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="mb-12 text-3xl md:text-4xl text-center lg:text-6xl font-bold text-white tracking-wider drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]"
+                className="mb-12 text-3xl md:text-4xl lg:text-6xl text-center font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]"
               >
                 Arrow<br />Gallery
               </motion.h2>
@@ -169,7 +169,7 @@ export const Gallery = () => {
               </motion.div>
             </motion.div>
 
-            <div className="absolute inset-0 grid grid-cols-5 grid-rows-3 gap-12 p-20 pt-32">
+            <div className="absolute inset-0 grid grid-cols-5 grid-rows-3 gap-12 p-20 pt-40">
               {Array.from({ length: 15 }).map((_, index) => {
                 const row = Math.floor(index / 5)
                 const col = index % 5
