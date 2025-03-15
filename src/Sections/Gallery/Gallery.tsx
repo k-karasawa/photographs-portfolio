@@ -122,9 +122,9 @@ export const Gallery = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="mb-12 text-3xl md:text-4xl lg:text-6xl font-bold text-[#333333] drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
+                className="mb-12 text-3xl md:text-4xl text-center lg:text-6xl font-bold text-white tracking-wider drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]"
               >
-                Arrow Gallery
+                Arrow<br />Gallery
               </motion.h2>
 
               <motion.div
@@ -134,7 +134,7 @@ export const Gallery = () => {
                 transition={{ delay: 0.6 }}
               >
                 <motion.p 
-                  className="text-lg text-[#333333] mb-4 drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
+                  className="text-lg text-white mb-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 0.8 }}
                   transition={{ delay: 0.8 }}
@@ -142,7 +142,7 @@ export const Gallery = () => {
                   Scroll to explore
                 </motion.p>
                 <motion.div
-                  className="drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
+                  className="drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]"
                   initial={{ opacity: 0.5, y: -5 }}
                   animate={{ opacity: 1, y: 5 }}
                   transition={{
@@ -153,7 +153,7 @@ export const Gallery = () => {
                   }}
                 >
                   <svg 
-                    className="w-6 h-6 text-[#333333]" 
+                    className="w-6 h-6 text-white" 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
@@ -210,6 +210,10 @@ export const Gallery = () => {
                         fill
                         className="object-cover"
                       />
+                      <motion.div 
+                        className="absolute inset-0 bg-black/10"
+                        style={{ opacity: textOpacity }}
+                      ></motion.div>
                     </div>
                   </motion.div>
                 )
