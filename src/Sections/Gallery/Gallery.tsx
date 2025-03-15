@@ -122,17 +122,9 @@ export const Gallery = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="mb-4 text-3xl md:text-4xl lg:text-6xl font-bold text-[#333333] drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
-              >
-                Arrow
-              </motion.h2>
-              <motion.h2 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
                 className="mb-12 text-3xl md:text-4xl lg:text-6xl font-bold text-[#333333] drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
               >
-                Gallery
+                Arrow Gallery
               </motion.h2>
 
               <motion.div
