@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { GalleryImage } from './galleryData'
 import { AnimatedTargetButton } from '@/components/AnimatedTargetButton'
-import { useEffect } from 'react'
+import { useEffect, useCallback, useRef, useState } from 'react'
 
 interface GalleryModalProps {
   isOpen: boolean
@@ -11,6 +11,19 @@ interface GalleryModalProps {
 }
 
 export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
+  // 重複実行を防ぐためのフラグ
+  const isProcessingRef = useRef(false);
+  // タッチデバイスかどうかのフラグ
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  
+  // クライアントサイドでのみタッチデバイス検出を行う
+  useEffect(() => {
+    setIsTouchDevice(
+      typeof window !== 'undefined' && 
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    );
+  }, []);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
@@ -23,9 +36,63 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
     }
   }, [isOpen])
 
-  const handleBackgroundClick = () => {
-    onClose()
-  }
+  // 背景クリックでモーダルを閉じる関数
+  const handleBackgroundClick = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    // デフォルトの動作を防止
+    e.preventDefault();
+    
+    // イベントの伝播を停止
+    e.stopPropagation();
+    
+    // 既に処理中なら何もしない
+    if (isProcessingRef.current) return;
+    
+    // 処理中フラグを立てる
+    isProcessingRef.current = true;
+    
+    // モーダルを閉じる
+    onClose();
+    
+    // 少し遅延してフラグをリセット（次のタップのため）
+    setTimeout(() => {
+      isProcessingRef.current = false;
+    }, 300);
+  }, [onClose]);
+
+  // 閉じるボタンのクリックハンドラ
+  const handleCloseButtonClick = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    // デフォルトの動作を防止
+    e.preventDefault();
+    
+    // イベントの伝播を停止
+    e.stopPropagation();
+    
+    // 既に処理中なら何もしない
+    if (isProcessingRef.current) return;
+    
+    // 処理中フラグを立てる
+    isProcessingRef.current = true;
+    
+    // モーダルを閉じる
+    onClose();
+    
+    // 少し遅延してフラグをリセット（次のタップのため）
+    setTimeout(() => {
+      isProcessingRef.current = false;
+    }, 300);
+  }, [onClose]);
+  
+  // タッチデバイスの場合はonClickを無効化し、onTouchEndのみを使用
+  const clickHandler = isTouchDevice ? undefined : handleBackgroundClick;
+  const touchEndHandler = isTouchDevice ? handleBackgroundClick : undefined;
+  
+  const closeButtonClickHandler = isTouchDevice ? undefined : handleCloseButtonClick;
+  const closeButtonTouchEndHandler = isTouchDevice ? handleCloseButtonClick : undefined;
+
+  // コンテンツ部分のクリック伝播を防止
+  const handleContentClick = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation();
+  }, []);
 
   return (
     <AnimatePresence>
@@ -36,8 +103,10 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={handleBackgroundClick}
+            onClick={clickHandler}
+            onTouchEnd={touchEndHandler}
             className="fixed inset-0 bg-black/70 z-50 cursor-pointer"
+            style={{ touchAction: 'manipulation' }}
           />
           
           <motion.div
@@ -52,7 +121,9 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
               duration: 0.5
             }}
             className="fixed inset-x-0 bottom-0 z-50 flex items-end justify-center md:inset-0 md:items-center"
-            onClick={handleBackgroundClick}
+            onClick={clickHandler}
+            onTouchEnd={touchEndHandler}
+            style={{ touchAction: 'manipulation' }}
           >
             <motion.div 
               initial={{ opacity: 0, scale: 1 }}
@@ -60,15 +131,18 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
               exit={{ opacity: 0, scale: 1 }}
               transition={{ duration: 0.3 }}
               className="relative bg-white w-full max-w-3xl overflow-y-auto md:overflow-visible flex flex-col md:flex-row gap-4 p-4 md:p-6 rounded-t-2xl md:rounded-lg md:my-0"
-              style={{ maxHeight: '85vh', marginTop: 'auto' }}
-              onClick={(e) => e.stopPropagation()}
+              style={{ maxHeight: '80vh', marginTop: 'auto', touchAction: 'manipulation' }}
+              onClick={handleContentClick}
+              onTouchEnd={handleContentClick}
             >
               <div className="sticky top-0 right-0 z-50 flex items-center justify-center w-full md:absolute md:w-auto md:-top-4 md:-right-4">
                 <div className="h-1 w-16 bg-gray-300 rounded-full md:hidden mx-auto mb-3" />
                 <button
-                  onClick={onClose}
-                  className="absolute right-2 top-0 md:static bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
+                  onClick={closeButtonClickHandler}
+                  onTouchEnd={closeButtonTouchEndHandler}
+                  className="absolute right-2 top-0 md:static bg-gray-200 rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors active:bg-gray-300"
                   aria-label="閉じる"
+                  style={{ touchAction: 'manipulation' }}
                 >
                   <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
