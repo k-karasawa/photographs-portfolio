@@ -24,7 +24,6 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
     
     setIsSafari(safari && iOS)
 
-    // 画面サイズに応じた調整
     const adjustModalPosition = () => {
       if (safari && iOS) {
         // iOSのSafariの場合、ヘッダーの高さを考慮して調整
@@ -37,7 +36,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
       } else {
         // その他のブラウザの場合
         setModalTop('2%')
-        setModalMaxHeight('98vh')
+        setModalMaxHeight('96vh')
       }
     }
 
@@ -68,10 +67,6 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
         
         // 少し遅延させて実行（アドレスバーの状態が安定した後）
         setTimeout(adjustAfterOpen, 100)
-      } else {
-        // その他のブラウザの場合は少し余白を小さく
-        setModalTop('2%')
-        setModalMaxHeight('98vh')
       }
     } else {
       document.body.style.overflow = 'unset'
@@ -82,17 +77,23 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
     }
   }, [isOpen, isSafari])
 
+  // 背景クリックでモーダルを閉じる関数
+  const handleBackgroundClick = () => {
+    onClose();
+  }
+
   return (
     <AnimatePresence>
       {isOpen && image && (
         <>
+          {/* 背景オーバーレイ - PC・モバイル共通で背景クリックでモーダルを閉じる */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-black/70 z-50"
+            onClick={handleBackgroundClick}
+            className="fixed inset-0 bg-black/70 z-50 cursor-pointer"
           />
           
           <motion.div
@@ -108,9 +109,8 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
               duration: 0.5
             }}
             className="fixed inset-x-0 bottom-0 z-50 flex items-end justify-center md:inset-0 md:items-center"
-            style={{ 
-              top: modalTop,
-            }}
+            style={{ top: modalTop }}
+            onClick={handleBackgroundClick}
           >
             <motion.div 
               initial={{ opacity: 0, scale: 1 }}
@@ -121,11 +121,12 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
               style={{ maxHeight: modalMaxHeight }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="sticky top-0 right-0 z-50 flex items-center justify-center w-full md:absolute md:w-auto md:-top-3 md:-right-3">
+              <div className="sticky top-0 right-0 z-50 flex items-center justify-center w-full md:absolute md:w-auto md:-top-4 md:-right-4">
                 <div className="h-1 w-16 bg-gray-300 rounded-full md:hidden mx-auto mb-3" />
                 <button
                   onClick={onClose}
                   className="absolute right-2 top-0 md:static bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
+                  aria-label="閉じる"
                 >
                   <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -200,9 +201,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
                     <AnimatedTargetButton
                       href="https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"
                       target="_blank"
-                      onClick={() => {
-                        onClose()
-                      }}
+                      onClick={onClose}
                       className="scale-75"
                       triggerOnScroll={true}
                     >
