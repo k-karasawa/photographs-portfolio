@@ -13,6 +13,7 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
+  { label: "TOP", sectionId: "top" },
   { label: "オーダーメイドの楽しさ", sectionId: "custom" },
   { label: "ギャラリー", sectionId: "gallery" },
   { label: "その他のカスタマイズ", sectionId: "other" },
@@ -88,19 +89,26 @@ export const Header = () => {
   }, [])
 
   const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId)
-    if (section) {
-      // メニューを先に閉じる
-      setIsMenuOpen(false)
-      document.body.style.overflow = ''
-      document.body.classList.remove('menu-open')
-      
-      // 少し遅延させてからスクロール
-      setTimeout(() => {
-        section.scrollIntoView({ behavior: 'smooth' })
-        setActiveSection(sectionId)
-      }, 50)
-    }
+    // メニューを先に閉じる
+    setIsMenuOpen(false)
+    document.body.style.overflow = ''
+    document.body.classList.remove('menu-open')
+    
+    // 少し遅延させてからスクロール
+    setTimeout(() => {
+      if (sectionId === 'top') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })
+      } else {
+        const section = document.getElementById(sectionId)
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' })
+          setActiveSection(sectionId)
+        }
+      }
+    }, 50)
   }
 
   const scrollToTop = () => {
@@ -334,7 +342,7 @@ export const Header = () => {
       {isMounted && isMenuOpen && createPortal(
         <div className="menu-portal" style={{ position: 'relative', zIndex: 9999 }}>
           <div 
-            className="fixed inset-0 bg-black opacity-70 tap-highlight-none" 
+            className="fixed inset-0 bg-black opacity-50 tap-highlight-none backdrop-blur-sm" 
             style={{ zIndex: 9998 }}
             onClick={(e) => {
               e.preventDefault();
@@ -354,46 +362,30 @@ export const Header = () => {
           />
           
           <div 
-            className="fixed top-0 right-0 bottom-0 w-64 bg-white shadow-xl"
+            className="fixed top-0 right-0 bottom-0 w-80 bg-white shadow-xl rounded-l-2xl"
             style={{ 
               zIndex: 9999,
               animation: 'slideIn 0.3s ease-in-out forwards',
               WebkitOverflowScrolling: 'touch' // モバイルでのスクロールを滑らかにする
             }}
           >
-            <div className="flex justify-end p-4 border-b border-gray-100">
-              <button 
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  closeMenu();
-                }}
-                onTouchStart={(e) => {
-                  // タッチ開始時にアクティブ状態を視覚的に示す
-                  e.currentTarget.classList.add('active-touch');
-                }}
-                onTouchEnd={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  // アクティブ状態を解除
-                  e.currentTarget.classList.remove('active-touch');
-                  closeMenu();
-                }}
-                className="text-[#333333] p-2 rounded-full hover:bg-gray-100/50 transition-colors duration-200 cursor-pointer touch-manipulation tap-highlight-none"
-                aria-label="メニューを閉じる"
-              >
-                <FiX className="h-6 w-6" />
-              </button>
-            </div>
-            
-            <nav className="flex flex-col px-4 py-2">
-              {menuItems.map((item) => (
-                <button
-                  key={item.sectionId}
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-center p-5 border-b border-gray-100">
+                <div className="flex items-center">
+                  <Image 
+                    src="/sakuya-logo.svg" 
+                    alt="咲矢弓道具" 
+                    width={32} 
+                    height={32}
+                    className="w-8 h-8 mr-3"
+                  />
+                  <h2 className="text-lg font-bold text-[#333333]">メニュー</h2>
+                </div>
+                <button 
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    scrollToSection(item.sectionId);
+                    closeMenu();
                   }}
                   onTouchStart={(e) => {
                     // タッチ開始時にアクティブ状態を視覚的に示す
@@ -404,19 +396,88 @@ export const Header = () => {
                     e.stopPropagation();
                     // アクティブ状態を解除
                     e.currentTarget.classList.remove('active-touch');
-                    scrollToSection(item.sectionId);
+                    closeMenu();
                   }}
-                  className={`relative px-3 py-4 text-base font-medium transition-colors duration-200 text-left border-b border-gray-100 cursor-pointer touch-manipulation tap-highlight-none
-                    ${activeSection === item.sectionId 
-                      ? 'text-[#C84C38] font-bold' 
-                      : 'text-[#333333] hover:text-[#C84C38]'
-                    }
-                  `}
+                  className="text-[#333333] p-2 rounded-full hover:bg-gray-100/50 transition-colors duration-200 cursor-pointer touch-manipulation tap-highlight-none"
+                  aria-label="メニューを閉じる"
                 >
-                  {item.label}
+                  <FiX className="h-6 w-6" />
                 </button>
-              ))}
-            </nav>
+              </div>
+              
+              <div className="p-5 flex-1 overflow-y-auto">
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">セクション移動</h3>
+                <nav className="flex flex-col space-y-2">
+                  {menuItems.map((item) => (
+                    <button
+                      key={item.sectionId}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        scrollToSection(item.sectionId);
+                      }}
+                      onTouchStart={(e) => {
+                        // タッチ開始時にアクティブ状態を視覚的に示す
+                        e.currentTarget.classList.add('active-touch');
+                      }}
+                      onTouchEnd={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // アクティブ状態を解除
+                        e.currentTarget.classList.remove('active-touch');
+                        scrollToSection(item.sectionId);
+                      }}
+                      className={`relative px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center
+                        ${activeSection === item.sectionId 
+                          ? 'bg-[#C84C38]/10 text-[#C84C38] font-bold' 
+                          : 'text-[#333333] hover:bg-gray-100'
+                        }
+                      `}
+                    >
+                      <span className={`w-2.5 h-2.5 rounded-full mr-3.5 transition-all duration-200
+                        ${activeSection === item.sectionId 
+                          ? 'bg-[#C84C38] scale-110' 
+                          : 'bg-gray-300'
+                        }
+                      `}></span>
+                      {item.label}
+                    </button>
+                  ))}
+                </nav>
+              </div>
+              
+              <div className="p-5 border-t border-gray-100">
+                <div className="flex space-x-4 justify-center">
+                  <a
+                    href="https://www.instagram.com/sakuyakyudogu/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-full bg-gray-100 text-[#333333] hover:bg-[#C84C38]/10 hover:text-[#C84C38] transition-colors duration-200"
+                    aria-label="Instagram"
+                  >
+                    <FiInstagram className="w-5 h-5" />
+                  </a>
+                  <a
+                    href="https://x.com/Sakuya_Kyudogu/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-full bg-gray-100 text-[#333333] hover:bg-[#C84C38]/10 hover:text-[#C84C38] transition-colors duration-200"
+                    aria-label="X (Twitter)"
+                  >
+                    <RiTwitterXLine className="w-5 h-5" />
+                  </a>
+                  <a
+                    href="https://sakuya-kyudogu.jp/contact"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-full bg-gray-100 text-[#333333] hover:bg-[#C84C38]/10 hover:text-[#C84C38] transition-colors duration-200"
+                    aria-label="お問い合わせ"
+                  >
+                    <FiMail className="w-5 h-5" />
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
 
           <style jsx global>{`
