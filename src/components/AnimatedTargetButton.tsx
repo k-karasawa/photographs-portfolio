@@ -1,4 +1,4 @@
-import { motion, useAnimationControls } from 'framer-motion'
+import { motion, useAnimationControls, TargetAndTransition } from 'framer-motion'
 import Image from 'next/image'
 import { ReactNode, useCallback, useRef, useState, useEffect } from 'react'
 
@@ -26,6 +26,8 @@ export const AnimatedTargetButton = ({
   const isProcessingRef = useRef(false);
   // タッチデバイスかどうかのフラグ
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  // コンポーネントがマウントされているかどうかを追跡
+  const isMountedRef = useRef(false);
   
   // クライアントサイドでのみタッチデバイス検出を行う
   useEffect(() => {
@@ -33,7 +35,22 @@ export const AnimatedTargetButton = ({
       typeof window !== 'undefined' && 
       ('ontouchstart' in window || navigator.maxTouchPoints > 0)
     );
+    
+    // コンポーネントがマウントされたことを記録
+    isMountedRef.current = true;
+    
+    // クリーンアップ関数
+    return () => {
+      isMountedRef.current = false;
+    };
   }, []);
+  
+  // アニメーションを安全に実行するヘルパー関数
+  const safelyRunAnimation = useCallback((animation: string | TargetAndTransition) => {
+    if (isMountedRef.current) {
+      controls.start(animation);
+    }
+  }, [controls]);
 
   // リンクを開く処理を明示的に定義
   const openLink = useCallback((e: React.MouseEvent | React.TouchEvent) => {
@@ -83,7 +100,7 @@ export const AnimatedTargetButton = ({
       viewport={{ once: false, margin: "-100px" }}
       onViewportLeave={() => {
         if (triggerOnScroll) {
-          controls.start("initial")
+          safelyRunAnimation("initial");
         }
       }}
     >
@@ -163,7 +180,7 @@ export const AnimatedTargetButton = ({
         }}
         onAnimationComplete={(definition) => {
           if (definition === "hover") {
-            controls.start({
+            safelyRunAnimation({
               scale: [1, 0.97, 1.01, 0.99, 1],
               x: [0, -1.5, 0.5, -0.5, 0],
               rotate: [0, -0.3, 0.3, -0.1, 0],
@@ -172,7 +189,7 @@ export const AnimatedTargetButton = ({
                 times: [0, 0.15, 0.3, 0.5, 1],
                 ease: [0.19, 1, 0.22, 1]
               }
-            })
+            });
           }
         }}
         className="absolute top-0 -right-2 -translate-y-[10%] pointer-events-none"
