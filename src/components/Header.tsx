@@ -151,14 +151,26 @@ export const Header = () => {
                     pointerEvents: logoOpacity > 0.5 ? 'auto' : 'none' 
                   }}
                 >
-                  <Image 
-                    src="/sakuya-logo.svg" 
-                    alt="咲矢弓道具" 
-                    width={40} 
-                    height={40}
-                    onClick={scrollToTop}
-                    className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 transition-transform duration-300 cursor-pointer"
-                  />
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      clipPath: logoOpacity > 0.1 
+                        ? 'inset(0% 0% 0% 0%)' 
+                        : 'inset(0% 0% 100% 0%)'
+                    }}
+                    transition={{
+                      clipPath: { duration: 0.5, ease: "easeOut" }
+                    }}
+                  >
+                    <Image 
+                      src="/sakuya-logo.svg" 
+                      alt="咲矢弓道具" 
+                      width={40} 
+                      height={40}
+                      onClick={scrollToTop}
+                      className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 transition-transform duration-300 cursor-pointer"
+                    />
+                  </motion.div>
                 </motion.div>
               </Link>
             </div>
