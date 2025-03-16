@@ -232,9 +232,14 @@ export const Header = () => {
                   transition={{ 
                     opacity: { duration: 0.3, ease: "easeInOut" },
                   }}
-                  className="text-xl font-bold text-[#333333] transition-colors duration-300 whitespace-nowrap"
+                  className="flex flex-col md:flex-row md:items-center items-start"
                 >
-                  咲矢弓道具　オーダー矢のすゝめ
+                  <span className="text-xl font-bold text-[#333333] transition-colors duration-300 whitespace-nowrap">
+                    咲矢弓道具
+                  </span>
+                  <span className="text-xs md:text-sm font-medium text-[#666666] transition-colors duration-300 whitespace-nowrap md:ml-3 md:mt-0.5">
+                    オーダー矢のすゝめ
+                  </span>
                 </motion.span>
                 
                 {/* ロゴ画像 - スクロールに応じてフェードイン */}
