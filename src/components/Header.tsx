@@ -28,13 +28,37 @@ export const Header = () => {
   const [isMounted, setIsMounted] = useState(false)
   const [titleOpacity, setTitleOpacity] = useState(1)
   const [logoOpacity, setLogoOpacity] = useState(0)
+  const [menuSpacing, setMenuSpacing] = useState('space-y-2')
   const lastScrollY = useRef(0)
 
   useEffect(() => {
     setIsMounted(true)
+    
+    // 画面の高さに応じてメニュー間隔を調整する関数
+    const adjustMenuSpacing = () => {
+      const viewportHeight = window.innerHeight
+      // 小さい画面では間隔を狭く、大きい画面では間隔を広くする
+      if (viewportHeight < 600) {
+        setMenuSpacing('space-y-1')
+      } else if (viewportHeight < 700) {
+        setMenuSpacing('space-y-1.5')
+      } else if (viewportHeight < 800) {
+        setMenuSpacing('space-y-2')
+      } else {
+        setMenuSpacing('space-y-3')
+      }
+    }
+    
+    // 初期調整
+    adjustMenuSpacing()
+    
+    // リサイズイベントでも調整
+    window.addEventListener('resize', adjustMenuSpacing)
+    
     return () => {
       setIsMounted(false)
       document.body.style.overflow = ''
+      window.removeEventListener('resize', adjustMenuSpacing)
     }
   }, [])
 
@@ -58,7 +82,10 @@ export const Header = () => {
       
       lastScrollY.current = currentScrollY
 
-      detectActiveSection()
+      // メニューが開いている時はアクティブセクションを更新しない
+      if (!isMenuOpen) {
+        detectActiveSection()
+      }
     }
 
     const detectActiveSection = () => {
@@ -86,7 +113,7 @@ export const Header = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, [isMenuOpen])
 
   const scrollToSection = (sectionId: string) => {
     // メニューを先に閉じる
@@ -101,6 +128,7 @@ export const Header = () => {
           top: 0,
           behavior: 'smooth'
         })
+        setActiveSection('top') // TOPセクションをアクティブに設定
       } else {
         const section = document.getElementById(sectionId)
         if (section) {
@@ -123,22 +151,20 @@ export const Header = () => {
     setIsMenuOpen(newMenuState)
     
     if (newMenuState) {
+      // メニューを開く
       document.body.style.overflow = 'hidden'
       document.body.classList.add('menu-open')
     } else {
-      setTimeout(() => {
-        document.body.style.overflow = ''
-        document.body.classList.remove('menu-open')
-      }, 10)
+      // メニューを閉じる
+      document.body.style.overflow = ''
+      document.body.classList.remove('menu-open')
     }
   }
 
   const closeMenu = () => {
     setIsMenuOpen(false)
-    setTimeout(() => {
-      document.body.style.overflow = ''
-      document.body.classList.remove('menu-open')
-    }, 10)
+    document.body.style.overflow = ''
+    document.body.classList.remove('menu-open')
   }
 
   return (
@@ -340,7 +366,7 @@ export const Header = () => {
 
       {/* モバイルメニュー */}
       {isMounted && isMenuOpen && createPortal(
-        <div className="menu-portal" style={{ position: 'relative', zIndex: 9999 }}>
+        <div className="menu-portal" style={{ position: 'fixed', zIndex: 9999, inset: 0 }}>
           <div 
             className="fixed inset-0 bg-black opacity-50 tap-highlight-none backdrop-blur-sm" 
             style={{ zIndex: 9998 }}
@@ -362,22 +388,24 @@ export const Header = () => {
           />
           
           <div 
-            className="fixed top-0 right-0 bottom-0 w-80 bg-white shadow-xl rounded-l-2xl"
+            className="fixed top-0 right-0 bottom-0 w-80 bg-white shadow-xl rounded-l-2xl flex flex-col"
             style={{ 
               zIndex: 9999,
               animation: 'slideIn 0.3s ease-in-out forwards',
-              WebkitOverflowScrolling: 'touch' // モバイルでのスクロールを滑らかにする
+              WebkitOverflowScrolling: 'touch',
+              height: '100%',
+              maxHeight: '100vh'
             }}
           >
             <div className="flex flex-col h-full">
-              <div className="flex justify-between items-center p-5 border-b border-gray-100">
+              <div className="flex justify-between items-center p-4 border-b border-gray-100 flex-shrink-0">
                 <div className="flex items-center">
                   <Image 
                     src="/sakuya-logo.svg" 
                     alt="咲矢弓道具" 
                     width={32} 
                     height={32}
-                    className="w-8 h-8 mr-3"
+                    className="w-7 h-7 mr-2"
                   />
                 </div>
                 <button 
@@ -404,122 +432,144 @@ export const Header = () => {
                 </button>
               </div>
               
-              <div className="p-5 flex-1 overflow-y-auto">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">セクション移動</h3>
-                <nav className="flex flex-col space-y-2 mb-8">
-                  {menuItems.map((item) => (
-                    <button
-                      key={item.sectionId}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        scrollToSection(item.sectionId);
-                      }}
-                      onTouchStart={(e) => {
-                        // タッチ開始時にアクティブ状態を視覚的に示す
-                        e.currentTarget.classList.add('active-touch');
-                      }}
-                      onTouchEnd={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // アクティブ状態を解除
-                        e.currentTarget.classList.remove('active-touch');
-                        scrollToSection(item.sectionId);
-                      }}
-                      className={`relative px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center
-                        ${activeSection === item.sectionId 
-                          ? 'bg-[#C84C38]/10 text-[#C84C38] font-bold' 
-                          : 'text-[#333333] hover:bg-gray-100'
-                        }
-                      `}
-                    >
-                      <span className={`w-2.5 h-2.5 rounded-full mr-3.5 transition-all duration-200
-                        ${activeSection === item.sectionId 
-                          ? 'bg-[#C84C38] scale-110' 
-                          : 'bg-gray-300'
-                        }
-                      `}></span>
-                      {item.label}
-                    </button>
-                  ))}
-                </nav>
+              <div className="px-4 py-3 flex-grow overflow-hidden">
+                <div className="h-full flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">セクション移動</h3>
+                    <nav className={`flex flex-col ${menuSpacing} mb-5`}>
+                      {menuItems.map((item) => (
+                        <button
+                          key={item.sectionId}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            scrollToSection(item.sectionId);
+                          }}
+                          onTouchStart={(e) => {
+                            // タッチ開始時にアクティブ状態を視覚的に示す
+                            e.currentTarget.classList.add('active-touch');
+                          }}
+                          onTouchEnd={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            // アクティブ状態を解除
+                            e.currentTarget.classList.remove('active-touch');
+                            scrollToSection(item.sectionId);
+                          }}
+                          className={`relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center
+                            ${activeSection === item.sectionId 
+                              ? 'bg-[#C84C38]/10 text-[#C84C38] font-bold' 
+                              : 'text-[#333333] hover:bg-gray-100'
+                            }
+                          `}
+                        >
+                          <span className={`w-2 h-2 rounded-full mr-3 transition-all duration-200
+                            ${activeSection === item.sectionId 
+                              ? 'bg-[#C84C38] scale-110' 
+                              : 'bg-gray-300'
+                            }
+                          `}></span>
+                          {item.label}
+                        </button>
+                      ))}
+                    </nav>
 
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">外部サイトへ</h3>
-                <nav className="flex flex-col space-y-2">
-                  <a
-                    href="https://sakuya-kyudogu.jp/select_guide"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
-                    onTouchStart={(e) => {
-                      // タッチ開始時にアクティブ状態を視覚的に示す
-                      e.currentTarget.classList.add('active-touch');
-                    }}
-                    onTouchEnd={(e) => {
-                      // アクティブ状態を解除
-                      e.currentTarget.classList.remove('active-touch');
-                    }}
-                  >
-                    <GiArrowhead className="w-5 h-5 mr-3 text-gray-500" />
-                    矢の選び方
-                  </a>
-                  <a
-                    href="https://sakuya-kyudogu.jp/order_made"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
-                    onTouchStart={(e) => {
-                      // タッチ開始時にアクティブ状態を視覚的に示す
-                      e.currentTarget.classList.add('active-touch');
-                    }}
-                    onTouchEnd={(e) => {
-                      // アクティブ状態を解除
-                      e.currentTarget.classList.remove('active-touch');
-                    }}
-                  >
-                    <FiShoppingCart className="w-5 h-5 mr-3 text-gray-500" />
-                    オーダーする
-                  </a>
-                  <a
-                    href="https://sakuya-kyudogu.jp/contact"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
-                    onTouchStart={(e) => {
-                      // タッチ開始時にアクティブ状態を視覚的に示す
-                      e.currentTarget.classList.add('active-touch');
-                    }}
-                    onTouchEnd={(e) => {
-                      // アクティブ状態を解除
-                      e.currentTarget.classList.remove('active-touch');
-                    }}
-                  >
-                    <FiMail className="w-5 h-5 mr-3 text-gray-500" />
-                    お問い合わせ
-                  </a>
-                </nav>
-              </div>
-
-              <div className="p-5 border-t border-gray-100">
-                <div className="flex space-x-4 justify-center">
-                  <a
-                    href="https://www.instagram.com/sakuyakyudogu/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 rounded-full bg-gray-100 text-[#333333] hover:bg-[#C84C38]/10 hover:text-[#C84C38] transition-colors duration-200"
-                    aria-label="Instagram"
-                  >
-                    <FiInstagram className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="https://x.com/Sakuya_Kyudogu/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 rounded-full bg-gray-100 text-[#333333] hover:bg-[#C84C38]/10 hover:text-[#C84C38] transition-colors duration-200"
-                    aria-label="X (Twitter)"
-                  >
-                    <RiTwitterXLine className="w-5 h-5" />
-                  </a>
+                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">外部サイトへ</h3>
+                    <nav className={`flex flex-col ${menuSpacing}`}>
+                      <a
+                        href="https://sakuya-kyudogu.jp/select_guide"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
+                        onClick={() => {
+                          // リンクをクリックした時の処理
+                          closeMenu();
+                        }}
+                        onTouchStart={(e) => {
+                          // タッチ開始時にアクティブ状態を視覚的に示す
+                          e.currentTarget.classList.add('active-touch');
+                        }}
+                        onTouchEnd={(e) => {
+                          // タッチ終了時にアクティブ状態を解除
+                          e.currentTarget.classList.remove('active-touch');
+                          // メニューを閉じる
+                          closeMenu();
+                        }}
+                      >
+                        <GiArrowhead className="w-4 h-4 mr-3 text-gray-500" />
+                        矢の選び方
+                      </a>
+                      <a
+                        href="https://sakuya-kyudogu.jp/order_made"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
+                        onClick={() => {
+                          // リンクをクリックした時の処理
+                          closeMenu();
+                        }}
+                        onTouchStart={(e) => {
+                          // タッチ開始時にアクティブ状態を視覚的に示す
+                          e.currentTarget.classList.add('active-touch');
+                        }}
+                        onTouchEnd={(e) => {
+                          // タッチ終了時にアクティブ状態を解除
+                          e.currentTarget.classList.remove('active-touch');
+                          // メニューを閉じる
+                          closeMenu();
+                        }}
+                      >
+                        <FiShoppingCart className="w-4 h-4 mr-3 text-gray-500" />
+                        オーダーする
+                      </a>
+                      <a
+                        href="https://sakuya-kyudogu.jp/contact"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
+                        onClick={() => {
+                          // リンクをクリックした時の処理
+                          closeMenu();
+                        }}
+                        onTouchStart={(e) => {
+                          // タッチ開始時にアクティブ状態を視覚的に示す
+                          e.currentTarget.classList.add('active-touch');
+                        }}
+                        onTouchEnd={(e) => {
+                          // タッチ終了時にアクティブ状態を解除
+                          e.currentTarget.classList.remove('active-touch');
+                          // メニューを閉じる
+                          closeMenu();
+                        }}
+                      >
+                        <FiMail className="w-4 h-4 mr-3 text-gray-500" />
+                        お問い合わせ
+                      </a>
+                    </nav>
+                  </div>
+                  
+                  <div className="mt-auto pt-3 border-t border-gray-100">
+                    <div className="flex space-x-4 justify-center">
+                      <a
+                        href="https://www.instagram.com/sakuyakyudogu/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-full bg-gray-100 text-[#333333] hover:bg-[#C84C38]/10 hover:text-[#C84C38] transition-colors duration-200"
+                        aria-label="Instagram"
+                      >
+                        <FiInstagram className="w-4 h-4" />
+                      </a>
+                      <a
+                        href="https://x.com/Sakuya_Kyudogu/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-full bg-gray-100 text-[#333333] hover:bg-[#C84C38]/10 hover:text-[#C84C38] transition-colors duration-200"
+                        aria-label="X (Twitter)"
+                      >
+                        <RiTwitterXLine className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -537,9 +587,6 @@ export const Header = () => {
             
             body.menu-open {
               overflow: hidden;
-              position: fixed;
-              width: 100%;
-              height: 100%;
             }
             
             /* タップハイライトを無効化 */
