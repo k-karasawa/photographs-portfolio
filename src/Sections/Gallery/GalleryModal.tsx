@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { GalleryImage } from './galleryData'
 import { AnimatedTargetButton } from '@/components/AnimatedTargetButton'
-import { useEffect } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 interface GalleryModalProps {
   isOpen: boolean
@@ -11,9 +11,68 @@ interface GalleryModalProps {
 }
 
 export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
+  const [isSafari, setIsSafari] = useState(false)
+  const [modalTop, setModalTop] = useState('10%')
+  const [modalMaxHeight, setModalMaxHeight] = useState('90vh')
+  const modalRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    // iOS と Safari の検出
+    const ua = window.navigator.userAgent
+    const iOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    const safari = /^((?!chrome|android).)*safari/i.test(ua)
+    
+    setIsSafari(safari && iOS)
+
+    // 画面サイズに応じた調整
+    const adjustModalPosition = () => {
+      if (safari && iOS) {
+        // iOSのSafariの場合、ヘッダーの高さを考慮して調整
+        const headerHeight = 80 // ヘッダーの高さ（ピクセル）
+        const viewportHeight = window.innerHeight
+        const topPercentage = Math.min(20, (headerHeight / viewportHeight) * 100 + 5)
+        
+        setModalTop(`${topPercentage}%`)
+        setModalMaxHeight(`${100 - topPercentage - 5}vh`) // 下部にも少し余白を残す
+      } else {
+        // その他のブラウザの場合
+        setModalTop('2%')
+        setModalMaxHeight('98vh')
+      }
+    }
+
+    adjustModalPosition()
+    window.addEventListener('resize', adjustModalPosition)
+    window.addEventListener('orientationchange', adjustModalPosition)
+
+    return () => {
+      window.removeEventListener('resize', adjustModalPosition)
+      window.removeEventListener('orientationchange', adjustModalPosition)
+    }
+  }, [])
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
+      
+      // モーダルが開いたときに位置を再調整
+      if (isSafari) {
+        const adjustAfterOpen = () => {
+          const viewportHeight = window.innerHeight
+          const headerHeight = 80
+          const topPercentage = Math.min(20, (headerHeight / viewportHeight) * 100 + 5)
+          
+          setModalTop(`${topPercentage}%`)
+          setModalMaxHeight(`${100 - topPercentage - 5}vh`)
+        }
+        
+        // 少し遅延させて実行（アドレスバーの状態が安定した後）
+        setTimeout(adjustAfterOpen, 100)
+      } else {
+        // その他のブラウザの場合は少し余白を小さく
+        setModalTop('2%')
+        setModalMaxHeight('98vh')
+      }
     } else {
       document.body.style.overflow = 'unset'
     }
@@ -21,7 +80,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
     return () => {
       document.body.style.overflow = 'unset'
     }
-  }, [isOpen])
+  }, [isOpen, isSafari])
 
   return (
     <AnimatePresence>
@@ -37,6 +96,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
           />
           
           <motion.div
+            ref={modalRef}
             initial={{ opacity: 0, y: "100%" }}
             animate={{ opacity: 1, y: "0%" }}
             exit={{ opacity: 0, y: "100%" }}
@@ -47,7 +107,10 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
               mass: 0.8,
               duration: 0.5
             }}
-            className="fixed inset-x-0 bottom-0 top-[10%] md:inset-0 z-50 flex items-end md:items-center justify-center"
+            className="fixed inset-x-0 bottom-0 z-50 flex items-end justify-center md:inset-0 md:items-center"
+            style={{ 
+              top: modalTop,
+            }}
             onTap={onClose}
           >
             <motion.div 
@@ -55,7 +118,8 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1 }}
               transition={{ duration: 0.3 }}
-              className="relative bg-white w-full max-w-3xl max-h-[90vh] md:h-auto overflow-y-auto md:overflow-visible flex flex-col md:flex-row gap-4 p-4 md:p-6 rounded-t-2xl md:rounded-lg md:my-0" 
+              className="relative bg-white w-full max-w-3xl overflow-y-auto md:overflow-visible flex flex-col md:flex-row gap-4 p-4 md:p-6 rounded-t-2xl md:rounded-lg md:my-0"
+              style={{ maxHeight: modalMaxHeight }}
               onClick={e => e.stopPropagation()}
             >
               <div className="sticky top-0 right-0 z-50 flex items-center justify-center w-full md:absolute md:w-auto md:-top-3 md:-right-3">
@@ -134,9 +198,10 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
 
                 <div className="flex justify-center pt-3 border-t border-gray-200">
                   <AnimatedTargetButton
+                    href="https://sakuya-kyudogu.jp/order_made"
+                    target="_blank"
                     onClick={() => {
                       onClose()
-                      // ここに注文フォームへの遷移などを追加
                     }}
                     className="scale-75"
                   >
