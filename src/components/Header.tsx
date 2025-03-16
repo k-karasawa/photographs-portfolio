@@ -31,7 +31,10 @@ export const Header = () => {
 
   useEffect(() => {
     setIsMounted(true)
-    return () => setIsMounted(false)
+    return () => {
+      setIsMounted(false)
+      document.body.style.overflow = ''
+    }
   }, [])
 
   useEffect(() => {
@@ -87,6 +90,7 @@ export const Header = () => {
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId)
     if (section) {
+      document.body.style.overflow = ''
       section.scrollIntoView({ behavior: 'smooth' })
       setActiveSection(sectionId)
       setIsMenuOpen(false)
@@ -101,17 +105,23 @@ export const Header = () => {
   }
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-    if (!isMenuOpen) {
+    const newMenuState = !isMenuOpen
+    setIsMenuOpen(newMenuState)
+    
+    if (newMenuState) {
       document.body.style.overflow = 'hidden'
     } else {
-      document.body.style.overflow = ''
+      setTimeout(() => {
+        document.body.style.overflow = ''
+      }, 10)
     }
   }
 
   const closeMenu = () => {
     setIsMenuOpen(false)
-    document.body.style.overflow = ''
+    setTimeout(() => {
+      document.body.style.overflow = ''
+    }, 10)
   }
 
   return (
