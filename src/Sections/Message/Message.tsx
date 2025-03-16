@@ -15,12 +15,13 @@ export const Message = () => {
   const imageOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 1.0, 0.3])
 
   return (
-    <motion.div 
+    <motion.section 
       ref={containerRef}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       className="min-h-screen bg-white p-4 md:p-8 relative z-50 flex items-center"
+      aria-label="メッセージセクション"
     >
       <div className="relative w-full h-[95vh] max-h-[95vh] mx-auto bg-white">
         <div className="absolute right-0 w-3/5 h-full overflow-hidden rounded-3xl">
@@ -92,6 +93,6 @@ export const Message = () => {
           </div>
         </div>
       </div>
-    </motion.div>
+    </motion.section>
   )
 }

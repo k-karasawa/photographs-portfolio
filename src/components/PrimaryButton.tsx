@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import Link from 'next/link'
+import { useCallback, useRef, useState, useEffect } from 'react'
 
 interface PrimaryButtonProps {
   children: React.ReactNode
@@ -9,6 +9,7 @@ interface PrimaryButtonProps {
   triggerOnScroll?: boolean
   icon?: React.ReactNode
   iconPosition?: 'left' | 'right'
+  target?: string
 }
 
 export const PrimaryButton = ({ 
@@ -18,7 +19,8 @@ export const PrimaryButton = ({
   className = "",
   triggerOnScroll = false,
   icon,
-  iconPosition = 'right'
+  iconPosition = 'right',
+  target
 }: PrimaryButtonProps) => {
   const buttonClasses = `
     inline-flex items-center justify-center gap-2
@@ -31,6 +33,19 @@ export const PrimaryButton = ({
     transition-all
     ${className}
   `
+  
+  // 重複実行を防ぐためのフラグ
+  const isProcessingRef = useRef(false);
+  // タッチデバイスかどうかのフラグ
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  
+  // クライアントサイドでのみタッチデバイス検出を行う
+  useEffect(() => {
+    setIsTouchDevice(
+      typeof window !== 'undefined' && 
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    );
+  }, []);
 
   const content = (
     <>
@@ -40,21 +55,66 @@ export const PrimaryButton = ({
     </>
   )
 
+  // リンクを開く処理を明示的に定義
+  const handleClick = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    // デフォルトの動作を防止
+    e.preventDefault();
+    
+    // イベントの伝播を停止
+    e.stopPropagation();
+    
+    // 既に処理中なら何もしない
+    if (isProcessingRef.current) return;
+    
+    // 処理中フラグを立てる
+    isProcessingRef.current = true;
+    
+    // カスタムのクリックハンドラがあれば実行
+    if (onClick) {
+      onClick();
+    }
+    
+    // リンクがあれば開く
+    if (href) {
+      if (target === '_blank') {
+        window.open(href, target, 'noopener,noreferrer');
+      } else {
+        window.location.href = href;
+      }
+    }
+    
+    // 少し遅延してフラグをリセット（次のタップのため）
+    setTimeout(() => {
+      isProcessingRef.current = false;
+    }, 300);
+  }, [href, onClick, target]);
+  
+  // タッチデバイスの場合はonClickを無効化し、onTouchEndのみを使用
+  const clickHandler = isTouchDevice ? undefined : handleClick;
+  const touchEndHandler = isTouchDevice ? handleClick : undefined;
+
   if (href) {
     return (
-      <Link href={href} className={buttonClasses}>
+      <button 
+        onClick={clickHandler}
+        onTouchEnd={touchEndHandler}
+        className={buttonClasses}
+        style={{ touchAction: 'manipulation' }}
+      >
         {content}
-      </Link>
+      </button>
     )
   }
 
   if (triggerOnScroll) {
     return (
       <motion.button
-        onClick={onClick}
+        onClick={clickHandler}
+        onTouchEnd={touchEndHandler}
         className={buttonClasses}
         whileHover={{ scale: 1.05 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        style={{ touchAction: 'manipulation' }}
       >
         {content}
       </motion.button>
@@ -63,8 +123,10 @@ export const PrimaryButton = ({
 
   return (
     <button 
-      onClick={onClick} 
+      onClick={clickHandler}
+      onTouchEnd={touchEndHandler}
       className={buttonClasses}
+      style={{ touchAction: 'manipulation' }}
     >
       {content}
     </button>

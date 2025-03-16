@@ -19,6 +19,7 @@ export const CustomOrderSection = () => {
       id="custom"
       ref={containerRef} 
       className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#f5f5f5] to-[#f5f5f5]"
+      aria-label="オーダーメイドについての説明をするセクション"
       // className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#B5D8D6] to-[#9CC7C5]"
     >
       <div className="absolute inset-0 overflow-hidden">
@@ -34,7 +35,7 @@ export const CustomOrderSection = () => {
         style={{ y, opacity }}
         className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8"
       >
-        <div className="text-center mb-24">
+        <div className="text-center mb-12 md:mb-24">
           <div className="mb-8">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#333333] leading-tight font-sans">
               オーダーメイドの楽しさ
@@ -51,8 +52,7 @@ export const CustomOrderSection = () => {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-lg relative overflow-hidden group"
             >
-              {/* 光のエフェクト用のオーバーレイ */}
-              <div 
+              <div
                 className="absolute inset-0 -translate-x-full group-hover:translate-x-full pointer-events-none
                 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12
                 transition-transform duration-[400ms] group-hover:duration-[1000ms] ease-in-out"
@@ -87,7 +87,10 @@ export const CustomOrderSection = () => {
           transition={{ duration: 1.2 }}
           className="mt-24 text-center"
         >
-          <AnimatedTargetButton triggerOnScroll={true}>
+          <AnimatedTargetButton 
+            triggerOnScroll={true}
+            href="https://sakuya-kyudogu.jp/order_made"
+          >
             カスタムオーダーを始める
           </AnimatedTargetButton>
         </motion.div>

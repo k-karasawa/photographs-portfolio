@@ -1,22 +1,76 @@
 import { motion, useAnimationControls } from 'framer-motion'
 import Image from 'next/image'
-import { ReactNode } from 'react'
+import { ReactNode, useCallback, useRef, useState, useEffect } from 'react'
 
 type AnimatedTargetButtonProps = {
   children: ReactNode
   onClick?: () => void
+  href?: string
+  target?: string
   className?: string
-  triggerOnScroll?: boolean  // スクロールトリガーを有効にするかどうか
+  triggerOnScroll?: boolean
 }
 
 export const AnimatedTargetButton = ({ 
   children, 
   onClick,
+  href,
+  target = "_blank",
   className = "",
   triggerOnScroll = false
 }: AnimatedTargetButtonProps) => {
   const controls = useAnimationControls()
-  const scale = className.includes('scale-75') ? 0.75 : 1 // スケール値を取得
+  const scale = className.includes('scale-75') ? 0.75 : 1
+  
+  // 重複実行を防ぐためのフラグ
+  const isProcessingRef = useRef(false);
+  // タッチデバイスかどうかのフラグ
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  
+  // クライアントサイドでのみタッチデバイス検出を行う
+  useEffect(() => {
+    setIsTouchDevice(
+      typeof window !== 'undefined' && 
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    );
+  }, []);
+
+  // リンクを開く処理を明示的に定義
+  const openLink = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    // デフォルトの動作を防止
+    e.preventDefault();
+    
+    // イベントの伝播を停止
+    e.stopPropagation();
+    
+    // 既に処理中なら何もしない
+    if (isProcessingRef.current) return;
+    
+    // 処理中フラグを立てる
+    isProcessingRef.current = true;
+    
+    // カスタムのクリックハンドラがあれば実行
+    if (onClick) {
+      onClick();
+    }
+    
+    if (href) {
+      if (target === '_blank') {
+        window.open(href, target, 'noopener,noreferrer');
+      } else {
+        window.location.href = href;
+      }
+    }
+    
+    // 少し遅延してフラグをリセット（次のタップのため）
+    setTimeout(() => {
+      isProcessingRef.current = false;
+    }, 300);
+  }, [href, onClick, target]);
+  
+  // タッチデバイスの場合はonClickを無効化し、onTouchEndのみを使用
+  const clickHandler = isTouchDevice ? undefined : openLink;
+  const touchEndHandler = isTouchDevice ? openLink : undefined;
 
   return (
     <motion.div 
@@ -24,7 +78,7 @@ export const AnimatedTargetButton = ({
       initial="initial"
       animate="initial"
       whileHover="hover"
-      style={{ scale }} // 親要素にスケールを適用
+      style={{ scale }}
       whileInView={triggerOnScroll ? "hover" : undefined}
       viewport={{ once: false, margin: "-100px" }}
       onViewportLeave={() => {
@@ -34,7 +88,8 @@ export const AnimatedTargetButton = ({
       }}
     >
       <motion.button
-        onClick={onClick}
+        onClick={clickHandler}
+        onTouchEnd={touchEndHandler}
         variants={{
           initial: {
             scale: 1,
@@ -53,9 +108,11 @@ export const AnimatedTargetButton = ({
           hover:from-[#B73D2D] hover:to-[#C74E3C] 
           transition-colors duration-300 
           shadow-lg hover:shadow-[#C84C38]/25
+          ${href ? 'cursor-pointer' : ''}
+          touch-action: manipulation;
         `}
       >
-        <span className="inline-flex items-center gap-6 -translate-y-0.5">
+        <span className="inline-flex items-center gap-6 -translate-y-0.5 whitespace-nowrap">
           <span>
             {children}
           </span>

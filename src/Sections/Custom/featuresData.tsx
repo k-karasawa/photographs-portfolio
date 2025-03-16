@@ -9,7 +9,7 @@ interface Feature {
 export const features: Feature[] = [
   {
     title: "伝統のデザインが作れる",
-    description: "伝統のデザインを再現した矢を作成できます。",
+    description: "自然色の羽根に紫や濃紺の落ち着きを合わせたり、縁起の良い亀甲やとんぼ柄をあしらう事もできます。",
     icon: ({ className }: { className?: string }) => (
       <svg 
         className={className} 
@@ -28,7 +28,7 @@ export const features: Feature[] = [
   },
   {
     title: "オリジナリティも出せる",
-    description: "オリジナリティを出した矢を作成できます。",
+    description: "誰とも違う、あなたのためだけの矢を作ることができます。カスタマイズできる組み合わせの数は無限大。",
     icon: ({ className }: { className?: string }) => (
       <svg 
         className={className} 
@@ -40,14 +40,14 @@ export const features: Feature[] = [
           strokeLinecap="round" 
           strokeLinejoin="round" 
           strokeWidth={2} 
-          d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" 
+          d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" 
         />
       </svg>
     )
   },
   {
     title: "高品質な仕上がり",
-    description: "あなたの体格や射法八節に合わせた、世界でたった一つの矢をお作りします。",
+    description: "注文頂いたその時から、職人が材料や細部にこだわり一つ一つ、丁寧に手作りで製作します。",
     icon: ({ className }: { className?: string }) => (
       <svg 
         className={className} 

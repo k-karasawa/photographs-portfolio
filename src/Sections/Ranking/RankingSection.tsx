@@ -13,13 +13,14 @@ interface RankingSectionProps {
 export const RankingSection = ({ section }: RankingSectionProps) => {
   return (
     <div className="relative py-4">
-      <div className="mb-4">
+      <div className="mb-2">
         <h2 className="text-lg font-bold">{section.title}</h2>
         {section.subtitle && (
           <p className="text-xs text-muted-foreground">{section.subtitle}</p>
         )}
       </div>
-
+      
+      <div className="w-full h-px bg-gray-300 mb-4"></div>
       <div className="relative">
         <Swiper
           modules={[Navigation]}

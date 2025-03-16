@@ -73,13 +73,14 @@ export const Gallery = () => {
 
   return (
     <>
-      <motion.div 
+      <motion.section 
         id="gallery"
         ref={containerRef}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         className="h-[200vh] relative z-40 bg-white"
+        aria-label="ギャラリーセクション"
       >
         <div className="sticky top-0 w-full h-screen flex items-center bg-white">
           <motion.div 
@@ -95,43 +96,35 @@ export const Gallery = () => {
           />
 
           <motion.div 
-            className="absolute inset-0 z-10 bg-black/15 pointer-events-none"
+            className="absolute inset-0 z-10 bg-black/10 pointer-events-none"
             style={{ opacity: textOpacity }}
           />
 
           <div className="relative w-full h-[95vh] p-2 md:p-4">
             <motion.div 
-              className="absolute top-8 left-0 w-full z-30 px-20"
+              className="absolute top-16 left-0 w-full z-30 px-20"
               style={{ 
                 opacity: galleryTitleOpacity,
                 y: galleryTitleY
               }}
             >
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#333333] mb-4 drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#333333] mb-4 drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)] ml-[-40px]">
                 Arrow Gallery
               </h2>
-              <div className="w-full h-[1px] bg-[#333333] opacity-20"></div>
+              <div className="w-full h-[1px] bg-[#333333] opacity-20 mx-[-40px] w-[calc(100%+80px)]"></div>
             </motion.div>
 
             <motion.div 
-              className="absolute inset-0 z-20 flex flex-col items-center justify-center pt-[140px] pointer-events-none"
+              className="absolute inset-0 z-20 flex flex-col items-center justify-center pt-[160px] pointer-events-none"
               style={{ opacity: textOpacity, y: textY }}
             >
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="mb-4 text-3xl md:text-4xl lg:text-6xl font-bold text-[#333333] drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
+                className="mb-12 text-3xl md:text-4xl lg:text-6xl text-center font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]"
               >
-                Arrow
-              </motion.h2>
-              <motion.h2 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="mb-12 text-3xl md:text-4xl lg:text-6xl font-bold text-[#333333] drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
-              >
-                Gallery
+                Arrow<br />Gallery
               </motion.h2>
 
               <motion.div
@@ -141,7 +134,7 @@ export const Gallery = () => {
                 transition={{ delay: 0.6 }}
               >
                 <motion.p 
-                  className="text-lg text-[#333333] mb-4 drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
+                  className="text-lg text-white mb-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 0.8 }}
                   transition={{ delay: 0.8 }}
@@ -149,7 +142,7 @@ export const Gallery = () => {
                   Scroll to explore
                 </motion.p>
                 <motion.div
-                  className="drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)]"
+                  className="drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]"
                   initial={{ opacity: 0.5, y: -5 }}
                   animate={{ opacity: 1, y: 5 }}
                   transition={{
@@ -160,7 +153,7 @@ export const Gallery = () => {
                   }}
                 >
                   <svg 
-                    className="w-6 h-6 text-[#333333]" 
+                    className="w-6 h-6 text-white" 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
@@ -176,7 +169,7 @@ export const Gallery = () => {
               </motion.div>
             </motion.div>
 
-            <div className="absolute inset-0 grid grid-cols-5 grid-rows-3 gap-12 p-20 pt-32">
+            <div className="absolute inset-0 grid grid-cols-5 grid-rows-3 gap-12 p-20 pt-40">
               {Array.from({ length: 15 }).map((_, index) => {
                 const row = Math.floor(index / 5)
                 const col = index % 5
@@ -217,6 +210,10 @@ export const Gallery = () => {
                         fill
                         className="object-cover"
                       />
+                      <motion.div 
+                        className="absolute inset-0 bg-black/10"
+                        style={{ opacity: textOpacity }}
+                      ></motion.div>
                     </div>
                   </motion.div>
                 )
@@ -224,7 +221,7 @@ export const Gallery = () => {
             </div>
           </div>
         </div>
-      </motion.div>
+      </motion.section>
 
       <GalleryModal
         isOpen={!!selectedImage}
