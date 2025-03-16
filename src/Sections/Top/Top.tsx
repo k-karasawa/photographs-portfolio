@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MobileTrailEffect } from '@/components/MobileTrailEffect'
@@ -10,17 +10,27 @@ const MIN_DISTANCE_FOR_NEW_IMAGE = 80
 const MAX_MOVE_SPEED = 50
 const ROTATION_RANGE = 45
 
+// サーバーサイドレンダリング時にuseLayoutEffectの警告を回避するためのカスタムフック
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
+
 export const Top = () => {
   const [images, setImages] = useState<ArrowImage[]>([])
   const [isClient, setIsClient] = useState(false)
   const lastMousePos = useRef({ x: 0, y: 0 })
   const accumulatedDistance = useRef(0)
   const isMobile = useRef(false)
+  const observerRef = useRef<IntersectionObserver | null>(null)
 
-  useEffect(() => {
+  // クライアントサイドでの初期化
+  useIsomorphicLayoutEffect(() => {
     setIsClient(true)
     if (typeof window !== 'undefined') {
       isMobile.current = window.matchMedia('(max-width: 768px)').matches
+      
+      // モバイルの場合は即座にスクロールを無効化
+      if (isMobile.current) {
+        document.body.style.overflow = 'hidden'
+      }
     }
   }, [])
 
@@ -70,13 +80,16 @@ export const Top = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [handleMouseMove])
 
+  // Intersection Observerの設定
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches) {
-      // スクロールを無効化
-      document.body.style.overflow = 'hidden'
+    if (typeof window !== 'undefined' && isMobile.current) {
+      // 既存のObserverをクリーンアップ
+      if (observerRef.current) {
+        observerRef.current.disconnect()
+      }
 
       // Intersection Observerで次のセクションの監視
-      const observer = new IntersectionObserver(
+      observerRef.current = new IntersectionObserver(
         (entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -94,15 +107,17 @@ export const Top = () => {
       // 次のセクションを監視
       const nextSection = document.getElementById('next-section')
       if (nextSection) {
-        observer.observe(nextSection)
+        observerRef.current.observe(nextSection)
       }
 
       return () => {
-        observer.disconnect()
+        if (observerRef.current) {
+          observerRef.current.disconnect()
+        }
         document.body.style.overflow = 'auto'
       }
     }
-  }, [])
+  }, [isClient]) // isClientが変更されたときに再実行
 
   const handleNextSection = () => {
     const customSection = document.getElementById('custom')
