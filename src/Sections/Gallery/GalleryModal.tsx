@@ -91,7 +91,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onTap={onClose}
+            onClick={onClose}
             className="fixed inset-0 bg-black/70 z-50"
           />
           
@@ -111,7 +111,6 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
             style={{ 
               top: modalTop,
             }}
-            onTap={onClose}
           >
             <motion.div 
               initial={{ opacity: 0, scale: 1 }}
@@ -120,18 +119,18 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
               transition={{ duration: 0.3 }}
               className="relative bg-white w-full max-w-3xl overflow-y-auto md:overflow-visible flex flex-col md:flex-row gap-4 p-4 md:p-6 rounded-t-2xl md:rounded-lg md:my-0"
               style={{ maxHeight: modalMaxHeight }}
-              onClick={e => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="sticky top-0 right-0 z-50 flex items-center justify-center w-full md:absolute md:w-auto md:-top-3 md:-right-3">
                 <div className="h-1 w-16 bg-gray-300 rounded-full md:hidden mx-auto mb-3" />
-                <motion.button
-                  onTap={onClose}
+                <button
+                  onClick={onClose}
                   className="absolute right-2 top-0 md:static bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
                 >
                   <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                </motion.button>
+                </button>
               </div>
 
               <div className="w-full md:w-[55%] pt-8 md:pt-0">
