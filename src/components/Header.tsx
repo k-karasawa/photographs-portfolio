@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import { GiArrowhead } from 'react-icons/gi'
+import { FiShoppingCart, FiMail, FiInstagram, FiMenu, FiX } from 'react-icons/fi'
+import { RiTwitterXLine } from 'react-icons/ri'
 
 interface MenuItem {
   label: string
@@ -17,6 +20,8 @@ const menuItems: MenuItem[] = [
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
+  const [activeSection, setActiveSection] = useState("")
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   // 前回のスクロール位置を useRef で保持（値が変わっても再レンダーは発生しない）
   const lastScrollY = useRef(0)
@@ -47,9 +52,38 @@ export const Header = () => {
       scrollTimeout.current = window.setTimeout(() => {
         setIsVisible(true)
       }, 1000)
+
+      // 現在表示されているセクションを検出
+      detectActiveSection()
+    }
+
+    // 現在表示されているセクションを検出する関数
+    const detectActiveSection = () => {
+      const sections = menuItems.map(item => document.getElementById(item.sectionId))
+      const viewportHeight = window.innerHeight
+      const triggerPoint = viewportHeight * 0.3 // 画面の上から30%の位置をトリガーポイントとする
+
+      // 各セクションの位置を確認
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i]
+        if (section) {
+          const rect = section.getBoundingClientRect()
+          // セクションの上端がトリガーポイントより上にあり、下端がトリガーポイントより下にある場合
+          if (rect.top <= triggerPoint && rect.bottom >= triggerPoint) {
+            setActiveSection(menuItems[i].sectionId)
+            return
+          }
+        }
+      }
+      
+      // どのセクションも表示されていない場合
+      setActiveSection("")
     }
 
     window.addEventListener('scroll', handleScroll)
+    // 初期ロード時にもアクティブセクションを検出
+    detectActiveSection()
+    
     return () => {
       window.removeEventListener('scroll', handleScroll)
       if (scrollTimeout.current) {
@@ -62,7 +96,14 @@ export const Header = () => {
     const section = document.getElementById(sectionId)
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' })
+      setActiveSection(sectionId)
+      setIsMenuOpen(false) // メニュー項目クリック時にメニューを閉じる
     }
+  }
+
+  // メニューの開閉を切り替える関数
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
   }
 
   return (
@@ -76,53 +117,189 @@ export const Header = () => {
           type: "tween"
         }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
+          isScrolled ? 'bg-white/90 backdrop-blur-md shadow-md' : 'bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="text-xl font-bold text-[#333333]">
-              咲矢弓道具
-            </Link>
+        <div className="w-full px-3 sm:px-4 lg:px-6">
+          <div className="flex items-center h-20 max-w-[1920px] mx-auto">
+            <div className="flex-none w-auto mr-4">
+              <Link 
+                href="/" 
+                className="group flex items-center"
+              >
+                <span className="text-xl font-bold text-[#333333] group-hover:text-[#C84C38] transition-colors duration-300 whitespace-nowrap">
+                  咲矢弓道具
+                </span>
+              </Link>
+            </div>
 
-            <nav className="hidden md:flex space-x-8">
-              {menuItems.map((item) => (
-                <button
-                  key={item.sectionId}
-                  onClick={() => scrollToSection(item.sectionId)}
-                  className={`text-sm font-medium transition-colors duration-200
+            <div className="hidden md:flex flex-1 justify-center">
+              <nav className="flex items-center">
+                {menuItems.map((item) => (
+                  <button
+                    key={item.sectionId}
+                    onClick={() => scrollToSection(item.sectionId)}
+                    className={`relative px-3 py-2 text-xs lg:text-sm font-medium transition-colors duration-200 whitespace-nowrap
+                      ${activeSection === item.sectionId 
+                        ? 'text-[#C84C38]' 
+                        : isScrolled 
+                          ? 'text-[#333333] hover:text-[#C84C38]' 
+                          : 'text-[#333333]/90 hover:text-[#333333]'
+                      }
+                    `}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </nav>
+            </div>
+
+            <div className="flex-none flex justify-end items-center ml-4">
+              {/* SNSアイコン */}
+              <div className="hidden md:flex items-center mr-8 space-x-3">
+                <a
+                  href="https://www.instagram.com/sakuyakyudogu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-1.5 rounded-full transition-colors duration-200
                     ${isScrolled 
                       ? 'text-[#333333] hover:text-[#C84C38]' 
-                      : 'text-[#333333]/80 hover:text-[#333333]'
+                      : 'text-[#333333]/90 hover:text-[#333333]'
                     }
                   `}
+                  aria-label="Instagram"
                 >
-                  {item.label}
-                </button>
-              ))}
-              
+                  <FiInstagram className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://x.com/Sakuya_Kyudogu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-1.5 rounded-full transition-colors duration-200
+                    ${isScrolled 
+                      ? 'text-[#333333] hover:text-[#C84C38]' 
+                      : 'text-[#333333]/90 hover:text-[#333333]'
+                    }
+                  `}
+                  aria-label="X (Twitter)"
+                >
+                  <RiTwitterXLine className="w-5 h-5" />
+                </a>
+              </div>
+
+              <a
+                href="https://sakuya-kyudogu.jp/guide"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`relative py-2 mr-8 text-xs lg:text-sm font-medium transition-colors duration-200 hidden md:flex items-center whitespace-nowrap
+                  ${isScrolled 
+                    ? 'text-[#333333] hover:text-[#C84C38]' 
+                    : 'text-[#333333]/90 hover:text-[#333333]'
+                  }
+                `}
+              >
+                <GiArrowhead className="w-4 h-4 mr-1" />
+                矢の選び方
+              </a>
+
+              <a
+                href="https://sakuya-kyudogu.jp/order_made"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`relative py-2 mr-8 text-xs lg:text-sm font-medium transition-colors duration-200 hidden md:flex items-center whitespace-nowrap
+                  ${isScrolled 
+                    ? 'text-[#333333] hover:text-[#C84C38]' 
+                    : 'text-[#333333]/90 hover:text-[#333333]'
+                  }
+                `}
+              >
+                <FiShoppingCart className="w-4 h-4 mr-1" />
+                オーダーする
+              </a>
+
               <a
                 href="https://sakuya-kyudogu.jp/contact"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`text-sm font-medium transition-colors duration-200
+                className={`relative py-2 text-xs lg:text-sm font-medium transition-colors duration-200 hidden md:flex items-center whitespace-nowrap
                   ${isScrolled 
                     ? 'text-[#333333] hover:text-[#C84C38]' 
-                    : 'text-[#333333]/80 hover:text-[#333333]'
+                    : 'text-[#333333]/90 hover:text-[#333333]'
                   }
                 `}
               >
+                <FiMail className="w-4 h-4 mr-1" />
                 お問い合わせ
               </a>
-            </nav>
 
-            <button className="md:hidden text-[#333333]">
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+              {/* ハンバーガーメニューボタン */}
+              <button 
+                onClick={toggleMenu}
+                className="text-[#333333] p-2 rounded-full hover:bg-gray-100/50 transition-colors duration-200"
+                aria-label={isMenuOpen ? "メニューを閉じる" : "メニューを開く"}
+              >
+                {isMenuOpen ? (
+                  <FiX className="h-6 w-6" />
+                ) : (
+                  <FiMenu className="h-6 w-6" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* モバイルメニュー - 右側からスライドイン */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <>
+              {/* オーバーレイ背景 */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+                onClick={() => setIsMenuOpen(false)}
+              />
+              
+              {/* メニューパネル */}
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="fixed top-0 right-0 bottom-0 w-64 bg-white shadow-xl z-50"
+              >
+                <div className="flex justify-end p-4">
+                  <button 
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-[#333333] p-2 rounded-full hover:bg-gray-100/50 transition-colors duration-200"
+                    aria-label="メニューを閉じる"
+                  >
+                    <FiX className="h-6 w-6" />
+                  </button>
+                </div>
+                
+                <nav className="flex flex-col px-4">
+                  {menuItems.map((item) => (
+                    <button
+                      key={item.sectionId}
+                      onClick={() => scrollToSection(item.sectionId)}
+                      className={`relative px-3 py-4 text-base font-medium transition-colors duration-200 text-left border-b border-gray-100
+                        ${activeSection === item.sectionId 
+                          ? 'text-[#C84C38]' 
+                          : 'text-[#333333] hover:text-[#C84C38]'
+                        }
+                      `}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </nav>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </motion.header>
     </AnimatePresence>
   )
