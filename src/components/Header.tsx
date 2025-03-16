@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { GiArrowhead } from 'react-icons/gi'
 import { FiShoppingCart, FiMail, FiInstagram, FiMenu, FiX } from 'react-icons/fi'
 import { RiTwitterXLine } from 'react-icons/ri'
@@ -24,6 +25,8 @@ export const Header = () => {
   const [activeSection, setActiveSection] = useState("")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
+  const [titleOpacity, setTitleOpacity] = useState(1)
+  const [logoOpacity, setLogoOpacity] = useState(0)
   const lastScrollY = useRef(0)
 
   useEffect(() => {
@@ -42,6 +45,13 @@ export const Header = () => {
       }
 
       setIsScrolled(currentScrollY > 50)
+      
+      const newTitleOpacity = Math.max(0, 1 - currentScrollY / 100)
+      setTitleOpacity(newTitleOpacity)
+      
+      const newLogoOpacity = Math.max(0, Math.min(1, (currentScrollY - 100) / 50))
+      setLogoOpacity(newLogoOpacity)
+      
       lastScrollY.current = currentScrollY
 
       detectActiveSection()
@@ -83,6 +93,13 @@ export const Header = () => {
     }
   }
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
     if (!isMenuOpen) {
@@ -103,44 +120,46 @@ export const Header = () => {
       <header className="fixed top-0 left-0 right-0 z-[999] bg-transparent">
         <div className="w-full px-3 sm:px-4 lg:px-6">
           <div className="flex items-center justify-between h-20 max-w-[1920px] mx-auto">
-            {/* サイトタイトル - 常に表示 */}
-            <div className="flex-none">
+            {/* サイトタイトルとロゴ */}
+            <div className="flex-none relative">
               <Link href="/" className="group flex items-center">
-                {/* 完全なタイトル - 上方向スクロール時のみ表示 */}
+                {/* サイトタイトル - スクロールに応じてフェードアウト */}
                 <motion.span
                   initial={false}
                   animate={{ 
-                    opacity: isVisible ? 1 : 0,
-                    x: isVisible ? 0 : -10,
-                    display: isVisible ? 'block' : 'none'
+                    opacity: titleOpacity,
                   }}
                   transition={{ 
-                    opacity: { duration: 0.6, ease: "easeInOut" },
-                    x: { duration: 0.6, ease: "easeInOut" },
-                    display: { delay: isVisible ? 0 : 0.6 }
+                    opacity: { duration: 0.3, ease: "easeInOut" },
                   }}
-                  className="text-xl font-bold text-[#333333] group-hover:text-[#C84C38] transition-colors duration-300 whitespace-nowrap absolute"
+                  className="text-xl font-bold text-[#333333] transition-colors duration-300 whitespace-nowrap"
                 >
                   咲矢弓道具　オーダー矢のすゝめ
                 </motion.span>
                 
-                {/* 短縮タイトル - 下方向スクロール時のみ表示 */}
-                <motion.span
+                {/* ロゴ画像 - スクロールに応じてフェードイン */}
+                <motion.div
                   initial={false}
                   animate={{ 
-                    opacity: isVisible ? 0 : 1,
-                    x: isVisible ? 10 : 0,
-                    display: isVisible ? 'none' : 'block'
+                    opacity: logoOpacity,
                   }}
                   transition={{ 
-                    opacity: { duration: 0.6, ease: "easeInOut" },
-                    x: { duration: 0.6, ease: "easeInOut" },
-                    display: { delay: isVisible ? 0.6 : 0 }
+                    opacity: { duration: 0.3, ease: "easeInOut" },
                   }}
-                  className="text-xl font-bold text-[#333333] group-hover:text-[#C84C38] transition-colors duration-300 whitespace-nowrap"
+                  className="absolute left-0 top-1/2 transform -translate-y-1/2 md:translate-y-0 lg:top-[calc(50%-14px)]"
+                  style={{ 
+                    pointerEvents: logoOpacity > 0.5 ? 'auto' : 'none' 
+                  }}
                 >
-                  咲矢弓道具
-                </motion.span>
+                  <Image 
+                    src="/sakuya-logo.svg" 
+                    alt="咲矢弓道具" 
+                    width={40} 
+                    height={40}
+                    onClick={scrollToTop}
+                    className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 transition-transform duration-300 cursor-pointer"
+                  />
+                </motion.div>
               </Link>
             </div>
 
