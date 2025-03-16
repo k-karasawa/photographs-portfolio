@@ -521,20 +521,27 @@ export const Header = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
-                        onClick={() => {
-                          // リンクをクリックした時の処理
-                          closeMenu();
-                        }}
-                        onTouchStart={(e) => {
-                          // タッチ開始時にアクティブ状態を視覚的に示す
-                          e.currentTarget.classList.add('active-touch');
-                        }}
-                        onTouchEnd={(e) => {
-                          // タッチ終了時にアクティブ状態を解除
-                          e.currentTarget.classList.remove('active-touch');
+                        onClick={(e) => {
+                          // デフォルトの動作を防止
+                          e.preventDefault();
+                          // イベントの伝播を停止
+                          e.stopPropagation();
                           // メニューを閉じる
                           closeMenu();
+                          // リンクを開く
+                          window.open("https://sakuya-kyudogu.jp/select_guide", "_blank", "noopener,noreferrer");
                         }}
+                        onTouchEnd={(e) => {
+                          // デフォルトの動作を防止
+                          e.preventDefault();
+                          // イベントの伝播を停止
+                          e.stopPropagation();
+                          // メニューを閉じる
+                          closeMenu();
+                          // リンクを開く
+                          window.open("https://sakuya-kyudogu.jp/select_guide", "_blank", "noopener,noreferrer");
+                        }}
+                        style={{ touchAction: 'manipulation' }}
                       >
                         <GiArrowhead className="w-4 h-4 mr-3 text-gray-500" />
                         矢の選び方
@@ -544,20 +551,27 @@ export const Header = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
-                        onClick={() => {
-                          // リンクをクリックした時の処理
-                          closeMenu();
-                        }}
-                        onTouchStart={(e) => {
-                          // タッチ開始時にアクティブ状態を視覚的に示す
-                          e.currentTarget.classList.add('active-touch');
-                        }}
-                        onTouchEnd={(e) => {
-                          // タッチ終了時にアクティブ状態を解除
-                          e.currentTarget.classList.remove('active-touch');
+                        onClick={(e) => {
+                          // デフォルトの動作を防止
+                          e.preventDefault();
+                          // イベントの伝播を停止
+                          e.stopPropagation();
                           // メニューを閉じる
                           closeMenu();
+                          // リンクを開く
+                          window.open("https://sakuya-kyudogu.jp/order_made", "_blank", "noopener,noreferrer");
                         }}
+                        onTouchEnd={(e) => {
+                          // デフォルトの動作を防止
+                          e.preventDefault();
+                          // イベントの伝播を停止
+                          e.stopPropagation();
+                          // メニューを閉じる
+                          closeMenu();
+                          // リンクを開く
+                          window.open("https://sakuya-kyudogu.jp/order_made", "_blank", "noopener,noreferrer");
+                        }}
+                        style={{ touchAction: 'manipulation' }}
                       >
                         <FiShoppingCart className="w-4 h-4 mr-3 text-gray-500" />
                         オーダーする
@@ -567,20 +581,27 @@ export const Header = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
-                        onClick={() => {
-                          // リンクをクリックした時の処理
-                          closeMenu();
-                        }}
-                        onTouchStart={(e) => {
-                          // タッチ開始時にアクティブ状態を視覚的に示す
-                          e.currentTarget.classList.add('active-touch');
-                        }}
-                        onTouchEnd={(e) => {
-                          // タッチ終了時にアクティブ状態を解除
-                          e.currentTarget.classList.remove('active-touch');
+                        onClick={(e) => {
+                          // デフォルトの動作を防止
+                          e.preventDefault();
+                          // イベントの伝播を停止
+                          e.stopPropagation();
                           // メニューを閉じる
                           closeMenu();
+                          // リンクを開く
+                          window.open("https://sakuya-kyudogu.jp/contact", "_blank", "noopener,noreferrer");
                         }}
+                        onTouchEnd={(e) => {
+                          // デフォルトの動作を防止
+                          e.preventDefault();
+                          // イベントの伝播を停止
+                          e.stopPropagation();
+                          // メニューを閉じる
+                          closeMenu();
+                          // リンクを開く
+                          window.open("https://sakuya-kyudogu.jp/contact", "_blank", "noopener,noreferrer");
+                        }}
+                        style={{ touchAction: 'manipulation' }}
                       >
                         <FiMail className="w-4 h-4 mr-3 text-gray-500" />
                         お問い合わせ
@@ -596,6 +617,27 @@ export const Header = () => {
                         rel="noopener noreferrer"
                         className="p-2 rounded-full bg-gray-100 text-[#333333] hover:bg-[#C84C38]/10 hover:text-[#C84C38] transition-colors duration-200"
                         aria-label="Instagram"
+                        onClick={(e) => {
+                          // デフォルトの動作を防止
+                          e.preventDefault();
+                          // イベントの伝播を停止
+                          e.stopPropagation();
+                          // メニューを閉じる
+                          closeMenu();
+                          // リンクを開く
+                          window.open("https://www.instagram.com/sakuyakyudogu/", "_blank", "noopener,noreferrer");
+                        }}
+                        onTouchEnd={(e) => {
+                          // デフォルトの動作を防止
+                          e.preventDefault();
+                          // イベントの伝播を停止
+                          e.stopPropagation();
+                          // メニューを閉じる
+                          closeMenu();
+                          // リンクを開く
+                          window.open("https://www.instagram.com/sakuyakyudogu/", "_blank", "noopener,noreferrer");
+                        }}
+                        style={{ touchAction: 'manipulation' }}
                       >
                         <FiInstagram className="w-4 h-4" />
                       </a>
@@ -605,6 +647,27 @@ export const Header = () => {
                         rel="noopener noreferrer"
                         className="p-2 rounded-full bg-gray-100 text-[#333333] hover:bg-[#C84C38]/10 hover:text-[#C84C38] transition-colors duration-200"
                         aria-label="X (Twitter)"
+                        onClick={(e) => {
+                          // デフォルトの動作を防止
+                          e.preventDefault();
+                          // イベントの伝播を停止
+                          e.stopPropagation();
+                          // メニューを閉じる
+                          closeMenu();
+                          // リンクを開く
+                          window.open("https://x.com/Sakuya_Kyudogu/", "_blank", "noopener,noreferrer");
+                        }}
+                        onTouchEnd={(e) => {
+                          // デフォルトの動作を防止
+                          e.preventDefault();
+                          // イベントの伝播を停止
+                          e.stopPropagation();
+                          // メニューを閉じる
+                          closeMenu();
+                          // リンクを開く
+                          window.open("https://x.com/Sakuya_Kyudogu/", "_blank", "noopener,noreferrer");
+                        }}
+                        style={{ touchAction: 'manipulation' }}
                       >
                         <RiTwitterXLine className="w-4 h-4" />
                       </a>
