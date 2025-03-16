@@ -133,30 +133,12 @@ export const Header = () => {
               </Link>
             </div>
 
-            <div className="hidden md:flex flex-1 justify-center">
-              <nav className="flex items-center">
-                {menuItems.map((item) => (
-                  <button
-                    key={item.sectionId}
-                    onClick={() => scrollToSection(item.sectionId)}
-                    className={`relative px-3 py-2 text-xs lg:text-sm font-medium transition-colors duration-200 whitespace-nowrap
-                      ${activeSection === item.sectionId 
-                        ? 'text-[#C84C38]' 
-                        : isScrolled 
-                          ? 'text-[#333333] hover:text-[#C84C38]' 
-                          : 'text-[#333333]/90 hover:text-[#333333]'
-                      }
-                    `}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </nav>
-            </div>
+            {/* 中央寄せのリンクを削除 */}
+            <div className="flex-1"></div>
 
-            <div className="flex-none flex justify-end items-center ml-4">
+            <div className="flex-none flex justify-end items-center">
               {/* SNSアイコン */}
-              <div className="hidden md:flex items-center mr-8 space-x-3">
+              <div className="hidden md:flex items-center mr-8 space-x-6">
                 <a
                   href="https://www.instagram.com/sakuyakyudogu/"
                   target="_blank"
@@ -221,7 +203,7 @@ export const Header = () => {
                 href="https://sakuya-kyudogu.jp/contact"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`relative py-2 text-xs lg:text-sm font-medium transition-colors duration-200 hidden md:flex items-center whitespace-nowrap
+                className={`relative py-2 mr-6 text-xs lg:text-sm font-medium transition-colors duration-200 hidden md:flex items-center whitespace-nowrap
                   ${isScrolled 
                     ? 'text-[#333333] hover:text-[#C84C38]' 
                     : 'text-[#333333]/90 hover:text-[#333333]'
@@ -258,7 +240,7 @@ export const Header = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
                 onClick={() => setIsMenuOpen(false)}
               />
               
@@ -268,7 +250,7 @@ export const Header = () => {
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="fixed top-0 right-0 bottom-0 w-64 bg-white shadow-xl z-50"
+                className="fixed top-0 right-0 bottom-0 w-64 bg-white/95 backdrop-blur-md shadow-xl z-50"
               >
                 <div className="flex justify-end p-4">
                   <button 
