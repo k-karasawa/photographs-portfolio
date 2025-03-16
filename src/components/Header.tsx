@@ -379,7 +379,6 @@ export const Header = () => {
                     height={32}
                     className="w-8 h-8 mr-3"
                   />
-                  <h2 className="text-lg font-bold text-[#333333]">メニュー</h2>
                 </div>
                 <button 
                   onClick={(e) => {
@@ -407,7 +406,7 @@ export const Header = () => {
               
               <div className="p-5 flex-1 overflow-y-auto">
                 <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">セクション移動</h3>
-                <nav className="flex flex-col space-y-2">
+                <nav className="flex flex-col space-y-2 mb-8">
                   {menuItems.map((item) => (
                     <button
                       key={item.sectionId}
@@ -444,8 +443,63 @@ export const Header = () => {
                     </button>
                   ))}
                 </nav>
+
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">外部サイトへ</h3>
+                <nav className="flex flex-col space-y-2">
+                  <a
+                    href="https://sakuya-kyudogu.jp/select_guide"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
+                    onTouchStart={(e) => {
+                      // タッチ開始時にアクティブ状態を視覚的に示す
+                      e.currentTarget.classList.add('active-touch');
+                    }}
+                    onTouchEnd={(e) => {
+                      // アクティブ状態を解除
+                      e.currentTarget.classList.remove('active-touch');
+                    }}
+                  >
+                    <GiArrowhead className="w-5 h-5 mr-3 text-gray-500" />
+                    矢の選び方
+                  </a>
+                  <a
+                    href="https://sakuya-kyudogu.jp/order_made"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
+                    onTouchStart={(e) => {
+                      // タッチ開始時にアクティブ状態を視覚的に示す
+                      e.currentTarget.classList.add('active-touch');
+                    }}
+                    onTouchEnd={(e) => {
+                      // アクティブ状態を解除
+                      e.currentTarget.classList.remove('active-touch');
+                    }}
+                  >
+                    <FiShoppingCart className="w-5 h-5 mr-3 text-gray-500" />
+                    オーダーする
+                  </a>
+                  <a
+                    href="https://sakuya-kyudogu.jp/contact"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
+                    onTouchStart={(e) => {
+                      // タッチ開始時にアクティブ状態を視覚的に示す
+                      e.currentTarget.classList.add('active-touch');
+                    }}
+                    onTouchEnd={(e) => {
+                      // アクティブ状態を解除
+                      e.currentTarget.classList.remove('active-touch');
+                    }}
+                  >
+                    <FiMail className="w-5 h-5 mr-3 text-gray-500" />
+                    お問い合わせ
+                  </a>
+                </nav>
               </div>
-              
+
               <div className="p-5 border-t border-gray-100">
                 <div className="flex space-x-4 justify-center">
                   <a
@@ -465,15 +519,6 @@ export const Header = () => {
                     aria-label="X (Twitter)"
                   >
                     <RiTwitterXLine className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="https://sakuya-kyudogu.jp/contact"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 rounded-full bg-gray-100 text-[#333333] hover:bg-[#C84C38]/10 hover:text-[#C84C38] transition-colors duration-200"
-                    aria-label="お問い合わせ"
-                  >
-                    <FiMail className="w-5 h-5" />
                   </a>
                 </div>
               </div>
