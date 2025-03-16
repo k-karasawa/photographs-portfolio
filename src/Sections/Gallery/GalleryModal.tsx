@@ -196,16 +196,19 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
                 </div>
 
                 <div className="flex justify-center pt-3 border-t border-gray-200">
-                  <AnimatedTargetButton
-                    href="https://sakuya-kyudogu.jp/order_made"
-                    target="_blank"
-                    onClick={() => {
-                      onClose()
-                    }}
-                    className="scale-75"
-                  >
-                    この矢を作ってみる
-                  </AnimatedTargetButton>
+                  <div className="transform translate-y-[50px]">
+                    <AnimatedTargetButton
+                      href="https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"
+                      target="_blank"
+                      onClick={() => {
+                        onClose()
+                      }}
+                      className="scale-75"
+                      triggerOnScroll={true}
+                    >
+                      この矢を作ってみる
+                    </AnimatedTargetButton>
+                  </div>
                 </div>
               </div>
             </motion.div>
