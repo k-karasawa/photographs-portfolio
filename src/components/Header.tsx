@@ -90,10 +90,16 @@ export const Header = () => {
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId)
     if (section) {
-      document.body.style.overflow = ''
-      section.scrollIntoView({ behavior: 'smooth' })
-      setActiveSection(sectionId)
+      // メニューを先に閉じる
       setIsMenuOpen(false)
+      document.body.style.overflow = ''
+      document.body.classList.remove('menu-open')
+      
+      // 少し遅延させてからスクロール
+      setTimeout(() => {
+        section.scrollIntoView({ behavior: 'smooth' })
+        setActiveSection(sectionId)
+      }, 50)
     }
   }
 
@@ -110,9 +116,11 @@ export const Header = () => {
     
     if (newMenuState) {
       document.body.style.overflow = 'hidden'
+      document.body.classList.add('menu-open')
     } else {
       setTimeout(() => {
         document.body.style.overflow = ''
+        document.body.classList.remove('menu-open')
       }, 10)
     }
   }
@@ -121,6 +129,7 @@ export const Header = () => {
     setIsMenuOpen(false)
     setTimeout(() => {
       document.body.style.overflow = ''
+      document.body.classList.remove('menu-open')
     }, 10)
   }
 
@@ -239,7 +248,7 @@ export const Header = () => {
                 </div>
 
                 <a
-                  href="https://sakuya-kyudogu.jp/guide"
+                  href="https://sakuya-kyudogu.jp/select_guide"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`relative py-2 mr-8 text-xs lg:text-sm font-medium transition-colors duration-200 hidden md:flex items-center whitespace-nowrap
@@ -286,8 +295,23 @@ export const Header = () => {
 
               {/* ハンバーガーメニューボタン - 常に表示 */}
               <button 
-                onClick={toggleMenu}
-                className={`p-2 -mt-1 transition-colors duration-200
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleMenu();
+                }}
+                onTouchStart={(e) => {
+                  // タッチ開始時にアクティブ状態を視覚的に示す
+                  e.currentTarget.classList.add('active-touch');
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // アクティブ状態を解除
+                  e.currentTarget.classList.remove('active-touch');
+                  toggleMenu();
+                }}
+                className={`p-2 -mt-1 transition-colors duration-200 cursor-pointer touch-manipulation tap-highlight-none
                   ${isScrolled 
                     ? 'text-[#333333] hover:text-[#C84C38]' 
                     : 'text-[#333333]/90 hover:text-[#333333]'
@@ -310,22 +334,52 @@ export const Header = () => {
       {isMounted && isMenuOpen && createPortal(
         <div className="menu-portal" style={{ position: 'relative', zIndex: 9999 }}>
           <div 
-            className="fixed inset-0 bg-black opacity-70" 
+            className="fixed inset-0 bg-black opacity-70 tap-highlight-none" 
             style={{ zIndex: 9998 }}
-            onClick={closeMenu}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              closeMenu();
+            }}
+            onTouchStart={(e) => {
+              // タッチ開始時の処理
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              closeMenu();
+            }}
           />
           
           <div 
             className="fixed top-0 right-0 bottom-0 w-64 bg-white shadow-xl"
             style={{ 
               zIndex: 9999,
-              animation: 'slideIn 0.3s ease-in-out forwards'
+              animation: 'slideIn 0.3s ease-in-out forwards',
+              WebkitOverflowScrolling: 'touch' // モバイルでのスクロールを滑らかにする
             }}
           >
             <div className="flex justify-end p-4 border-b border-gray-100">
               <button 
-                onClick={closeMenu}
-                className="text-[#333333] p-2 rounded-full hover:bg-gray-100/50 transition-colors duration-200"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  closeMenu();
+                }}
+                onTouchStart={(e) => {
+                  // タッチ開始時にアクティブ状態を視覚的に示す
+                  e.currentTarget.classList.add('active-touch');
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // アクティブ状態を解除
+                  e.currentTarget.classList.remove('active-touch');
+                  closeMenu();
+                }}
+                className="text-[#333333] p-2 rounded-full hover:bg-gray-100/50 transition-colors duration-200 cursor-pointer touch-manipulation tap-highlight-none"
                 aria-label="メニューを閉じる"
               >
                 <FiX className="h-6 w-6" />
@@ -336,8 +390,23 @@ export const Header = () => {
               {menuItems.map((item) => (
                 <button
                   key={item.sectionId}
-                  onClick={() => scrollToSection(item.sectionId)}
-                  className={`relative px-3 py-4 text-base font-medium transition-colors duration-200 text-left border-b border-gray-100
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    scrollToSection(item.sectionId);
+                  }}
+                  onTouchStart={(e) => {
+                    // タッチ開始時にアクティブ状態を視覚的に示す
+                    e.currentTarget.classList.add('active-touch');
+                  }}
+                  onTouchEnd={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // アクティブ状態を解除
+                    e.currentTarget.classList.remove('active-touch');
+                    scrollToSection(item.sectionId);
+                  }}
+                  className={`relative px-3 py-4 text-base font-medium transition-colors duration-200 text-left border-b border-gray-100 cursor-pointer touch-manipulation tap-highlight-none
                     ${activeSection === item.sectionId 
                       ? 'text-[#C84C38] font-bold' 
                       : 'text-[#333333] hover:text-[#C84C38]'
@@ -362,6 +431,22 @@ export const Header = () => {
             
             body.menu-open {
               overflow: hidden;
+              position: fixed;
+              width: 100%;
+              height: 100%;
+            }
+            
+            /* タップハイライトを無効化 */
+            .tap-highlight-none {
+              -webkit-tap-highlight-color: transparent;
+              -webkit-touch-callout: none;
+              -webkit-user-select: none;
+              user-select: none;
+            }
+            
+            /* タッチ時のアクティブ状態 */
+            .active-touch {
+              opacity: 0.7;
             }
           `}</style>
         </div>,
