@@ -122,7 +122,14 @@ export const Header = () => {
           <div className="flex items-center justify-between h-20 max-w-[1920px] mx-auto">
             {/* サイトタイトルとロゴ */}
             <div className="flex-none relative">
-              <Link href="/" className="group flex items-center">
+              <Link 
+                href="/" 
+                className="group flex items-center"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToTop();
+                }}
+              >
                 {/* サイトタイトル - スクロールに応じてフェードアウト */}
                 <motion.span
                   initial={false}
@@ -167,7 +174,6 @@ export const Header = () => {
                       alt="咲矢弓道具" 
                       width={40} 
                       height={40}
-                      onClick={scrollToTop}
                       className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 transition-transform duration-300 cursor-pointer"
                     />
                   </motion.div>
