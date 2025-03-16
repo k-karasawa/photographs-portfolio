@@ -130,13 +130,53 @@ export const Header = () => {
         })
         setActiveSection('top') // TOPセクションをアクティブに設定
       } else {
-        const section = document.getElementById(sectionId)
-        if (section) {
-          section.scrollIntoView({ behavior: 'smooth' })
-          setActiveSection(sectionId)
+        // ギャラリーセクションの特別処理
+        if (sectionId === 'gallery') {
+          // モバイル端末かどうかを確認
+          const isMobile = window.innerWidth < 768
+          
+          // ギャラリーセクションを探す
+          const gallerySection = document.getElementById(sectionId)
+          
+          if (gallerySection) {
+            // 通常のスクロール処理
+            gallerySection.scrollIntoView({ behavior: 'smooth' })
+            setActiveSection(sectionId)
+          } else if (isMobile) {
+            // モバイル端末でギャラリーセクションが見つからない場合
+            // 固定位置にスクロール（カスタムセクションの後）
+            const customSection = document.getElementById('custom')
+            if (customSection) {
+              const customRect = customSection.getBoundingClientRect()
+              const customHeight = customRect.height
+              const customTop = window.pageYOffset + customRect.top
+              
+              // カスタムセクションの下にスクロール
+              window.scrollTo({
+                top: customTop + customHeight,
+                behavior: 'smooth'
+              })
+              setActiveSection(sectionId)
+            } else {
+              // フォールバック：ページの中央あたりにスクロール
+              const pageHeight = document.body.scrollHeight
+              window.scrollTo({
+                top: pageHeight * 0.4, // ページの40%位置
+                behavior: 'smooth'
+              })
+              setActiveSection(sectionId)
+            }
+          }
+        } else {
+          // 他のセクションは通常通りスクロール
+          const section = document.getElementById(sectionId)
+          if (section) {
+            section.scrollIntoView({ behavior: 'smooth' })
+            setActiveSection(sectionId)
+          }
         }
       }
-    }, 50)
+    }, 100)
   }
 
   const scrollToTop = () => {

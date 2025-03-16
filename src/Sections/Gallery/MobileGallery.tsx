@@ -27,8 +27,10 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
 
   return (
     <motion.div
+      id="gallery"
       ref={containerRef}
       className="h-[200vh] relative z-40 bg-white"
+      aria-label="モバイルギャラリーセクション"
     >
       <div className="sticky top-0 w-full h-screen flex items-center bg-white overflow-hidden">
         <div className="relative w-full h-[95vh]">
