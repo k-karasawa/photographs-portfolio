@@ -24,7 +24,7 @@ export const galleryImages: GalleryImage[] = Array.from({ length: 15 }, (_, i) =
       description: "最高級の素材と職人技が結実した逸品。黒尾羽を使用し、伝統的な美しさと現代的な性能を両立させています。",
       specs: {
         material: {
-          shaft: "黒",
+          shaft: "2014 黒",
           fletching: "ゴマ符 青",
           paper: "W094_松黒",
           furubiki: "L001_金",
@@ -42,7 +42,7 @@ export const galleryImages: GalleryImage[] = Array.from({ length: 15 }, (_, i) =
     description: "伝統的な手法で作られた竹矢。職人による丁寧な仕上げと、厳選された素材による優れた飛行性能を実現しています。",
     specs: {
       material: {
-        shaft: "黒",
+        shaft: "1913 黒　ジュラシャフト",
         fletching: "ゴマ符 青",
         paper: "W094_松黒",
         furubiki: "L001_金",
