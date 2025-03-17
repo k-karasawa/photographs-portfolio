@@ -342,21 +342,6 @@ export const Header = () => {
                 </a>
 
                 <a
-                  href="https://sakuya-kyudogu.jp/order_made"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`relative py-2 mr-8 text-xs lg:text-sm font-medium transition-colors duration-200 hidden md:flex items-center whitespace-nowrap
-                    ${isScrolled 
-                      ? 'text-[#333333] hover:text-[#C84C38]' 
-                      : 'text-[#333333]/90 hover:text-[#333333]'
-                    }
-                  `}
-                >
-                  <FiShoppingCart className="w-4 h-4 mr-1" />
-                  オーダーする
-                </a>
-
-                <a
                   href="https://sakuya-kyudogu.jp/contact"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -369,6 +354,37 @@ export const Header = () => {
                 >
                   <FiMail className="w-4 h-4 mr-1" />
                   お問い合わせ
+                </a>
+
+                <a
+                  href="https://sakuya-kyudogu.jp/order_made"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    background: '#C84C38',
+                    color: 'white',
+                    padding: '0.3rem 0.8rem',
+                    borderRadius: '9999px',
+                    marginRight: '2rem',
+                    alignItems: 'center',
+                    transform: 'translateY(-2px)',
+                    border: '1px solid transparent',
+                    transition: 'all 0.3s ease'
+                  }}
+                  className="hidden md:flex hover:opacity-100"
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = '#C84C38';
+                    e.currentTarget.style.border = '1px solid #C84C38';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.background = '#C84C38';
+                    e.currentTarget.style.color = 'white';
+                    e.currentTarget.style.border = '1px solid transparent';
+                  }}
+                >
+                  <FiShoppingCart className="w-4 h-4 mr-1.5" />
+                  <span className="font-bold text-xs">オーダーする</span>
                 </a>
               </motion.div>
 
@@ -552,36 +568,6 @@ export const Header = () => {
                         矢の選び方
                       </a>
                       <a
-                        href="https://sakuya-kyudogu.jp/order_made"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
-                        onClick={(e) => {
-                          // デフォルトの動作を防止
-                          e.preventDefault();
-                          // イベントの伝播を停止
-                          e.stopPropagation();
-                          // メニューを閉じる
-                          closeMenu();
-                          // リンクを開く
-                          window.open("https://sakuya-kyudogu.jp/order_made", "_blank", "noopener,noreferrer");
-                        }}
-                        onTouchEnd={(e) => {
-                          // デフォルトの動作を防止
-                          e.preventDefault();
-                          // イベントの伝播を停止
-                          e.stopPropagation();
-                          // メニューを閉じる
-                          closeMenu();
-                          // リンクを開く
-                          window.open("https://sakuya-kyudogu.jp/order_made", "_blank", "noopener,noreferrer");
-                        }}
-                        style={{ touchAction: 'manipulation' }}
-                      >
-                        <FiShoppingCart className="w-4 h-4 mr-3 text-gray-500" />
-                        オーダーする
-                      </a>
-                      <a
                         href="https://sakuya-kyudogu.jp/contact"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -610,6 +596,36 @@ export const Header = () => {
                       >
                         <FiMail className="w-4 h-4 mr-3 text-gray-500" />
                         お問い合わせ
+                      </a>
+                      <a
+                        href="https://sakuya-kyudogu.jp/order_made"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center bg-[#C84C38]/10 text-[#C84C38] font-bold hover:bg-[#C84C38]/20"
+                        onClick={(e) => {
+                          // デフォルトの動作を防止
+                          e.preventDefault();
+                          // イベントの伝播を停止
+                          e.stopPropagation();
+                          // メニューを閉じる
+                          closeMenu();
+                          // リンクを開く
+                          window.open("https://sakuya-kyudogu.jp/order_made", "_blank", "noopener,noreferrer");
+                        }}
+                        onTouchEnd={(e) => {
+                          // デフォルトの動作を防止
+                          e.preventDefault();
+                          // イベントの伝播を停止
+                          e.stopPropagation();
+                          // メニューを閉じる
+                          closeMenu();
+                          // リンクを開く
+                          window.open("https://sakuya-kyudogu.jp/order_made", "_blank", "noopener,noreferrer");
+                        }}
+                        style={{ touchAction: 'manipulation' }}
+                      >
+                        <FiShoppingCart className="w-4 h-4 mr-3 text-[#C84C38]" />
+                        オーダーする
                       </a>
                     </nav>
                   </div>

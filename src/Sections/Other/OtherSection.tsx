@@ -3,6 +3,7 @@ import { HiOutlineAcademicCap } from 'react-icons/hi2';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Other } from './Other';
 import { FlipCard } from './FlipCard';
+import { useEffect, useState } from 'react';
 
 export const OtherSection = () => {
   const customItems = [
@@ -18,6 +19,26 @@ export const OtherSection = () => {
     "矢尺",
     "羽中加工",
   ];
+
+  // テキストサイズを画面幅に応じて動的に調整
+  const [fontSize, setFontSize] = useState("1rem");
+  
+  useEffect(() => {
+    const updateFontSize = () => {
+      const containerWidth = document.querySelector('#subtitle-container')?.clientWidth || 0;
+      const textLength = "見た目だけじゃない、性能にだってこだわれる。".length;
+      // 文字数と利用可能な幅に基づいてフォントサイズを計算
+      const calculatedSize = Math.min(containerWidth / (textLength * 1.8), 1.125);
+      setFontSize(`${Math.max(0.75, calculatedSize)}rem`);
+    };
+    
+    updateFontSize();
+    window.addEventListener('resize', updateFontSize);
+    
+    return () => {
+      window.removeEventListener('resize', updateFontSize);
+    };
+  }, []);
 
   return (
     <section 
@@ -44,15 +65,21 @@ export const OtherSection = () => {
                 その他のカスタマイズ
               </motion.h2>
 
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-lg md:text-lg text-[#666666] leading-relaxed font-sans text-[clamp(0.875rem,3vw,1.125rem)] break-keep"
+              <motion.div 
+                id="subtitle-container"
+                className="w-full overflow-hidden"
               >
-                見た目だけじゃない、性能にだってこだわれる。
-              </motion.p>
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  className="text-[#666666] leading-relaxed font-sans whitespace-nowrap"
+                  style={{ fontSize }}
+                >
+                  見た目だけじゃない、性能にだってこだわれる。
+                </motion.p>
+              </motion.div>
             </motion.div>
 
             <div className="md:hidden mb-12">
