@@ -601,7 +601,7 @@ export const Header = () => {
                         href="https://sakuya-kyudogu.jp/order_made"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
+                        className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center bg-[#C84C38]/10 text-[#C84C38] font-bold hover:bg-[#C84C38]/20"
                         onClick={(e) => {
                           // デフォルトの動作を防止
                           e.preventDefault();
@@ -624,7 +624,7 @@ export const Header = () => {
                         }}
                         style={{ touchAction: 'manipulation' }}
                       >
-                        <FiShoppingCart className="w-4 h-4 mr-3 text-gray-500" />
+                        <FiShoppingCart className="w-4 h-4 mr-3 text-[#C84C38]" />
                         オーダーする
                       </a>
                     </nav>
