@@ -49,7 +49,7 @@ export const OtherSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-lg md:text-lg text-[#666666] leading-relaxed font-sans whitespace-nowrap text-[clamp(0.875rem,3vw,1.125rem)]"
+                className="text-lg md:text-lg text-[#666666] leading-relaxed font-sans text-[clamp(0.875rem,3vw,1.125rem)] break-keep"
               >
                 見た目だけじゃない、性能にだってこだわれる。
               </motion.p>
