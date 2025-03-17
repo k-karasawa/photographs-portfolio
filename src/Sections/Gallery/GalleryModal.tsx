@@ -16,6 +16,9 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
   // タッチデバイスかどうかのフラグ
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   
+  // 画像のプリロード用の状態
+  const [imagesPreloaded, setImagesPreloaded] = useState(false);
+  
   // クライアントサイドでのみタッチデバイス検出を行う
   useEffect(() => {
     setIsTouchDevice(
@@ -23,6 +26,24 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
       ('ontouchstart' in window || navigator.maxTouchPoints > 0)
     );
   }, []);
+
+  // ボタンで使用される画像をプリロード
+  useEffect(() => {
+    if (isOpen && !imagesPreloaded) {
+      const targetImage = new window.Image();
+      targetImage.src = '/icons/target.png';
+      
+      const arrowImage = new window.Image();
+      arrowImage.src = '/icons/arrow.png';
+      
+      Promise.all([
+        new Promise(resolve => { targetImage.onload = resolve; }),
+        new Promise(resolve => { arrowImage.onload = resolve; })
+      ]).then(() => {
+        setImagesPreloaded(true);
+      });
+    }
+  }, [isOpen, imagesPreloaded]);
 
   useEffect(() => {
     if (isOpen) {
@@ -217,7 +238,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
                   <p className="text-[#C84C38] mb-2 text-center text-[clamp(0.75rem,2vw,0.875rem)] whitespace-nowrap">
                     新規デザインから「{image.title}」を選択してください
                   </p>
-                  <div className="mb-4">
+                  <div className="mb-4 min-h-[60px] flex items-center">
                     <AnimatedTargetButton
                       href="https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"
                       target="_blank"
