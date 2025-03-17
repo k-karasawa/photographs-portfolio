@@ -27,12 +27,43 @@ export const Footer = () => {
   const scrollToSection = (sectionId: string) => {
     if (!isMounted) return
     
-    const section = document.getElementById(sectionId)
-    if (section) {
+    if (sectionId === "top") {
       window.scrollTo({
-        top: section.offsetTop - 80,
+        top: 0,
         behavior: 'smooth'
       })
+      return
+    }
+    
+    const section = document.getElementById(sectionId)
+    if (section) {
+      // ギャラリーセクションの特別処理
+      if (sectionId === 'gallery') {
+        // モバイル端末かどうかを確認
+        const isMobile = window.innerWidth < 768
+        
+        if (isMobile) {
+          // モバイル端末の場合の特別処理
+          const customSection = document.getElementById('custom')
+          if (customSection) {
+            const customRect = customSection.getBoundingClientRect()
+            const customHeight = customRect.height
+            const customTop = window.pageYOffset + customRect.top
+            
+            // カスタムセクションの下にスクロール
+            window.scrollTo({
+              top: customTop + customHeight,
+              behavior: 'smooth'
+            })
+          }
+        } else {
+          // 通常のスクロール処理
+          section.scrollIntoView({ behavior: 'smooth' })
+        }
+      } else {
+        // 他のセクションは通常通りスクロール
+        section.scrollIntoView({ behavior: 'smooth' })
+      }
     }
   }
 
