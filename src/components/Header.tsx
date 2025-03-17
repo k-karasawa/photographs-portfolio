@@ -361,20 +361,26 @@ export const Header = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
-                    background: 'linear-gradient(to right, #C84C38, #D85F4D)',
+                    background: '#C84C38',
                     color: 'white',
                     padding: '0.3rem 0.8rem',
                     borderRadius: '9999px',
                     marginRight: '2rem',
                     alignItems: 'center',
-                    transform: 'translateY(-2px)'
+                    transform: 'translateY(-2px)',
+                    border: '1px solid transparent',
+                    transition: 'all 0.3s ease'
                   }}
                   className="hidden md:flex hover:opacity-100"
                   onMouseOver={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(to right, #B73D2D, #C74E3C)';
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = '#C84C38';
+                    e.currentTarget.style.border = '1px solid #C84C38';
                   }}
                   onMouseOut={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(to right, #C84C38, #D85F4D)';
+                    e.currentTarget.style.background = '#C84C38';
+                    e.currentTarget.style.color = 'white';
+                    e.currentTarget.style.border = '1px solid transparent';
                   }}
                 >
                   <FiShoppingCart className="w-4 h-4 mr-1.5" />
