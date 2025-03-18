@@ -65,7 +65,7 @@ export const Top = () => {
         rotation: (Math.random() - 0.5) * ROTATION_RANGE,
         rotationDirection: Math.random() > 0.5 ? 1 : -1,
         timestamp: 0,
-        imageNumber: Math.floor(Math.random() * 15) + 1
+        imageNumber: Math.floor(Math.random() * 21) + 1
       }
 
       setImages(prev => [...prev.filter(img => img.progress < 1), newImage].slice(-10))
