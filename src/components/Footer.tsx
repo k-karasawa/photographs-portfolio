@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import { GiArrowhead } from 'react-icons/gi'
 import { FiShoppingCart, FiMail, FiInstagram } from 'react-icons/fi'
@@ -19,19 +19,40 @@ const menuItems: MenuItem[] = [
 
 export const Footer = () => {
   const [isMounted, setIsMounted] = useState(false)
+  // タッチデバイスかどうかのフラグ
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
+  // 重複実行を防ぐためのフラグ
+  const isProcessingRef = useRef(false)
 
   useEffect(() => {
     setIsMounted(true)
+    // クライアントサイドでのみタッチデバイス検出を行う
+    setIsTouchDevice(
+      typeof window !== 'undefined' && 
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    )
   }, [])
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = useCallback((sectionId: string) => {
     if (!isMounted) return
+    
+    // 既に処理中なら何もしない
+    if (isProcessingRef.current) return
+    
+    // 処理中フラグを立てる
+    isProcessingRef.current = true
     
     if (sectionId === "top") {
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
       })
+      
+      // 少し遅延してフラグをリセット（次のタップのため）
+      setTimeout(() => {
+        isProcessingRef.current = false
+      }, 300)
+      
       return
     }
     
@@ -64,8 +85,67 @@ export const Footer = () => {
         // 他のセクションは通常通りスクロール
         section.scrollIntoView({ behavior: 'smooth' })
       }
+      
+      // 少し遅延してフラグをリセット（次のタップのため）
+      setTimeout(() => {
+        isProcessingRef.current = false
+      }, 300)
     }
-  }
+  }, [isMounted])
+
+  // リンクに対するイベントハンドラー
+  const handleLinkClick = useCallback((e: React.MouseEvent | React.TouchEvent, url?: string) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    // 既に処理中なら何もしない
+    if (isProcessingRef.current) return
+    
+    // 処理中フラグを立てる
+    isProcessingRef.current = true
+    
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer')
+      
+      // 少し遅延してフラグをリセット（次のタップのため）
+      setTimeout(() => {
+        isProcessingRef.current = false
+      }, 300)
+    }
+  }, [])
+
+  // タッチデバイスの場合はonClickを無効化し、onTouchEndのみを使用
+  const getSectionClickHandler = useCallback((sectionId: string) => {
+    return isTouchDevice 
+      ? undefined 
+      : (e: React.MouseEvent) => {
+          e.preventDefault()
+          e.stopPropagation()
+          scrollToSection(sectionId)
+        }
+  }, [isTouchDevice, scrollToSection])
+  
+  const getSectionTouchHandler = useCallback((sectionId: string) => {
+    return isTouchDevice 
+      ? (e: React.TouchEvent) => {
+          e.preventDefault()
+          e.stopPropagation()
+          scrollToSection(sectionId)
+        } 
+      : undefined
+  }, [isTouchDevice, scrollToSection])
+  
+  const getLinkClickHandler = useCallback((url?: string) => {
+    return isTouchDevice 
+      ? undefined 
+      : (e: React.MouseEvent) => handleLinkClick(e, url)
+  }, [isTouchDevice, handleLinkClick])
+  
+  const getLinkTouchHandler = useCallback((url?: string) => {
+    return isTouchDevice 
+      ? (e: React.TouchEvent) => handleLinkClick(e, url) 
+      : undefined
+  }, [isTouchDevice, handleLinkClick])
 
   return (
     <footer className="bg-gray-200 pt-12 pb-6 relative z-20">
@@ -96,7 +176,10 @@ export const Footer = () => {
                 href="https://www.instagram.com/sakuyakyudogu/"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={getLinkClickHandler("https://www.instagram.com/sakuyakyudogu/")}
+                onTouchEnd={getLinkTouchHandler("https://www.instagram.com/sakuyakyudogu/")}
                 className="text-gray-600 hover:text-[#C84C38] transition-colors duration-200"
+                style={{ touchAction: 'manipulation' }}
               >
                 <FiInstagram className="w-5 h-5" />
               </a>
@@ -104,7 +187,10 @@ export const Footer = () => {
                 href="https://twitter.com/sakuyakyudogu"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={getLinkClickHandler("https://twitter.com/sakuyakyudogu")}
+                onTouchEnd={getLinkTouchHandler("https://twitter.com/sakuyakyudogu")}
                 className="text-gray-600 hover:text-[#C84C38] transition-colors duration-200"
+                style={{ touchAction: 'manipulation' }}
               >
                 <RiTwitterXLine className="w-5 h-5" />
               </a>
@@ -114,7 +200,10 @@ export const Footer = () => {
                 href="https://sakuya-kyudogu.jp/order_made"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/order_made")}
+                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp/order_made")}
                 className="px-6 py-3 bg-[#C84C38] text-white rounded-lg text-sm font-medium hover:bg-[#C84C38]/90 transition-colors duration-200 flex items-center justify-center"
+                style={{ touchAction: 'manipulation' }}
               >
                 <FiShoppingCart className="w-4 h-4 mr-2" />
                 オーダーする
@@ -128,8 +217,10 @@ export const Footer = () => {
               {menuItems.map((item) => (
                 <button
                   key={item.sectionId}
-                  onClick={() => scrollToSection(item.sectionId)}
+                  onClick={getSectionClickHandler(item.sectionId)}
+                  onTouchEnd={getSectionTouchHandler(item.sectionId)}
                   className="text-sm text-gray-600 hover:text-[#C84C38] transition-colors duration-200 text-center md:text-left"
+                  style={{ touchAction: 'manipulation' }}
                 >
                   {item.label}
                 </button>
@@ -145,7 +236,10 @@ export const Footer = () => {
                 href="https://sakuya-kyudogu.jp"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp")}
+                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp")}
                 className="text-sm text-gray-600 hover:text-[#C84C38] transition-colors duration-200 flex items-center justify-center md:justify-start"
+                style={{ touchAction: 'manipulation' }}
               >
                 咲矢弓道具 公式サイト
               </a>
@@ -153,7 +247,10 @@ export const Footer = () => {
                 href="https://sakuya-kyudogu.jp/order_made"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/order_made")}
+                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp/order_made")}
                 className="text-sm text-gray-600 hover:text-[#C84C38] transition-colors duration-200 flex items-center justify-center md:justify-start "
+                style={{ touchAction: 'manipulation' }}
               >
                 矢のオーダーメイドシステム
               </a>
@@ -161,7 +258,10 @@ export const Footer = () => {
                 href="https://sakuya-kyudogu.jp/select_guide"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/select_guide")}
+                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp/select_guide")}
                 className="text-sm text-gray-600 hover:text-[#C84C38] transition-colors duration-200 flex items-center justify-center md:justify-start"
+                style={{ touchAction: 'manipulation' }}
               >
                 <GiArrowhead className="w-4 h-4 mr-2" />
                 矢の選び方
@@ -170,7 +270,10 @@ export const Footer = () => {
                 href="https://sakuya-kyudogu.jp/contact"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/contact")}
+                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp/contact")}
                 className="text-sm text-gray-600 hover:text-[#C84C38] transition-colors duration-200 flex items-center justify-center md:justify-start"
+                style={{ touchAction: 'manipulation' }}
               >
                 <FiMail className="w-4 h-4 mr-2" />
                 お問い合わせ
