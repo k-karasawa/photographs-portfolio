@@ -211,12 +211,12 @@ export const galleryImages: GalleryImage[] = [
   {
     id: 13,
     src: "/gallery/13.jpg",
-    title: "13. だんぶりこ オレンジ",
-    description: "東北で伝統的に使用されるとんぼをモチーフとした縁起の良い柄を、明るく暖かいオレンジで仕上げた矢です。",
+    title: "13. だんぶりこ 黄",
+    description: "東北で伝統的に使用されるとんぼをモチーフとした縁起の良い柄を、明るく暖かいオレンジに仕上げた矢です。",
     specs: {
       material: {
         shaft: "ジュラシャフト 茶",
-        fletching: "ターキー だんぶりこ オレンジ",
+        fletching: "ターキー だんぶりこ 黄",
         paper: "F184 糸",
         furubiki: "L001_金",
         featherProcess: "無し",
