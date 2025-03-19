@@ -105,9 +105,17 @@ export const Footer = () => {
     isProcessingRef.current = true
     
     if (url) {
-      window.open(url, '_blank', 'noopener,noreferrer')
-      
-      // 少し遅延してフラグをリセット（次のタップのため）
+      // setTimeout を使用して非同期でリンクを開く
+      setTimeout(() => {
+        window.open(url, '_blank', 'noopener,noreferrer')
+        
+        // 処理が完了したらフラグをリセット
+        setTimeout(() => {
+          isProcessingRef.current = false
+        }, 300)
+      }, 0)
+    } else {
+      // URL がない場合は単にフラグをリセット
       setTimeout(() => {
         isProcessingRef.current = false
       }, 300)

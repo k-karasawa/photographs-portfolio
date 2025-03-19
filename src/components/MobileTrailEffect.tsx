@@ -5,7 +5,7 @@ const MIN_DISTANCE_FOR_NEW_IMAGE = 40
 const MAX_MOVE_SPEED = 50
 const ROTATION_RANGE = 45
 const TAP_IMAGE_LIFETIME = 4000
-const TOTAL_IMAGES = 15 // 画像の総数を定数化
+const TOTAL_IMAGES = 28
 
 interface Props {
   setParentImages: React.Dispatch<React.SetStateAction<ArrowImage[]>>
@@ -49,7 +49,7 @@ export const MobileTrailEffect = ({ setParentImages }: Props) => {
         rotation: (Math.random() - 0.5) * ROTATION_RANGE,
         rotationDirection: Math.random() > 0.5 ? 1 : -1,
         timestamp: Date.now(),
-        imageNumber: Math.floor(Math.random() * TOTAL_IMAGES) + 1 // 1-15のランダムな数字を生成
+        imageNumber: Math.floor(Math.random() * TOTAL_IMAGES) + 1 // 1-21のランダムな数字を生成
       }
 
       setParentImages(prev => [...prev.filter(img => img.progress < 1), newImage].slice(-10))
@@ -82,7 +82,7 @@ export const MobileTrailEffect = ({ setParentImages }: Props) => {
         rotationDirection: Math.random() > 0.5 ? 1 : -1,
         timestamp: Date.now(),
         isTapImage: true,
-        imageNumber: Math.floor(Math.random() * TOTAL_IMAGES) + 1 // 1-15のランダムな数字を生成
+        imageNumber: Math.floor(Math.random() * TOTAL_IMAGES) + 1 // 1-21のランダムな数字を生成
       }
 
       setParentImages(prev => [...prev, newImage])

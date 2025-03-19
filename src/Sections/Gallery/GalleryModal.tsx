@@ -328,7 +328,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
                         <span>{image.specs.material.fletching}</span>
                       </div>
                       <div className="text-gray-600 flex">
-                        <span className="font-medium w-24">和紙</span>
+                        <span className="font-medium w-24">糸/和紙</span>
                         <span className="mx-1">:</span>
                         <span>{image.specs.material.paper}</span>
                       </div>
