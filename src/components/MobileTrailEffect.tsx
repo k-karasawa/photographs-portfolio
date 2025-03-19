@@ -5,7 +5,7 @@ const MIN_DISTANCE_FOR_NEW_IMAGE = 40
 const MAX_MOVE_SPEED = 50
 const ROTATION_RANGE = 45
 const TAP_IMAGE_LIFETIME = 4000
-const TOTAL_IMAGES = 21
+const TOTAL_IMAGES = 28
 
 interface Props {
   setParentImages: React.Dispatch<React.SetStateAction<ArrowImage[]>>

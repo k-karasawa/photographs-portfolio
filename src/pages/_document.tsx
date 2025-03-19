@@ -6,17 +6,24 @@ export default function Document() {
       <Head>
         {/* 基本的なメタタグ */}
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* viewport metaタグは_document.jsでは使用せず、_app.tsxに移動 */}
         <meta name="format-detection" content="telephone=no" />
         
         {/* ファビコン関連 */}
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/sakuya-pwa.jpg" />
         <link rel="icon" type="image/jpeg" sizes="192x192" href="/sakuya-pwa.jpg" />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link
+          rel="manifest"
+          href="/manifest.json"
+        />
+        <link
+          rel="manifest"
+          href="/site.webmanifest"
+        />
         
         {/* デフォルトのOGP設定 - 各ページで上書き可能 */}
-        <meta property="og:site_name" content="咲矢弓道具 | 矢のオーダーメイドのすすめ" />
+        <meta property="og:site_name" content="咲矢弓道具 | 矢のオーダーメイド" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="ja_JP" />
         

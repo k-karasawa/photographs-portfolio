@@ -100,4 +100,28 @@ IDをそれぞれ実際のものに置き換えてください。
 
 1. アイコン画像を変更する場合は、新しい画像を `/public/sakuya-pwa.jpg` として保存
 2. PWAの設定を変更する場合は、`/public/site.webmanifest` ファイルを編集
-3. 変更をデプロイして反映
+3. Service Workerの設定を変更する場合は、`/public/serviceworker.js` を編集
+4. 変更をデプロイして反映
+
+### Service Worker
+
+アプリケーションはPWA（Progressive Web App）機能を備えており、Service Workerを使用してオフライン機能やキャッシュ管理を行っています。
+
+#### Service Workerの機能
+
+- **キャッシュ管理**: 重要なアセットをキャッシュして高速に読み込み
+- **オフライン対応**: インターネット接続がない場合でも基本機能を提供
+- **パフォーマンス向上**: キャッシュファーストの戦略でロード時間を短縮
+
+#### Service Workerのカスタマイズ
+
+Service Workerの設定を変更する場合は、`/public/serviceworker.js` ファイルを編集します。主な設定項目：
+
+- **CACHE_NAME**: キャッシュのバージョン管理用の名前
+- **urlsToCache**: 初期にキャッシュするファイルのリスト
+- **fetch イベントハンドラ**: リソース取得の戦略を定義
+
+#### 注意事項
+
+- Service Workerのファイル名は必ず `/public/serviceworker.js` (ハイフンなし) を使用してください
+- `/service-worker.js` (ハイフンあり) という形式は使用しないでください

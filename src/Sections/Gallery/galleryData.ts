@@ -25,7 +25,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "ジュラシャフト シルバー",
         fletching: "ターキー 黒",
-        paper: "F770 ツヤあり",
+        paper: "F770 糸",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -41,7 +41,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "ジュラシャフト シルバー",
         fletching: "ターキー とんぼ",
-        paper: "W115_松葉緑",
+        paper: "W115_松葉緑 和紙",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -57,7 +57,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "ジュラシャフト 茶",
         fletching: "ターキー 中白 紫",
-        paper: "W019_夜菊",
+        paper: "W019_夜菊 和紙",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -73,7 +73,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "ジュラシャフト 黒",
         fletching: "ターキー 染色羽根 赤",
-        paper: "W142_桜 鎌倉彫",
+        paper: "W142_桜 鎌倉彫 和紙",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -83,13 +83,13 @@ export const galleryImages: GalleryImage[] = [
   {
     id: 5,
     src: "/gallery/5.jpg",
-    title: "5. 鳥獣戯画",
-    description: "人気の鳥獣戯画の羽根を使用。和風の可愛いキャラクターに癒されながら練習に打ち込む事ができます。",
+    title: "5. 夜の鹿",
+    description: "幻想的な羽根の柄と和紙の組み合わせで、落ち着いて練習に打ち込む事ができます。",
     specs: {
       material: {
         shaft: "ジュラシャフト 黒",
-        fletching: "ターキー 鳥獣戯画",
-        paper: "w186_夢砂子水色",
+        fletching: "ターキー 夜の鹿",
+        paper: "w180_雪に結晶 シルバー 和紙",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -105,7 +105,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "ジュラシャフト シルバー",
         fletching: "ターキー 元白 青",
-        paper: "******",
+        paper: "W008_夜に金鶴 和紙",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -121,7 +121,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "ジュラシャフト シルバー",
         fletching: "ターキー ゴマ符 深緑",
-        paper: "F054:深緑",
+        paper: "F054 糸",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -137,7 +137,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "ジュラシャフト 黒",
         fletching: "ターキー 染色グラデーション茶 元白",
-        paper: "******",
+        paper: "W013_水に撫子茶 和紙",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -153,7 +153,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "ジュラシャフト 茶",
         fletching: "ターキー 大鳥7 鶯",
-        paper: "W084_紅葉青緑",
+        paper: "W084_紅葉青緑 和紙",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -169,7 +169,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "ジュラシャフト 黒",
         fletching: "ターキー 花",
-        paper: "F011",
+        paper: "F011 糸",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -185,7 +185,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "ジュラシャフト 茶",
         fletching: "ターキー 桜",
-        paper: "W145_桜ピンク",
+        paper: "W145_桜ピンク 和紙",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -201,7 +201,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "1913 黒　ジュラシャフト",
         fletching: "ゴマ符 青",
-        paper: "W094_松黒",
+        paper: "F232 糸",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -211,13 +211,13 @@ export const galleryImages: GalleryImage[] = [
   {
     id: 13,
     src: "/gallery/13.jpg",
-    title: "雅韻 竹矢 拾参",
-    description: "伝統と現代技術の融合により生まれた竹矢。バランスの取れた重量と剛性が、安定した飛行と優れた命中精度をもたらします。",
+    title: "13. だんぶりこ オレンジ",
+    description: "東北で伝統的に使用されるとんぼをモチーフとした縁起の良い柄を、明るく暖かいオレンジで仕上げた矢です。",
     specs: {
       material: {
-        shaft: "1913 黒　ジュラシャフト",
-        fletching: "ゴマ符 青",
-        paper: "W094_松黒",
+        shaft: "ジュラシャフト 茶",
+        fletching: "ターキー だんぶりこ オレンジ",
+        paper: "F184 糸",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -227,13 +227,13 @@ export const galleryImages: GalleryImage[] = [
   {
     id: 14,
     src: "/gallery/14.jpg",
-    title: "極彩 竹矢 拾四",
-    description: "色彩豊かな羽根と和紙を使用した美しい竹矢。見た目の美しさだけでなく、優れた飛行特性も兼ね備えています。",
+    title: "14. グース 冠鷲",
+    description: "グースの羽根を近的に使用し、口割りやや飛びで一段上の射を体験する事ができます。",
     specs: {
       material: {
-        shaft: "1913 黒　ジュラシャフト",
-        fletching: "ゴマ符 青",
-        paper: "W094_松黒",
+        shaft: "カーボンシャフト WENEW",
+        fletching: "グース 冠鷲",
+        paper: "F225 糸",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -243,13 +243,13 @@ export const galleryImages: GalleryImage[] = [
   {
     id: 15,
     src: "/gallery/15.jpg",
-    title: "風韻 竹矢 拾五",
-    description: "厳選された竹材を使用し、熟練の職人が一本一本丁寧に仕上げた逸品。伝統的な美しさと現代的な性能を両立させています。",
+    title: "15. 斜閃 カーキ",
+    description: "グースの羽根を近的に使用し、口割りやや飛びで一段上の射を体験する事ができます。",
     specs: {
       material: {
-        shaft: "1913 黒　ジュラシャフト",
-        fletching: "ゴマ符 青",
-        paper: "W094_松黒",
+        shaft: "ジュラシャフト 黒",
+        fletching: "ターキー 斜閃 カーキ",
+        paper: "W107_緑に黒とんぼ 和紙",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
