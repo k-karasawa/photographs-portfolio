@@ -25,7 +25,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "ジュラシャフト シルバー",
         fletching: "ターキー 黒",
-        paper: "F770 糸",
+        paper: "F710 糸",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
@@ -201,7 +201,7 @@ export const galleryImages: GalleryImage[] = [
       material: {
         shaft: "1913 黒　ジュラシャフト",
         fletching: "ゴマ符 青",
-        paper: "F232 糸",
+        paper: "F710 糸",
         furubiki: "L001_金",
         featherProcess: "無し",
         decoration: "無し"
