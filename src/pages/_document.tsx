@@ -13,13 +13,18 @@ export default function Document() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/sakuya-pwa.jpg" />
         <link rel="icon" type="image/jpeg" sizes="192x192" href="/sakuya-pwa.jpg" />
+        
+        {/* Safari/iOS向けPWA対応 */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="咲矢弓道具" />
+        <link rel="apple-touch-startup-image" href="/sakuya-pwa.jpg" />
+        
+        {/* マニフェスト - 一つのみ使用する (manifest.jsonを優先) */}
         <link
           rel="manifest"
           href="/manifest.json"
-        />
-        <link
-          rel="manifest"
-          href="/site.webmanifest"
+          crossOrigin="use-credentials"
         />
         
         {/* デフォルトのOGP設定 - 各ページで上書き可能 */}

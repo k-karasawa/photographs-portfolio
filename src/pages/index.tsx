@@ -31,11 +31,20 @@ const Home: NextPage = () => {
         <meta property="og:image" content={ogImageUrl} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
+        <meta property="og:type" content="website" />
         
         {/* Twitter Card 追加情報 */}
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDescription} />
         <meta name="twitter:image" content={ogImageUrl} />
+        
+        {/* モバイル対応 */}
+        <meta name="theme-color" content="#C84C38" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="咲矢弓道具" />
       </Head>
 
       {/* 構造化データ - JSON-LD */}
