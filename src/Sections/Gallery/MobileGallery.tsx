@@ -6,9 +6,14 @@ import { useRef } from 'react'
 interface MobileGalleryProps {
   setSelectedImage: (image: GalleryImage) => void
   galleryImages: GalleryImage[]
+  featuredImageIndex?: number
 }
 
-export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGalleryProps) => {
+export const MobileGallery = ({ 
+  setSelectedImage, 
+  galleryImages, 
+  featuredImageIndex = 0
+}: MobileGalleryProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -24,6 +29,12 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
   const galleryTitleOpacity = useTransform(scrollYProgress, [0.3, 0.4], [0, 1])
   const galleryTitleY = useTransform(scrollYProgress, [0.3, 0.4], [20, 0])
   const patternOpacity = useTransform(scrollYProgress, [0.2, 0.3], [0, 1])
+
+  const featuredImage = galleryImages[
+    featuredImageIndex >= 0 && featuredImageIndex < galleryImages.length 
+      ? featuredImageIndex 
+      : 0
+  ];
 
   return (
     <motion.div
@@ -61,8 +72,8 @@ export const MobileGallery = ({ setSelectedImage, galleryImages }: MobileGallery
             <div className="relative w-full h-full px-8 pt-20 pb-8">
               <div className="relative w-full h-full rounded-2xl overflow-hidden">
                 <Image
-                  src={galleryImages[0].src}
-                  alt="Featured arrow"
+                  src={featuredImage.src}
+                  alt={`Featured arrow - ${featuredImage.title}`}
                   fill
                   className="object-cover"
                   priority

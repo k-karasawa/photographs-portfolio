@@ -9,8 +9,12 @@ export const Gallery = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [randomImageIndex, setRandomImageIndex] = useState(0)
 
   useEffect(() => {
+    // 画面のロード時に一度だけランダムな画像インデックスを生成
+    setRandomImageIndex(Math.floor(Math.random() * galleryImages.length))
+    
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
     }
@@ -61,6 +65,7 @@ export const Gallery = () => {
         <MobileGallery 
           setSelectedImage={setSelectedImage} 
           galleryImages={galleryImages}
+          featuredImageIndex={randomImageIndex}
         />
         <GalleryModal
           isOpen={!!selectedImage}
