@@ -235,10 +235,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
                 </div>
 
                 <div className="flex flex-col items-center pt-3 border-t border-gray-200">
-                  <p className="text-[#C84C38] mb-2 text-center text-[clamp(0.75rem,2vw,0.875rem)] whitespace-nowrap">
-                    新規デザインから「{image.title}」を選択してください
-                  </p>
-                  <div className="mb-4 min-h-[60px] flex items-center">
+                  <div className="mb-4 min-h-[60px] flex items-center justify-center w-full">
                     <AnimatedTargetButton
                       href={image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"}
                       target="_blank"
@@ -271,7 +268,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3 }}
               className="relative bg-white max-w-3xl overflow-visible flex flex-row gap-4 p-6 rounded-lg"
-              style={{ maxHeight: '90vh', touchAction: 'manipulation' }}
+              style={{ maxHeight: '90vh', minWidth: '800px', touchAction: 'manipulation' }}
               onClick={handleContentClick}
               onTouchEnd={handleContentClick}
             >
@@ -352,10 +349,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
                 </div>
 
                 <div className="flex flex-col items-center pt-3 border-t border-gray-200">
-                  <p className="text-[#C84C38] mb-2 text-center text-xs px-2 w-full">
-                    新規デザインから「{image.title}」を選択してください
-                  </p>
-                  <div>
+                  <div className="flex justify-center w-full min-w-[280px] mt-14">
                     <AnimatedTargetButton
                       href={image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"}
                       target="_blank"
