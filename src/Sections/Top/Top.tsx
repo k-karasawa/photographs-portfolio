@@ -213,23 +213,23 @@ export const Top = () => {
               <div className="text-3xl md:text-6xl lg:text-7xl font-normal text-[#333333] leading-tight mb-6 
                 text-center md:text-left"
               >
-                <span className="whitespace-nowrap">あなたは出会う。</span>
-                <br />
-                <span className="whitespace-nowrap">ここで、運命の矢と。</span>
+                <span className="whitespace-nowrap md:-ml-2">あなたは出会う。</span>
+                <br className="mb-2" />
+                <span className="whitespace-nowrap mt-3 inline-block md:-ml-[11px]">ここで、運命の矢と。</span>
               </div>
               <p className="text-lg md:text-xl text-gray-600 mb-6
                 text-center md:text-left"
               >
-                Discover your destined arrow,
+                <span className="md:ml-[2px]">Discover your destined arrow,</span>
               </p>
 
               <div className="relative flex justify-center md:justify-start">
                 <PrimaryButton 
-                  className="hidden md:inline-flex"
+                  className="hidden md:inline-flex md:-ml-1"
                   icon={<HiOutlineChevronRight className="w-6 h-6" />}
                   onClick={handleNextSection}
                 >
-                  詳しくみていく
+                  クリックして進む
                 </PrimaryButton>
 
                 <motion.div
@@ -242,7 +242,7 @@ export const Top = () => {
                   <PrimaryButton 
                     onClick={handleNextSection}
                   >
-                    詳しくみていく
+                    タップして進む
                   </PrimaryButton>
                   
                   <motion.div
