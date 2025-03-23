@@ -240,7 +240,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
                   </p>
                   <div className="mb-4 min-h-[60px] flex items-center">
                     <AnimatedTargetButton
-                      href="https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"
+                      href={image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"}
                       target="_blank"
                       onClick={onClose}
                       className="scale-75"
@@ -357,7 +357,7 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
                   </p>
                   <div>
                     <AnimatedTargetButton
-                      href="https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"
+                      href={image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"}
                       target="_blank"
                       onClick={onClose}
                       className="scale-75"
