@@ -1,23 +1,37 @@
 import Image from 'next/image'
 import { AnimatedTargetButton } from '@/components/AnimatedTargetButton'
+import { motion } from 'framer-motion'
 
 export const NewArrival = () => {
   return (
-    <section className="relative bg-gradient-to-br from-[#FFF8F3] to-[#FFF] min-h-screen flex justify-center items-center py-16 md:py-24 px-4 md:px-0">
-      {/* 左上タイトル */}
-      <h1 className="absolute left-1/2 top-8 -translate-x-1/2 text-3xl md:text-5xl lg:text-6xl font-normal text-[#C84C38] tracking-widest z-20 select-none pointer-events-none text-center">
+    <section className="relative bg-gradient-to-br from-[#FFF8F3] to-[#FFF] min-h-screen px-4 md:px-0 pt-8 pb-12">
+      <motion.h2
+        className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#C84C38] tracking-widest text-center mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
         New Arrival
-      </h1>
-      <div className="max-w-4xl w-full bg-white rounded-2xl shadow-xl flex flex-col md:flex-row items-center gap-8 p-6 md:p-12">
-        {/* 商品画像 */}
-        <div className="w-full md:w-1/2 flex justify-center items-center">
-          <div className="relative w-60 h-60 md:w-80 md:h-80 rounded-xl overflow-hidden shadow-md">
+      </motion.h2>
+      <div className="w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-xl flex flex-col md:flex-row items-center gap-8 p-4 md:p-12">
+        {/* 画像2枚縦並び */}
+        <div className="w-full md:w-1/2 flex flex-col gap-2 justify-center">
+          <div className="relative w-full aspect-video max-h-[28vh] rounded-xl overflow-hidden shadow-md">
             <Image
               src="/new-arrival.jpg"
-              alt="新商品画像"
+              alt="新商品画像1"
               fill
               className="object-cover"
               priority
+            />
+          </div>
+          <div className="relative w-full aspect-video max-h-[28vh] rounded-xl overflow-hidden shadow-md">
+            <Image
+              src="/new-arrival2.jpg"
+              alt="新商品画像2"
+              fill
+              className="object-cover"
             />
           </div>
         </div>
