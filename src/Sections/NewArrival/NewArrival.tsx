@@ -27,7 +27,7 @@ export const NewArrival = () => {
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent"></div>
             <a
               href="https://sakuya-kyudogu.jp/order_made/new_arrival"
               target="_blank"
@@ -35,7 +35,7 @@ export const NewArrival = () => {
               className="absolute inset-x-0 bottom-0 flex items-center justify-center p-3"
             >
               <div className="bg-white/90 text-[#C84C38] px-4 py-1.5 text-sm md:text-base md:px-5 md:py-2 rounded-full font-medium flex items-center gap-2 transform group-hover:scale-105 transition-all duration-300 shadow-lg border border-[#C84C38]/10">
-                カスタマイズ
+                カスタマイズしてみる
                 <HiOutlineArrowTopRightOnSquare className="w-3 h-3 md:w-4 md:h-4 group-hover:animate-pulse" />
               </div>
             </a>
@@ -47,7 +47,7 @@ export const NewArrival = () => {
               fill
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent"></div>
             <a
               href="https://sakuya-kyudogu.jp/order_made/new_arrival"
               target="_blank"
@@ -55,7 +55,7 @@ export const NewArrival = () => {
               className="absolute inset-x-0 bottom-0 flex items-center justify-center p-3"
             >
               <div className="bg-white/90 text-[#C84C38] px-4 py-1.5 text-sm md:text-base md:px-5 md:py-2 rounded-full font-medium flex items-center gap-2 transform group-hover:scale-105 transition-all duration-300 shadow-lg border border-[#C84C38]/10">
-                カスタマイズ
+                カスタマイズしてみる
                 <HiOutlineArrowTopRightOnSquare className="w-3 h-3 md:w-4 md:h-4 group-hover:animate-pulse" />
               </div>
             </a>
