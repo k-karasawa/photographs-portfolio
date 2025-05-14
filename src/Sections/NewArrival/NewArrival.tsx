@@ -6,7 +6,7 @@ import { HiArrowDown } from 'react-icons/hi'
 
 export const NewArrival = () => {
   return (
-    <section className="relative bg-gradient-to-br from-[#FFF8F3] to-[#FFF] h-screen px-4 md:px-0 pt-6 pb-8 flex flex-col justify-between">
+    <section className="relative bg-gradient-to-br from-[#FFF8F3] to-[#FFF] min-h-[110vh] md:h-screen px-4 md:px-0 pt-6 pb-12 md:pb-8 md:flex md:flex-col md:justify-between">
       <motion.h2
         className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#C84C38] tracking-widest text-center mb-6"
         initial={{ opacity: 0, y: 20 }}
@@ -27,7 +27,7 @@ export const NewArrival = () => {
               className="object-cover"
               priority
             />
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent"></div>
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent"></div>
             <a
               href="https://sakuya-kyudogu.jp/order_made/new_arrival"
               target="_blank"
@@ -47,7 +47,7 @@ export const NewArrival = () => {
               fill
               className="object-cover"
             />
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent"></div>
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent"></div>
             <a
               href="https://sakuya-kyudogu.jp/order_made/new_arrival"
               target="_blank"
@@ -69,17 +69,20 @@ export const NewArrival = () => {
 
       {/* ギャラリーへの誘導 */}
       <motion.div
-        className="mt-4 mb-2 flex flex-col items-center"
+        className="mt-8 md:mt-4 mb-2 flex flex-col items-center"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
-        <div className="bg-gradient-to-r from-[#E8A598] to-[#C84C38] px-8 py-3 rounded-full shadow-lg text-white font-medium flex items-center gap-3 transform hover:scale-105 transition-all duration-300">
-          <span className="text-lg">その他のデザインは次のギャラリーページでチェック</span>
-          <HiArrowDown className="w-5 h-5 animate-bounce" />
+        <div className="bg-gradient-to-r from-[#E8A598] to-[#C84C38] px-6 md:px-8 py-2 md:py-3 rounded-full shadow-lg text-white font-medium flex items-center gap-2 md:gap-3 transform hover:scale-105 transition-all duration-300">
+          <span className="text-base md:text-lg">
+            <span className="hidden md:inline">その他のデザインはギャラリーページでチェック</span>
+            <span className="inline md:hidden">その他のデザインはギャラリーで</span>
+          </span>
+          <HiArrowDown className="w-4 h-4 md:w-5 md:h-5 animate-bounce" />
         </div>
-        <div className="w-1 h-12 bg-gradient-to-b from-[#C84C38] to-transparent mt-3"></div>
+        <div className="w-1 h-10 md:h-12 bg-gradient-to-b from-[#C84C38] to-transparent mt-3"></div>
       </motion.div>
     </section>
   )
