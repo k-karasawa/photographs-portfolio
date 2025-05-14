@@ -6,7 +6,7 @@ import { Gallery } from '@/Sections/Gallery/Gallery'
 import { Ranking } from '@/Sections/Ranking/Ranking'
 import { OtherSection } from '@/Sections/Other/OtherSection'
 import Script from 'next/script'
-
+import { NewArrival } from '@/Sections/NewArrival/NewArrival'
 const Home: NextPage = () => {
   const siteUrl = 'https://gallery.sakuya-kyudogu.jp'
   const ogImageUrl = `${siteUrl}/sakuya-order-ogp.jpg`
@@ -82,6 +82,7 @@ const Home: NextPage = () => {
       <section id="next-section">
         <CustomOrderSection />
       </section>
+      <NewArrival />
       <Gallery />
       <OtherSection />
       <Ranking />
