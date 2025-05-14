@@ -3,12 +3,9 @@ import React from 'react';
 export const NewArrivalContent: React.FC = () => {
   return (
     <>
-      <h3 className="text-2xl md:text-3xl font-bold text-[#C84C38] mb-2 tracking-tight">
+      <h3 className="text-1xl md:text-2xl font-bold text-[#C84C38] mb-4 tracking-tight">
         羽根の新デザイン登場
       </h3>
-      <h4 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">
-        オーダーメイドシステムに11種の新柄
-      </h4>
       <p className="text-gray-600 mb-6 text-base md:text-lg leading-relaxed">
         毎日の弓道に新たなテイストを✨ 11種類の新柄が登場！<br />
         弓道の伝統や格式を大切にしながらも、ちょっと違うテイストも…たまには欲しいな、という方におすすめのリリース。<br /><br />

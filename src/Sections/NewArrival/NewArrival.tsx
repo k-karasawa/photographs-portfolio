@@ -17,44 +17,46 @@ export const NewArrival = () => {
         New Arrival
       </motion.h2>
       <div className="w-full max-w-7xl mx-auto bg-white rounded-2xl shadow-xl flex flex-col md:flex-row items-center gap-6 p-3 md:p-8">
-        {/* 画像2枚縦並び */}
-        <div className="w-full md:w-1/2 flex flex-col gap-2 justify-center">
-          <div className="relative w-full aspect-video max-h-[22vh] rounded-xl overflow-hidden shadow-md group">
+        {/* 画像2枚横並び */}
+        <div className="w-full md:w-1/2 flex flex-row gap-2 h-full">
+          <div className="w-1/2 relative aspect-[3/4] rounded-xl overflow-hidden shadow-md group">
             <Image
-              src="/new-arrival.jpg"
+              src="/arrival/arrival1.jpg"
               alt="新商品画像1"
               fill
               className="object-cover"
               priority
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <a
               href="https://sakuya-kyudogu.jp/order_made/new_arrival"
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              className="absolute inset-x-0 bottom-0 flex items-center justify-center p-3"
             >
-              <div className="bg-white/90 text-[#C84C38] px-5 py-3 rounded-full font-medium flex items-center gap-2 transform scale-95 group-hover:scale-100 transition-transform duration-300">
-                カスタマイズしてみる
-                <HiOutlineArrowTopRightOnSquare className="w-4 h-4" />
+              <div className="bg-white/90 text-[#C84C38] px-4 py-1.5 text-sm md:text-base md:px-5 md:py-2 rounded-full font-medium flex items-center gap-2 transform group-hover:scale-105 transition-all duration-300 shadow-lg border border-[#C84C38]/10">
+                カスタマイズ
+                <HiOutlineArrowTopRightOnSquare className="w-3 h-3 md:w-4 md:h-4 group-hover:animate-pulse" />
               </div>
             </a>
           </div>
-          <div className="relative w-full aspect-video max-h-[22vh] rounded-xl overflow-hidden shadow-md group">
+          <div className="w-1/2 relative aspect-[3/4] rounded-xl overflow-hidden shadow-md group">
             <Image
-              src="/new-arrival2.jpg"
+              src="/arrival/arrival2.jpg"
               alt="新商品画像2"
               fill
               className="object-cover"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <a
               href="https://sakuya-kyudogu.jp/order_made/new_arrival"
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              className="absolute inset-x-0 bottom-0 flex items-center justify-center p-3"
             >
-              <div className="bg-white/90 text-[#C84C38] px-5 py-3 rounded-full font-medium flex items-center gap-2 transform scale-95 group-hover:scale-100 transition-transform duration-300">
-                カスタマイズしてみる
-                <HiOutlineArrowTopRightOnSquare className="w-4 h-4" />
+              <div className="bg-white/90 text-[#C84C38] px-4 py-1.5 text-sm md:text-base md:px-5 md:py-2 rounded-full font-medium flex items-center gap-2 transform group-hover:scale-105 transition-all duration-300 shadow-lg border border-[#C84C38]/10">
+                カスタマイズ
+                <HiOutlineArrowTopRightOnSquare className="w-3 h-3 md:w-4 md:h-4 group-hover:animate-pulse" />
               </div>
             </a>
           </div>
