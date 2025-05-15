@@ -30,6 +30,7 @@ export const Layout: React.FC<LayoutProps> = ({
         content="11種類の新柄が登場しました。お好みの色とパターンで、あなただけのオリジナル矢羽根を作りませんか？"
         link="/gallery"
         delay={3000}
+        thumbnailSrc="/arrival/arrival1.jpg"
       />
     </>
   );
