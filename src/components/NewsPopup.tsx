@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiX, HiChevronRight } from 'react-icons/hi';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useNewsPopupState } from '@/hooks/useNewsPopupState';
 
 type NewsPopupProps = {
   title: string;
   content: string;
   link?: string;
   targetSection?: string; // スクロール先のセクションID
-  delay?: number;
+  delay?: number; // 使用しなくなったが、APIの互換性のために残す
   thumbnailSrc?: string; // サムネイル画像のパス
 };
 
@@ -18,50 +19,17 @@ export const NewsPopup: React.FC<NewsPopupProps> = ({
   content,
   link,
   targetSection = 'new-arrival', // デフォルトはnew-arrivalセクション
-  delay = 500,
   thumbnailSrc = '/arrival/arrival1.jpg',
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isClosed, setIsClosed] = useState(false);
+  const { isPopupVisible, closePopup } = useNewsPopupState();
   const router = useRouter();
-
-  useEffect(() => {
-    // ローカルストレージから閉じた状態と時間を確認
-    const closedState = localStorage.getItem('newsPopupClosed');
-    const closedTime = localStorage.getItem('newsPopupClosedAt');
-    
-    // ポップアップを閉じたことがある場合
-    if (closedState === 'true' && closedTime) {
-      const now = Date.now();
-      const elapsedMs = now - parseInt(closedTime);
-      const dayInMs = 24 * 60 * 60 * 1000; // 1日のミリ秒
-      
-      // 1日経過していたら再表示
-      if (elapsedMs > dayInMs) {
-        // リセット
-        localStorage.removeItem('newsPopupClosed');
-        localStorage.removeItem('newsPopupClosedAt');
-      } else {
-        // 1日経過していなければ閉じた状態を維持
-        setIsClosed(true);
-        return;
-      }
-    }
-    
-    // 表示までの遅延
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, delay);
-    
-    return () => clearTimeout(timer);
-  }, [delay]);
 
   // ターゲットセクションへスクロールする関数
   const scrollToSection = (e: React.MouseEvent) => {
     e.preventDefault();
     
     // ポップアップを閉じる
-    setIsVisible(false);
+    closePopup(); // setIsPopupVisibleではなくclosePopupを使用
     
     // 現在のページにセクションが存在する場合は直接スクロール
     const targetElement = document.getElementById(targetSection);
@@ -73,24 +41,14 @@ export const NewsPopup: React.FC<NewsPopupProps> = ({
     }
   };
 
-  const handleClose = () => {
-    setIsVisible(false);
-    
-    // 閉じた状態と現在の時間をローカルストレージに保存
-    localStorage.setItem('newsPopupClosed', 'true');
-    localStorage.setItem('newsPopupClosedAt', Date.now().toString());
-    
-    setIsClosed(true);
-  };
-
-  // 閉じた状態または非表示状態の場合は何も表示しない
-  if (isClosed || !isVisible) {
+  // 非表示状態の場合は何も表示しない
+  if (!isPopupVisible) {
     return null;
   }
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {isPopupVisible && (
         <motion.div
           className="fixed z-50 bottom-5 md:right-5 left-0 md:left-auto w-full md:w-[420px] px-4 md:px-0"
           initial={{ y: 100, opacity: 0 }}
@@ -139,7 +97,7 @@ export const NewsPopup: React.FC<NewsPopupProps> = ({
               <button
                 onClick={(e) => {
                   e.stopPropagation(); // イベントの伝播を止める
-                  handleClose();
+                  closePopup();
                 }}
                 className="absolute top-1.5 right-1.5 md:top-2 md:right-2 text-gray-400 hover:text-gray-600 rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center transition-colors"
                 aria-label="閉じる"
