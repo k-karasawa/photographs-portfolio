@@ -21,15 +21,15 @@ export const NewsPopup: React.FC<NewsPopupProps> = ({
   targetSection = 'new-arrival', // デフォルトはnew-arrivalセクション
   thumbnailSrc = '/arrival/arrival1.jpg',
 }) => {
-  const { isPopupVisible, closePopup } = useNewsPopupState();
+  const { isPopupVisible, setIsPopupVisible, closePopup } = useNewsPopupState();
   const router = useRouter();
 
   // ターゲットセクションへスクロールする関数
   const scrollToSection = (e: React.MouseEvent) => {
     e.preventDefault();
     
-    // ポップアップを閉じる
-    closePopup(); // setIsPopupVisibleではなくclosePopupを使用
+    // ポップアップを一時的に閉じるだけ（localStorageには保存しない）
+    setIsPopupVisible(false);
     
     // 現在のページにセクションが存在する場合は直接スクロール
     const targetElement = document.getElementById(targetSection);
@@ -93,11 +93,11 @@ export const NewsPopup: React.FC<NewsPopupProps> = ({
                 </div>
               </div>
               
-              {/* 閉じるボタン */}
+              {/* 閉じるボタン - ここでだけclosePopupを使用 */}
               <button
                 onClick={(e) => {
                   e.stopPropagation(); // イベントの伝播を止める
-                  closePopup();
+                  closePopup(); // ローカルストレージに保存して1日表示しない
                 }}
                 className="absolute top-1.5 right-1.5 md:top-2 md:right-2 text-gray-400 hover:text-gray-600 rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center transition-colors"
                 aria-label="閉じる"
