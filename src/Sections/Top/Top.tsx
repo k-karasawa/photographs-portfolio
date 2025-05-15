@@ -205,7 +205,7 @@ export const Top = () => {
         ))}
       </AnimatePresence>
 
-      <div className="flex items-center justify-center min-h-screen relative z-10">
+      <div className="flex items-start md:items-center justify-center min-h-screen relative z-10 pt-[20vh] md:pt-0 md:-mt-[10vh]">
         <div className="relative">
           <div className="max-w-3xl mx-auto text-left md:text-left px-4">
             <div className="md:max-w-3xl max-w-[280px] mx-auto md:mx-0">
