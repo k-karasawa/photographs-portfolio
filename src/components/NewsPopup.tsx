@@ -78,7 +78,7 @@ export const NewsPopup: React.FC<NewsPopupProps> = ({
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 flex h-[110px] md:h-[140px]">
+          <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 flex h-[110px] md:h-[160px]">
             {/* サムネイル画像 */}
             <div className="relative w-32 md:w-40 shrink-0">
               <Image
@@ -91,27 +91,31 @@ export const NewsPopup: React.FC<NewsPopupProps> = ({
             </div>
             
             {/* コンテンツ部分 */}
-            <div className="flex-1 py-3 px-4 md:py-4 md:px-5 relative">
-              {/* タイトル */}
-              <h3 className="text-[#C84C38] font-medium text-sm md:text-base mb-1.5 md:mb-2 pr-5 md:pr-6">
-                {title}
-              </h3>
+            <div className="flex-1 py-3 px-4 md:py-4 md:px-5 relative flex flex-col h-full">
+              <div>
+                {/* タイトル */}
+                <h3 className="text-[#C84C38] font-medium text-sm md:text-base mb-1.5 md:mb-2 pr-5 md:pr-6">
+                  {title}
+                </h3>
+                
+                {/* 本文 */}
+                <p className="text-gray-700 text-xs md:text-sm leading-relaxed line-clamp-3 mb-1.5 md:mb-2.5">
+                  {content}
+                </p>
+              </div>
               
-              {/* 本文 */}
-              <p className="text-gray-700 text-xs md:text-sm leading-relaxed line-clamp-3 mb-1.5 md:mb-2.5">
-                {content}
-              </p>
-              
-              {/* リンク */}
-              {link && (
-                <Link 
-                  href={link}
-                  className="inline-flex items-center text-[#C84C38] font-medium text-xs md:text-sm hover:underline"
-                >
-                  詳細を見る
-                  <HiChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4 ml-0.5 md:ml-1" />
-                </Link>
-              )}
+              <div className="mt-auto pb-0 md:pb-4">
+                {/* リンク */}
+                {link && (
+                  <Link 
+                    href={link}
+                    className="inline-flex items-center text-[#C84C38] font-medium text-xs md:text-sm hover:underline"
+                  >
+                    詳細を見る
+                    <HiChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4 ml-0.5 md:ml-1" />
+                  </Link>
+                )}
+              </div>
               
               {/* 閉じるボタン */}
               <button
