@@ -4,7 +4,13 @@ import { NewsPopup } from './NewsPopup';
 import { useNewsPopupState } from '@/hooks/useNewsPopupState';
 
 // NewsPopupの表示状態を管理するコンテキスト
-export const NewsPopupContext = createContext<{ isPopupVisible: boolean }>({ isPopupVisible: false });
+export const NewsPopupContext = createContext<{ 
+  isPopupVisible: boolean;
+  isInitialized: boolean;
+}>({ 
+  isPopupVisible: false,
+  isInitialized: false
+});
 
 type LayoutProps = {
   children: ReactNode;
@@ -17,7 +23,7 @@ export const Layout: React.FC<LayoutProps> = ({
 }) => {
   // NewsPopupと同じ遅延を指定
   const popupDelay = 500;
-  const { isPopupVisible } = useNewsPopupState(popupDelay);
+  const { isPopupVisible, isInitialized } = useNewsPopupState(popupDelay);
 
   return (
     <>
@@ -28,7 +34,7 @@ export const Layout: React.FC<LayoutProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <NewsPopupContext.Provider value={{ isPopupVisible }}>
+      <NewsPopupContext.Provider value={{ isPopupVisible, isInitialized }}>
         <main>
           {children}
         </main>

@@ -21,7 +21,7 @@ export const Top = () => {
   const accumulatedDistance = useRef(0)
   const isMobile = useRef(false)
   const observerRef = useRef<IntersectionObserver | null>(null)
-  const { isPopupVisible } = useContext(NewsPopupContext)
+  const { isPopupVisible, isInitialized } = useContext(NewsPopupContext)
 
   // クライアントサイドでの初期化
   useIsomorphicLayoutEffect(() => {
@@ -126,6 +126,15 @@ export const Top = () => {
     if (customSection) {
       customSection.scrollIntoView({ behavior: 'smooth' })
     }
+  }
+
+  // 初期化が完了していない場合は空のセクションのみを表示
+  if (!isInitialized) {
+    return (
+      <section className="min-h-screen bg-white overflow-hidden relative">
+        {/* ここに必要に応じてローディング表示を追加 */}
+      </section>
+    )
   }
 
   return (
