@@ -1,26 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiX, HiChevronRight } from 'react-icons/hi';
-import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 type NewsPopupProps = {
   title: string;
   content: string;
   link?: string;
+  targetSection?: string; // スクロール先のセクションID
   delay?: number;
-  thumbnailSrc?: string;
+  thumbnailSrc?: string; // サムネイル画像のパス
 };
 
 export const NewsPopup: React.FC<NewsPopupProps> = ({
   title,
   content,
   link,
+  targetSection = 'new-arrival', // デフォルトはnew-arrivalセクション
   delay = 500,
   thumbnailSrc = '/arrival/arrival1.jpg',
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isClosed, setIsClosed] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     // ローカルストレージから閉じた状態と時間を確認
@@ -53,6 +56,23 @@ export const NewsPopup: React.FC<NewsPopupProps> = ({
     return () => clearTimeout(timer);
   }, [delay]);
 
+  // ターゲットセクションへスクロールする関数
+  const scrollToSection = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // ポップアップを閉じる
+    setIsVisible(false);
+    
+    // 現在のページにセクションが存在する場合は直接スクロール
+    const targetElement = document.getElementById(targetSection);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    } else if (link) {
+      // セクションがない場合は指定されたURLに遷移
+      router.push(link);
+    }
+  };
+
   const handleClose = () => {
     setIsVisible(false);
     
@@ -78,7 +98,10 @@ export const NewsPopup: React.FC<NewsPopupProps> = ({
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 flex h-[110px] md:h-[160px]">
+          <div 
+            className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 flex h-[110px] md:h-[160px] cursor-pointer"
+            onClick={scrollToSection}
+          >
             {/* サムネイル画像 */}
             <div className="relative w-32 md:w-40 shrink-0">
               <Image
@@ -106,20 +129,18 @@ export const NewsPopup: React.FC<NewsPopupProps> = ({
               
               <div className="mt-auto pb-0 md:pb-4">
                 {/* リンク */}
-                {link && (
-                  <Link 
-                    href={link}
-                    className="inline-flex items-center text-[#C84C38] font-medium text-xs md:text-sm hover:underline"
-                  >
-                    詳細を見る
-                    <HiChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4 ml-0.5 md:ml-1" />
-                  </Link>
-                )}
+                <div className="inline-flex items-center text-[#C84C38] font-medium text-xs md:text-sm hover:underline">
+                  詳細を見る
+                  <HiChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4 ml-0.5 md:ml-1" />
+                </div>
               </div>
               
               {/* 閉じるボタン */}
               <button
-                onClick={handleClose}
+                onClick={(e) => {
+                  e.stopPropagation(); // イベントの伝播を止める
+                  handleClose();
+                }}
                 className="absolute top-1.5 right-1.5 md:top-2 md:right-2 text-gray-400 hover:text-gray-600 rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center transition-colors"
                 aria-label="閉じる"
               >

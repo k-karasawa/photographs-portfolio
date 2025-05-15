@@ -28,7 +28,7 @@ export const Layout: React.FC<LayoutProps> = ({
       <NewsPopup 
         title="羽根の新デザイン登場"
         content="11種類の新柄が登場しました。お好みの色とパターンで、あなただけのオリジナル矢を🎯"
-        link="/gallery"
+        targetSection="new-arrival"
         delay={500}
         thumbnailSrc="/arrival/arrival1.jpg"
       />

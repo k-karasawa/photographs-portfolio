@@ -6,7 +6,7 @@ import { HiArrowDown } from 'react-icons/hi'
 
 export const NewArrival = () => {
   return (
-    <section className="relative bg-gradient-to-br from-[#FFF8F3] to-[#FFF] min-h-[110vh] md:h-screen px-4 md:px-0 pt-6 pb-12 md:pb-8 md:flex md:flex-col md:justify-between">
+    <section id="new-arrival" className="relative bg-gradient-to-br from-[#FFF8F3] to-[#FFF] min-h-[110vh] md:h-screen px-4 md:px-0 pt-6 pb-12 md:pb-8 md:flex md:flex-col md:justify-between">
       <motion.h2
         className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#C84C38] tracking-widest text-center mb-6"
         initial={{ opacity: 0, y: 20 }}
@@ -29,14 +29,15 @@ export const NewArrival = () => {
             />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent"></div>
             <a
-              href="https://sakuya-kyudogu.jp/order_made/new_arrival"
+              href="https://sakuya-kyudogu.jp/order_made?rid=67"
               target="_blank"
               rel="noopener noreferrer"
               className="absolute inset-x-0 bottom-0 flex items-center justify-center p-3"
             >
-              <div className="bg-white/90 text-[#C84C38] px-4 py-1.5 text-sm md:text-base md:px-5 md:py-2 rounded-full font-medium flex items-center gap-2 transform group-hover:scale-105 transition-all duration-300 shadow-lg border border-[#C84C38]/10">
-                カスタマイズしてみる
-                <HiOutlineArrowTopRightOnSquare className="w-3 h-3 md:w-4 md:h-4 group-hover:animate-pulse" />
+              <div className="bg-white/90 text-[#C84C38] px-3 py-1 text-xs sm:text-sm md:text-base md:px-5 md:py-2 rounded-full font-medium flex items-center gap-1 md:gap-2 transform group-hover:scale-105 transition-all duration-300 shadow-lg border border-[#C84C38]/10 whitespace-nowrap">
+                <span className="hidden md:inline">カスタマイズしてみる</span>
+                <span className="inline md:hidden">カスタマイズ</span>
+                <HiOutlineArrowTopRightOnSquare className="w-2.5 h-2.5 md:w-4 md:h-4 group-hover:animate-pulse" />
               </div>
             </a>
           </div>
@@ -49,14 +50,15 @@ export const NewArrival = () => {
             />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent"></div>
             <a
-              href="https://sakuya-kyudogu.jp/order_made/new_arrival"
+              href="https://sakuya-kyudogu.jp/order_made?rid=68"
               target="_blank"
               rel="noopener noreferrer"
               className="absolute inset-x-0 bottom-0 flex items-center justify-center p-3"
             >
-              <div className="bg-white/90 text-[#C84C38] px-4 py-1.5 text-sm md:text-base md:px-5 md:py-2 rounded-full font-medium flex items-center gap-2 transform group-hover:scale-105 transition-all duration-300 shadow-lg border border-[#C84C38]/10">
-                カスタマイズしてみる
-                <HiOutlineArrowTopRightOnSquare className="w-3 h-3 md:w-4 md:h-4 group-hover:animate-pulse" />
+              <div className="bg-white/90 text-[#C84C38] px-3 py-1 text-xs sm:text-sm md:text-base md:px-5 md:py-2 rounded-full font-medium flex items-center gap-1 md:gap-2 transform group-hover:scale-105 transition-all duration-300 shadow-lg border border-[#C84C38]/10 whitespace-nowrap">
+                <span className="hidden md:inline">カスタマイズしてみる</span>
+                <span className="inline md:hidden">カスタマイズ</span>
+                <HiOutlineArrowTopRightOnSquare className="w-2.5 h-2.5 md:w-4 md:h-4 group-hover:animate-pulse" />
               </div>
             </a>
           </div>
