@@ -11,7 +11,7 @@ export const appConfig = {
      * true: 有効（通常通り表示される。ただしlocalStorageの設定に依存）
      * false: 無効（完全に非表示）
      */
-    enabled: true,
+    enabled: false,
     
     /**
      * 開発時のテスト用設定
