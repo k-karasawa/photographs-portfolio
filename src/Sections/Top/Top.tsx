@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react'
+import { useState, useEffect, useCallback, useRef, useLayoutEffect, useContext } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MobileTrailEffect } from '@/components/MobileTrailEffect'
 import { ArrowImage } from '@/types/arrow'
 import { PrimaryButton } from '@/components/PrimaryButton'
 import { HiOutlineChevronRight, HiOutlineChevronDown } from 'react-icons/hi2'
+import { NewsPopupContext } from '@/components/Layout'
 
 const MIN_DISTANCE_FOR_NEW_IMAGE = 80
 const MAX_MOVE_SPEED = 50
@@ -20,6 +21,7 @@ export const Top = () => {
   const accumulatedDistance = useRef(0)
   const isMobile = useRef(false)
   const observerRef = useRef<IntersectionObserver | null>(null)
+  const { isPopupVisible, isInitialized } = useContext(NewsPopupContext)
 
   // クライアントサイドでの初期化
   useIsomorphicLayoutEffect(() => {
@@ -126,6 +128,15 @@ export const Top = () => {
     }
   }
 
+  // 初期化が完了していない場合は空のセクションのみを表示
+  if (!isInitialized) {
+    return (
+      <section className="min-h-screen bg-white overflow-hidden relative">
+        {/* ここに必要に応じてローディング表示を追加 */}
+      </section>
+    )
+  }
+
   return (
     <section className="min-h-screen bg-white overflow-hidden relative">
       <AnimatePresence>
@@ -205,7 +216,12 @@ export const Top = () => {
         ))}
       </AnimatePresence>
 
-      <div className="flex items-center justify-center min-h-screen relative z-10">
+      <div className={`flex items-start md:items-center justify-center min-h-screen relative z-10 
+        ${isPopupVisible 
+          ? 'pt-[20vh]' 
+          : 'pt-[25vh]'}
+        md:pt-0 md:-mt-[5vh]`}
+      >
         <div className="relative">
           <div className="max-w-3xl mx-auto text-left md:text-left px-4">
             <div className="md:max-w-3xl max-w-[280px] mx-auto md:mx-0">

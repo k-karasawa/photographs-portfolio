@@ -1,50 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
 ## SEO設定について
-
 ### OGP画像設定
-
 プロジェクトではOGP（Open Graph Protocol）画像を使用して、SNSでのリンク共有時の表示を最適化しています。
-
 #### OGP画像の仕様
 
 - **ファイル場所**: `/public/sakuya-order-ogp.jpg`
@@ -125,3 +81,25 @@ Service Workerの設定を変更する場合は、`/public/serviceworker.js` フ
 
 - Service Workerのファイル名は必ず `/public/serviceworker.js` (ハイフンなし) を使用してください
 - `/service-worker.js` (ハイフンあり) という形式は使用しないでください
+
+
+
+### NewsPopupの設定
+新着情報を表示するためのポップアップ機能が実装されています。このポップアップの表示/非表示を簡単に制御できます。
+#### 設定ファイル
+ポップアップの設定は以下のファイルで管理されています：
+- **ファイル場所**: `/src/config/appConfig.ts`
+#### 主な設定オプション
+ポップアップには以下の設定オプションがあります：
+- **enabled**: ポップアップ機能の有効/無効を切り替えます
+  - `true`: ポップアップ機能を有効にする（ローカルストレージの設定に依存）
+  - `false`: ポップアップ機能を完全に無効にする
+- **forceShow**: 開発時のテスト用設定
+  - `true`: ローカルストレージの設定を無視して常にポップアップを表示
+  - `false`: 通常どおりローカルストレージの設定に従う（ユーザーが閉じた場合は24時間表示しない）
+- **delay**: ポップアップが表示されるまでの遅延時間（ミリ秒）
+
+#### ユーザー体験への影響
+- ポップアップがユーザーによって閉じられた場合、デフォルトでは24時間は再表示されません
+- `forceShow: true` は開発時のテスト専用の設定であり、本番環境では `false` に設定することを推奨します
+- 表示遅延時間は、ページの初期読み込み体験に影響するため、適切な値を設定してください
