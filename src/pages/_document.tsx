@@ -4,6 +4,9 @@ export default function Document() {
   return (
     <Html lang="ja">
       <Head>
+        {/* Google Search Console 所有権確認 */}
+        <meta name="google-site-verification" content="CF6Y-lgifqmcokoWG8DLjckeXPzUfcvXexWV4nLhPtQ" />
+        
         {/* 基本的なメタタグ */}
         <meta charSet="utf-8" />
         {/* viewport metaタグは_document.jsでは使用せず、_app.tsxに移動 */}
