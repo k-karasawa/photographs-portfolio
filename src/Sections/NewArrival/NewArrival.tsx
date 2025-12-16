@@ -21,7 +21,7 @@ export const NewArrival = () => {
         <div className="w-full md:w-1/2 flex flex-row gap-2 h-full">
           <div className="w-1/2 relative aspect-[3/4] rounded-xl overflow-hidden shadow-md group">
             <Image
-              src="/arrival/arrival1.jpg"
+              src="/arrival/kasuo2.jpg"
               alt="新商品画像1"
               fill
               className="object-cover"
@@ -29,7 +29,7 @@ export const NewArrival = () => {
             />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent"></div>
             <a
-              href="https://sakuya-kyudogu.jp/order_made?rid=67"
+              href="https://sakuya-kyudogu.jp/order_made?rid=69"
               target="_blank"
               rel="noopener noreferrer"
               className="absolute inset-x-0 bottom-0 flex items-center justify-center p-3"
@@ -43,14 +43,14 @@ export const NewArrival = () => {
           </div>
           <div className="w-1/2 relative aspect-[3/4] rounded-xl overflow-hidden shadow-md group">
             <Image
-              src="/arrival/arrival2.jpg"
+              src="/arrival/komonnami.jpg"
               alt="新商品画像2"
               fill
               className="object-cover"
             />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent"></div>
             <a
-              href="https://sakuya-kyudogu.jp/order_made?rid=68"
+              href="https://sakuya-kyudogu.jp/order_made?rid=70"
               target="_blank"
               rel="noopener noreferrer"
               className="absolute inset-x-0 bottom-0 flex items-center justify-center p-3"

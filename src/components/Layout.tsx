@@ -43,11 +43,11 @@ export const Layout: React.FC<LayoutProps> = ({
       
       {/* 新着情報ポップアップ - appConfig.newsPopup.enabledがfalseの場合は表示されない */}
       <NewsPopup 
-        title="羽根の新デザイン登場"
-        content="13種類の新柄が登場しました。お好みの色とパターンで、あなただけのオリジナル矢を🎯"
+        title="グースの近的矢が新登場✨"
+        content="人気の羽根柄をグースでもご用意！しなやかで矢飛び安定、ステップアップにおすすめです🎯"
         targetSection="new-arrival"
         delay={popupDelay}
-        thumbnailSrc="/arrival/arrival1.jpg"
+        thumbnailSrc="/arrival/kasuo2.jpg"
       />
     </>
   );

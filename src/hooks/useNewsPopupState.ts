@@ -61,12 +61,7 @@ export const useNewsPopupState = (delay: number = appConfig.newsPopup.delay) => 
   // ポップアップを閉じる関数
   const closePopup = () => {
     setIsPopupVisible(false);
-    
-    // ローカルストレージに保存
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('newsPopupClosed', 'true');
-      localStorage.setItem('newsPopupClosedAt', Date.now().toString());
-    }
+    // リロードで再出現させるため、localStorageには保存しない
   };
 
   return { 

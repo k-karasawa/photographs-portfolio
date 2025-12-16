@@ -8,15 +8,14 @@ export const appConfig = {
   newsPopup: {
     /**
      * ポップアップを有効にするかどうか
-     * true: 有効（通常通り表示される。ただしlocalStorageの設定に依存）
+     * true: 有効（ページ読み込み時に表示、閉じてもリロードで再表示）
      * false: 無効（完全に非表示）
      */
     enabled: true,
     
     /**
-     * 開発時のテスト用設定
-     * true: localStorageの設定を無視して常に表示
-     * false: 通常どおりlocalStorageの設定に従う
+     * 開発時のテスト用設定（現在は未使用）
+     * ※閉じてもリロードで再出現する仕様のため、この設定は実質無効
      */
     forceShow: false,
     
