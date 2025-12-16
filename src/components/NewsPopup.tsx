@@ -75,7 +75,7 @@ export const NewsPopup: React.FC<NewsPopupProps> = ({
             <div className="flex-1 py-3 px-4 md:py-4 md:px-5 relative flex flex-col h-full">
               <div>
                 {/* タイトル */}
-                <h3 className="text-[#C84C38] font-medium text-sm md:text-base mb-1.5 md:mb-2 pr-5 md:pr-6">
+                <h3 className="text-[#C84C38] font-medium text-[3.5vw] md:text-base mb-1.5 md:mb-2 pr-5 md:pr-6 whitespace-nowrap">
                   {title}
                 </h3>
                 
