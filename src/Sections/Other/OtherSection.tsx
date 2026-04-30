@@ -4,6 +4,7 @@ import { PrimaryButton } from '@/components/PrimaryButton';
 import { Other } from './Other';
 import { FlipCard } from './FlipCard';
 import { useEffect, useState } from 'react';
+import { trackOutboundClick } from '@/lib/analytics';
 
 export const OtherSection = () => {
   const customItems = [
@@ -93,10 +94,15 @@ export const OtherSection = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="flex justify-center md:justify-start"
             >
-              <PrimaryButton 
+              <PrimaryButton
                 href="https://sakuya-kyudogu.jp/select_guide"
                 target="_blank"
                 icon={<HiOutlineAcademicCap className="w-6 h-6" />}
+                onClick={() => trackOutboundClick({
+                  url: 'https://sakuya-kyudogu.jp/select_guide',
+                  location: 'other',
+                  label: '矢の選び方を学ぶ',
+                })}
               >
                 矢の選び方を学ぶ　
               </PrimaryButton>

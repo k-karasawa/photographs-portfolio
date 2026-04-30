@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { GiArrowhead } from 'react-icons/gi'
 import { FiShoppingCart, FiMail, FiInstagram } from 'react-icons/fi'
 import { RiTwitterXLine } from 'react-icons/ri'
+import { trackOutboundClick } from '@/lib/analytics'
 
 interface MenuItem {
   label: string
@@ -94,21 +95,30 @@ export const Footer = () => {
   }, [isMounted])
 
   // リンクに対するイベントハンドラー
-  const handleLinkClick = useCallback((e: React.MouseEvent | React.TouchEvent, url?: string) => {
+  const handleLinkClick = useCallback((e: React.MouseEvent | React.TouchEvent, url?: string, label?: string) => {
     e.preventDefault()
     e.stopPropagation()
-    
+
     // 既に処理中なら何もしない
     if (isProcessingRef.current) return
-    
+
     // 処理中フラグを立てる
     isProcessingRef.current = true
-    
+
     if (url) {
+      // 本店（sakuya-kyudogu.jp）への遷移は GA4 に計測イベントを送る
+      if (url.includes('sakuya-kyudogu.jp')) {
+        trackOutboundClick({
+          url,
+          location: 'footer',
+          label: label ?? url,
+        })
+      }
+
       // setTimeout を使用して非同期でリンクを開く
       setTimeout(() => {
         window.open(url, '_blank', 'noopener,noreferrer')
-        
+
         // 処理が完了したらフラグをリセット
         setTimeout(() => {
           isProcessingRef.current = false
@@ -143,15 +153,15 @@ export const Footer = () => {
       : undefined
   }, [isTouchDevice, scrollToSection])
   
-  const getLinkClickHandler = useCallback((url?: string) => {
-    return isTouchDevice 
-      ? undefined 
-      : (e: React.MouseEvent) => handleLinkClick(e, url)
+  const getLinkClickHandler = useCallback((url?: string, label?: string) => {
+    return isTouchDevice
+      ? undefined
+      : (e: React.MouseEvent) => handleLinkClick(e, url, label)
   }, [isTouchDevice, handleLinkClick])
-  
-  const getLinkTouchHandler = useCallback((url?: string) => {
-    return isTouchDevice 
-      ? (e: React.TouchEvent) => handleLinkClick(e, url) 
+
+  const getLinkTouchHandler = useCallback((url?: string, label?: string) => {
+    return isTouchDevice
+      ? (e: React.TouchEvent) => handleLinkClick(e, url, label)
       : undefined
   }, [isTouchDevice, handleLinkClick])
 
@@ -208,8 +218,8 @@ export const Footer = () => {
                 href="https://sakuya-kyudogu.jp/order_made"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/order_made")}
-                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp/order_made")}
+                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/order_made", "オーダーする（CTA）")}
+                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp/order_made", "オーダーする（CTA）")}
                 className="px-6 py-3 bg-[#C84C38] text-white rounded-lg text-sm font-medium hover:bg-[#C84C38]/90 transition-colors duration-200 flex items-center justify-center"
                 style={{ touchAction: 'manipulation' }}
               >
@@ -244,8 +254,8 @@ export const Footer = () => {
                 href="https://sakuya-kyudogu.jp"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp")}
-                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp")}
+                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp", "咲矢弓道具 公式サイト")}
+                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp", "咲矢弓道具 公式サイト")}
                 className="text-sm text-gray-600 hover:text-[#C84C38] transition-colors duration-200 flex items-center justify-center md:justify-start"
                 style={{ touchAction: 'manipulation' }}
               >
@@ -255,8 +265,8 @@ export const Footer = () => {
                 href="https://sakuya-kyudogu.jp/order_made"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/order_made")}
-                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp/order_made")}
+                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/order_made", "矢のオーダーメイドシステム")}
+                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp/order_made", "矢のオーダーメイドシステム")}
                 className="text-sm text-gray-600 hover:text-[#C84C38] transition-colors duration-200 flex items-center justify-center md:justify-start "
                 style={{ touchAction: 'manipulation' }}
               >
@@ -266,8 +276,8 @@ export const Footer = () => {
                 href="https://sakuya-kyudogu.jp/select_guide"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/select_guide")}
-                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp/select_guide")}
+                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/select_guide", "矢の選び方")}
+                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp/select_guide", "矢の選び方")}
                 className="text-sm text-gray-600 hover:text-[#C84C38] transition-colors duration-200 flex items-center justify-center md:justify-start"
                 style={{ touchAction: 'manipulation' }}
               >
@@ -278,8 +288,8 @@ export const Footer = () => {
                 href="https://sakuya-kyudogu.jp/contact"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/contact")}
-                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp/contact")}
+                onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/contact", "お問い合わせ")}
+                onTouchEnd={getLinkTouchHandler("https://sakuya-kyudogu.jp/contact", "お問い合わせ")}
                 className="text-sm text-gray-600 hover:text-[#C84C38] transition-colors duration-200 flex items-center justify-center md:justify-start"
                 style={{ touchAction: 'manipulation' }}
               >

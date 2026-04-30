@@ -6,6 +6,7 @@ import { GiArrowhead } from 'react-icons/gi'
 import { FiShoppingCart, FiMail, FiInstagram, FiMenu, FiX } from 'react-icons/fi'
 import { RiTwitterXLine } from 'react-icons/ri'
 import { createPortal } from 'react-dom'
+import { trackOutboundClick } from '@/lib/analytics'
 
 interface MenuItem {
   label: string
@@ -330,9 +331,14 @@ export const Header = () => {
                   href="https://sakuya-kyudogu.jp/select_guide"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackOutboundClick({
+                    url: 'https://sakuya-kyudogu.jp/select_guide',
+                    location: 'header',
+                    label: '矢の選び方',
+                  })}
                   className={`relative py-2 mr-8 text-xs lg:text-sm font-medium transition-colors duration-200 hidden md:flex items-center whitespace-nowrap
-                    ${isScrolled 
-                      ? 'text-[#333333] hover:text-[#C84C38]' 
+                    ${isScrolled
+                      ? 'text-[#333333] hover:text-[#C84C38]'
                       : 'text-[#333333]/90 hover:text-[#333333]'
                     }
                   `}
@@ -345,9 +351,14 @@ export const Header = () => {
                   href="https://sakuya-kyudogu.jp/contact"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackOutboundClick({
+                    url: 'https://sakuya-kyudogu.jp/contact',
+                    location: 'header',
+                    label: 'お問い合わせ',
+                  })}
                   className={`relative py-2 mr-6 text-xs lg:text-sm font-medium transition-colors duration-200 hidden md:flex items-center whitespace-nowrap
-                    ${isScrolled 
-                      ? 'text-[#333333] hover:text-[#C84C38]' 
+                    ${isScrolled
+                      ? 'text-[#333333] hover:text-[#C84C38]'
                       : 'text-[#333333]/90 hover:text-[#333333]'
                     }
                   `}
@@ -360,6 +371,11 @@ export const Header = () => {
                   href="https://sakuya-kyudogu.jp/order_made"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackOutboundClick({
+                    url: 'https://sakuya-kyudogu.jp/order_made',
+                    location: 'header',
+                    label: 'オーダーする',
+                  })}
                   style={{
                     background: '#C84C38',
                     color: 'white',
@@ -543,23 +559,25 @@ export const Header = () => {
                         rel="noopener noreferrer"
                         className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
                         onClick={(e) => {
-                          // デフォルトの動作を防止
                           e.preventDefault();
-                          // イベントの伝播を停止
                           e.stopPropagation();
-                          // メニューを閉じる
+                          trackOutboundClick({
+                            url: 'https://sakuya-kyudogu.jp/select_guide',
+                            location: 'header_mobile',
+                            label: '矢の選び方',
+                          });
                           closeMenu();
-                          // リンクを開く
                           window.open("https://sakuya-kyudogu.jp/select_guide", "_blank", "noopener,noreferrer");
                         }}
                         onTouchEnd={(e) => {
-                          // デフォルトの動作を防止
                           e.preventDefault();
-                          // イベントの伝播を停止
                           e.stopPropagation();
-                          // メニューを閉じる
+                          trackOutboundClick({
+                            url: 'https://sakuya-kyudogu.jp/select_guide',
+                            location: 'header_mobile',
+                            label: '矢の選び方',
+                          });
                           closeMenu();
-                          // リンクを開く
                           window.open("https://sakuya-kyudogu.jp/select_guide", "_blank", "noopener,noreferrer");
                         }}
                         style={{ touchAction: 'manipulation' }}
@@ -573,23 +591,25 @@ export const Header = () => {
                         rel="noopener noreferrer"
                         className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
                         onClick={(e) => {
-                          // デフォルトの動作を防止
                           e.preventDefault();
-                          // イベントの伝播を停止
                           e.stopPropagation();
-                          // メニューを閉じる
+                          trackOutboundClick({
+                            url: 'https://sakuya-kyudogu.jp/contact',
+                            location: 'header_mobile',
+                            label: 'お問い合わせ',
+                          });
                           closeMenu();
-                          // リンクを開く
                           window.open("https://sakuya-kyudogu.jp/contact", "_blank", "noopener,noreferrer");
                         }}
                         onTouchEnd={(e) => {
-                          // デフォルトの動作を防止
                           e.preventDefault();
-                          // イベントの伝播を停止
                           e.stopPropagation();
-                          // メニューを閉じる
+                          trackOutboundClick({
+                            url: 'https://sakuya-kyudogu.jp/contact',
+                            location: 'header_mobile',
+                            label: 'お問い合わせ',
+                          });
                           closeMenu();
-                          // リンクを開く
                           window.open("https://sakuya-kyudogu.jp/contact", "_blank", "noopener,noreferrer");
                         }}
                         style={{ touchAction: 'manipulation' }}
@@ -603,23 +623,25 @@ export const Header = () => {
                         rel="noopener noreferrer"
                         className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center bg-[#C84C38]/10 text-[#C84C38] font-bold hover:bg-[#C84C38]/20"
                         onClick={(e) => {
-                          // デフォルトの動作を防止
                           e.preventDefault();
-                          // イベントの伝播を停止
                           e.stopPropagation();
-                          // メニューを閉じる
+                          trackOutboundClick({
+                            url: 'https://sakuya-kyudogu.jp/order_made',
+                            location: 'header_mobile',
+                            label: 'オーダーする',
+                          });
                           closeMenu();
-                          // リンクを開く
                           window.open("https://sakuya-kyudogu.jp/order_made", "_blank", "noopener,noreferrer");
                         }}
                         onTouchEnd={(e) => {
-                          // デフォルトの動作を防止
                           e.preventDefault();
-                          // イベントの伝播を停止
                           e.stopPropagation();
-                          // メニューを閉じる
+                          trackOutboundClick({
+                            url: 'https://sakuya-kyudogu.jp/order_made',
+                            location: 'header_mobile',
+                            label: 'オーダーする',
+                          });
                           closeMenu();
-                          // リンクを開く
                           window.open("https://sakuya-kyudogu.jp/order_made", "_blank", "noopener,noreferrer");
                         }}
                         style={{ touchAction: 'manipulation' }}
