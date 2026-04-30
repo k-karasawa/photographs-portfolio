@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { GalleryImage } from './galleryData'
 import { AnimatedTargetButton } from '@/components/AnimatedTargetButton'
 import { useEffect, useCallback, useRef, useState } from 'react'
+import { trackOutboundClick } from '@/lib/analytics'
 
 interface GalleryModalProps {
   isOpen: boolean
@@ -239,7 +240,16 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
                     <AnimatedTargetButton
                       href={image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"}
                       target="_blank"
-                      onClick={onClose}
+                      onClick={() => {
+                        if (image) {
+                          trackOutboundClick({
+                            url: image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts",
+                            location: 'gallery',
+                            label: `この矢を作ってみる（${image.title}）`,
+                          });
+                        }
+                        onClose();
+                      }}
                       className="scale-75"
                       triggerOnScroll={true}
                     >
@@ -353,7 +363,16 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
                     <AnimatedTargetButton
                       href={image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"}
                       target="_blank"
-                      onClick={onClose}
+                      onClick={() => {
+                        if (image) {
+                          trackOutboundClick({
+                            url: image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts",
+                            location: 'gallery',
+                            label: `この矢を作ってみる（${image.title}）`,
+                          });
+                        }
+                        onClose();
+                      }}
                       className="scale-75"
                       triggerOnScroll={true}
                     >
