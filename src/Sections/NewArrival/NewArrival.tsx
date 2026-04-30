@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { HiOutlineArrowTopRightOnSquare } from 'react-icons/hi2'
 import { NewArrivalContent } from './NewArrivalContent'
 import { HiArrowDown } from 'react-icons/hi'
+import { trackOutboundClick } from '@/lib/analytics'
 
 export const NewArrival = () => {
   return (
@@ -32,6 +33,11 @@ export const NewArrival = () => {
               href="https://sakuya-kyudogu.jp/order_made?rid=69"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundClick({
+                url: 'https://sakuya-kyudogu.jp/order_made?rid=69',
+                location: 'newarrival',
+                label: 'カスタマイズしてみる（新商品1: kasuo2）',
+              })}
               className="absolute inset-x-0 bottom-0 flex items-center justify-center p-3"
             >
               <div className="bg-white/90 text-[#C84C38] px-3 py-1 text-xs sm:text-sm md:text-base md:px-5 md:py-2 rounded-full font-medium flex items-center gap-1 md:gap-2 transform group-hover:scale-105 transition-all duration-300 shadow-lg border border-[#C84C38]/10 whitespace-nowrap">
@@ -53,6 +59,11 @@ export const NewArrival = () => {
               href="https://sakuya-kyudogu.jp/order_made?rid=70"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundClick({
+                url: 'https://sakuya-kyudogu.jp/order_made?rid=70',
+                location: 'newarrival',
+                label: 'カスタマイズしてみる（新商品2: komonnami）',
+              })}
               className="absolute inset-x-0 bottom-0 flex items-center justify-center p-3"
             >
               <div className="bg-white/90 text-[#C84C38] px-3 py-1 text-xs sm:text-sm md:text-base md:px-5 md:py-2 rounded-full font-medium flex items-center gap-1 md:gap-2 transform group-hover:scale-105 transition-all duration-300 shadow-lg border border-[#C84C38]/10 whitespace-nowrap">

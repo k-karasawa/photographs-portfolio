@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { RankingSection } from './RankingSection';
 import { rankingData } from './rankingData';
 import { AnimatedTargetButton } from '@/components/AnimatedTargetButton';
+import { trackOutboundClick } from '@/lib/analytics';
 
 export const Ranking: React.FC = () => {
   return (
@@ -73,6 +74,11 @@ export const Ranking: React.FC = () => {
           <AnimatedTargetButton
             triggerOnScroll={true}
             href="https://sakuya-kyudogu.jp/order_made/"
+            onClick={() => trackOutboundClick({
+              url: 'https://sakuya-kyudogu.jp/order_made/',
+              location: 'ranking',
+              label: 'オーダーメイドを始める',
+            })}
           >
             オーダーメイドを始める
           </AnimatedTargetButton>
