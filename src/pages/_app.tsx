@@ -114,7 +114,40 @@ export default function App({ Component, pageProps }: AppProps) {
           />
         </noscript>
       )}
-      
+
+      {/*
+        GA4 直接読み込み（gtag.js）
+
+        GTM-MHS6M7DV コンテナ内のタグが「停止状態」のため、
+        本店CTAクリック等のカスタムイベント（cta_click_to_main）が GA4 に届かない。
+        gtag.js を直接読み込んで window.gtag を定義し、確実に送信できるようにする。
+
+        send_page_view: false で page_view の二重送信を防止
+        （page_view は GTM 経由で既に送信されている）
+      */}
+      {process.env.NODE_ENV === 'production' && (
+        <>
+          <Script
+            id="ga4-bootstrap"
+            strategy="afterInteractive"
+            src="https://www.googletagmanager.com/gtag/js?id=G-THSQWDTECK"
+          />
+          <Script
+            id="ga4-init"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                window.gtag = gtag;
+                gtag('js', new Date());
+                gtag('config', 'G-THSQWDTECK', { send_page_view: false });
+              `,
+            }}
+          />
+        </>
+      )}
+
       <Header />
       <Component {...pageProps} />
       <Footer />
