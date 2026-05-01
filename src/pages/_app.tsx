@@ -10,7 +10,8 @@ import { useEffect } from "react";
 // グローバル型宣言を追加
 declare global {
   interface Window {
-    gtag: (command: string, target: string, config?: object) => void;
+    // gtag は ('event', name, params) / ('config', id, params) / ('js', date) などを受ける
+    gtag: (...args: unknown[]) => void;
     dataLayer: Array<Record<string, unknown>>;
   }
 }
@@ -18,14 +19,13 @@ declare global {
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
-  // ルート変更時にデータレイヤーを更新
+  // ルート変更時に GA4 へ page_view を手動送信
+  // Pages Router では SPA 遷移で page_view が自動発火しないため
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      // GTMがデータレイヤーを通じてページビューを追跡
-      if (typeof window !== 'undefined' && window.dataLayer) {
-        window.dataLayer.push({
-          event: 'pageview',
-          page: url,
+      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', 'page_view', {
+          page_path: url,
         });
       }
     };
@@ -75,55 +75,23 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
 
-      {/* dataLayerの初期化 */}
-      <Script
-        id="gtm-init"
-        strategy="beforeInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-          `,
-        }}
-      />
-
-      {/* Google Tag Manager - Head */}
-      {process.env.NODE_ENV === 'production' && (
-        <Script
-          id="gtm-script"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-MHS6M7DV');
-            `,
-          }}
-        />
-      )}
-
-      {/* Google Tag Manager - noscript (Body) */}
-      {process.env.NODE_ENV === 'production' && (
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-MHS6M7DV"
-            height="0"
-            width="0"
-            style={{ display: 'none', visibility: 'hidden' }}
-          />
-        </noscript>
-      )}
-
       {/*
-        GA4 直接読み込み（gtag.js）
+        GA4 / Google Tag (gtag.js)
 
-        GTM-MHS6M7DV コンテナ内のタグが「停止状態」のため、
-        本店CTAクリック等のカスタムイベント（cta_click_to_main）が GA4 に届かない。
-        gtag.js を直接読み込んで window.gtag を定義し、確実に送信できるようにする。
+        GTM-MHS6M7DV コンテナはタグが「停止状態」になっており、
+        カスタムイベント（cta_click_to_main 等）を GA4 に転送できない。
+        そのため GTM を経由せず gtag.js を直接読み込んで運用する。
 
-        send_page_view: false で page_view の二重送信を防止
-        （page_view は GTM 経由で既に送信されている）
+        この G-THSQWDTECK は Google Tag Manager 上の「Google タグ」グループにより
+        以下にも自動で送信される:
+          - G-3760NKDJVQ（メインサイト用 GA4、クロスドメイン計測用）
+          - AW-11481186384（Google Ads コンバージョン）
+
+        したがって gtag.js 一つで:
+          - GA4 (gallery LP 用) page_view / カスタムイベント
+          - GA4 (メインサイト用) クロスドメイン計測
+          - Google Ads コンバージョン計測
+        がすべて維持される。
       */}
       {process.env.NODE_ENV === 'production' && (
         <>
@@ -141,7 +109,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 function gtag(){dataLayer.push(arguments);}
                 window.gtag = gtag;
                 gtag('js', new Date());
-                gtag('config', 'G-THSQWDTECK', { send_page_view: false });
+                gtag('config', 'G-THSQWDTECK');
               `,
             }}
           />
