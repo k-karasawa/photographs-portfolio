@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { GalleryImage } from './galleryData'
 import { AnimatedTargetButton } from '@/components/AnimatedTargetButton'
 import { useEffect, useCallback, useRef, useState } from 'react'
-import { trackOutboundClick } from '@/lib/analytics'
+import { trackOutboundClick, withGalleryTracking } from '@/lib/analytics'
 
 interface GalleryModalProps {
   isOpen: boolean
@@ -238,12 +238,12 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
                 <div className="flex flex-col items-center pt-3 border-t border-gray-200">
                   <div className="mb-4 min-h-[60px] flex items-center justify-center w-full">
                     <AnimatedTargetButton
-                      href={image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"}
+                      href={withGalleryTracking(image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts", 'gallery')}
                       target="_blank"
                       onClick={() => {
                         if (image) {
                           trackOutboundClick({
-                            url: image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts",
+                            url: withGalleryTracking(image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts", 'gallery'),
                             location: 'gallery',
                             label: `この矢を作ってみる（${image.title}）`,
                           });
@@ -361,12 +361,12 @@ export const GalleryModal = ({ isOpen, onClose, image }: GalleryModalProps) => {
                 <div className="flex flex-col items-center pt-3 border-t border-gray-200">
                   <div className="flex justify-center w-full min-w-[280px] mt-14">
                     <AnimatedTargetButton
-                      href={image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts"}
+                      href={withGalleryTracking(image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts", 'gallery')}
                       target="_blank"
                       onClick={() => {
                         if (image) {
                           trackOutboundClick({
-                            url: image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts",
+                            url: withGalleryTracking(image.orderUrl || "https://sakuya-kyudogu.jp/order_made/kinteki/full/parts", 'gallery'),
                             location: 'gallery',
                             label: `この矢を作ってみる（${image.title}）`,
                           });

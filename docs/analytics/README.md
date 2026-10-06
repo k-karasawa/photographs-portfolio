@@ -5,16 +5,16 @@ CTAクリックを GA4 で計測・集計するためのドキュメント群で
 
 ## 計測の概要
 
-LP上の本店向けCTAリンク（17箇所）をクリックすると、GA4 にカスタムイベント
+LP上の本店向けCTAリンク（19箇所）をクリックすると、GA4 にカスタムイベント
 **`cta_click_to_main`** が送信されます。
 
 このイベントには以下のパラメータが含まれます:
 
 | パラメータ | 内容 | 例 |
 |---|---|---|
-| `cta_location` | CTAの配置場所 | `gallery`, `header`, `footer`, `newarrival` 等 |
+| `cta_location` | CTAの配置場所 | `gallery`, `hero`, `header`, `footer`, `newarrival` 等 |
 | `cta_label` | CTAのラベル（ユーザーが見たテキスト） | `この矢を作ってみる（1. スタンダード黒）` |
-| `destination_url` | 遷移先URL（クエリ含む） | `https://sakuya-kyudogu.jp/order_made?rid=52` |
+| `destination_url` | 遷移先URL（クエリ含む） | `https://sakuya-kyudogu.jp/order_made?rid=52&via=gallery&via_cta=gallery` |
 | `destination_path` | 遷移先パス | `/order_made` |
 | `is_customized` | カスタマイズ済みデザイン経由か | `true` / `false` |
 | `customization_id` | カスタマイズID（rid 値） | `52`, `69`（カスタマイズ時のみ） |
@@ -57,9 +57,45 @@ LP上の本店向けCTAリンク（17箇所）をクリックすると、GA4 に
 > **注意**: カスタムディメンションは登録後のイベントにのみ適用されます。
 > 登録前のデータは標準レポートでパラメータ別集計できません。
 
+## 本店側で「ギャラリー経由」を識別する（送客後の追跡）
+
+本店向けCTAの URL には、`withGalleryTracking()` により識別パラメータが自動付与されます。
+
+```
+https://sakuya-kyudogu.jp/order_made?rid=52&via=gallery&via_cta=gallery
+```
+
+| パラメータ | 内容 |
+|---|---|
+| `via=gallery` | ギャラリー経由であることを示す固定値 |
+| `via_cta` | クリックされた CTA の配置場所（`cta_location` と同じ値） |
+
+### 本店 GA4（sakuyakyudogu / 278226080）での見方
+
+ギャラリーと本店はルートドメイン `sakuya-kyudogu.jp` の Cookie を共有しているため、
+パラメータ無しではセッションがそのまま引き継がれ、**参照元に gallery は現れません**
+（これが「本店側で gallery 参照元のセッションが0件」の理由です）。
+
+`via=gallery` を使うと、本店側で次のように絞り込めます:
+
+- ランディングページ + クエリ文字列 に `via=gallery` を含む → ギャラリー経由の着地
+- 同セッション内の `purchase` 等のコンバージョン → ギャラリー経由の注文数
+- `via_cta=` の値で、どの CTA から来たかの内訳
+
+### なぜ UTM ではなく独自パラメータか
+
+`utm_source=gallery` を付けると GA4 のキャンペーン解析が発火し、本店側の参照元／メディアが
+`gallery / referral` に**上書き**されます。その結果、元の流入（Paid Search 等）の帰属が
+本店側で切れてしまいます。独自パラメータ（`via`）は GA4 に解釈されないため、
+既存の帰属を保ったまま着地ページ側で識別できます。
+
+本店担当と合意の上で UTM に切り替える場合は、
+[`src/lib/analytics.ts`](../../src/lib/analytics.ts) の `MAIN_SITE_TRACKING_MODE` を `'utm'` に
+変更してください（`utm_source=gallery&utm_medium=referral&utm_content=<cta_location>` が付与されます）。
+
 ## 計測実装ファイル
 
-- [`src/lib/analytics.ts`](../../src/lib/analytics.ts) - `trackOutboundClick` 共通関数
+- [`src/lib/analytics.ts`](../../src/lib/analytics.ts) - `trackOutboundClick` 共通関数、`withGalleryTracking` URL付与関数
 - [`src/pages/_app.tsx`](../../src/pages/_app.tsx) - gtag.js の読み込み
 - 各 CTA の `onClick` で `trackOutboundClick` を呼び出し
 

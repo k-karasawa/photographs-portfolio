@@ -4,7 +4,7 @@ import { PrimaryButton } from '@/components/PrimaryButton';
 import { Other } from './Other';
 import { FlipCard } from './FlipCard';
 import { useEffect, useState } from 'react';
-import { trackOutboundClick } from '@/lib/analytics';
+import { trackOutboundClick, withGalleryTracking } from '@/lib/analytics';
 
 export const OtherSection = () => {
   const customItems = [
@@ -95,11 +95,11 @@ export const OtherSection = () => {
               className="flex justify-center md:justify-start"
             >
               <PrimaryButton
-                href="https://sakuya-kyudogu.jp/select_guide"
+                href={withGalleryTracking('https://sakuya-kyudogu.jp/select_guide', 'other')}
                 target="_blank"
                 icon={<HiOutlineAcademicCap className="w-6 h-6" />}
                 onClick={() => trackOutboundClick({
-                  url: 'https://sakuya-kyudogu.jp/select_guide',
+                  url: withGalleryTracking('https://sakuya-kyudogu.jp/select_guide', 'other'),
                   location: 'other',
                   label: '矢の選び方を学ぶ',
                 })}

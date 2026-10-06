@@ -6,7 +6,7 @@ import { GiArrowhead } from 'react-icons/gi'
 import { FiShoppingCart, FiMail, FiInstagram, FiMenu, FiX } from 'react-icons/fi'
 import { RiTwitterXLine } from 'react-icons/ri'
 import { createPortal } from 'react-dom'
-import { trackOutboundClick } from '@/lib/analytics'
+import { trackOutboundClick, withGalleryTracking } from '@/lib/analytics'
 
 interface MenuItem {
   label: string
@@ -328,11 +328,11 @@ export const Header = () => {
                 </div>
 
                 <a
-                  href="https://sakuya-kyudogu.jp/select_guide"
+                  href={withGalleryTracking("https://sakuya-kyudogu.jp/select_guide", 'header')}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackOutboundClick({
-                    url: 'https://sakuya-kyudogu.jp/select_guide',
+                    url: withGalleryTracking('https://sakuya-kyudogu.jp/select_guide', 'header'),
                     location: 'header',
                     label: '矢の選び方',
                   })}
@@ -348,11 +348,11 @@ export const Header = () => {
                 </a>
 
                 <a
-                  href="https://sakuya-kyudogu.jp/contact"
+                  href={withGalleryTracking("https://sakuya-kyudogu.jp/contact", 'header')}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackOutboundClick({
-                    url: 'https://sakuya-kyudogu.jp/contact',
+                    url: withGalleryTracking('https://sakuya-kyudogu.jp/contact', 'header'),
                     location: 'header',
                     label: 'お問い合わせ',
                   })}
@@ -368,11 +368,11 @@ export const Header = () => {
                 </a>
 
                 <a
-                  href="https://sakuya-kyudogu.jp/order_made"
+                  href={withGalleryTracking("https://sakuya-kyudogu.jp/order_made", 'header')}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackOutboundClick({
-                    url: 'https://sakuya-kyudogu.jp/order_made',
+                    url: withGalleryTracking('https://sakuya-kyudogu.jp/order_made', 'header'),
                     location: 'header',
                     label: 'オーダーする',
                   })}
@@ -403,6 +403,24 @@ export const Header = () => {
                   <span className="font-bold text-xs">オーダーする</span>
                 </a>
               </motion.div>
+
+              {/* モバイル用オーダーCTA - ヘッダー右側に常設（PC版の「オーダーする」はモバイルで非表示のため） */}
+              <a
+                href={withGalleryTracking('https://sakuya-kyudogu.jp/order_made', 'header_mobile')}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackOutboundClick({
+                  url: withGalleryTracking('https://sakuya-kyudogu.jp/order_made', 'header_mobile'),
+                  location: 'header_mobile',
+                  label: 'オーダーする（常設ボタン）',
+                })}
+                className="md:hidden flex items-center bg-[#C84C38] text-white text-xs font-bold px-3 py-1.5 rounded-full mr-1 shadow-sm active:opacity-80 whitespace-nowrap"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
+                aria-label="本店のオーダーページへ"
+              >
+                <FiShoppingCart className="w-3.5 h-3.5 mr-1" />
+                オーダーする
+              </a>
 
               {/* ハンバーガーメニューボタン - 常に表示 */}
               <button 
@@ -554,7 +572,7 @@ export const Header = () => {
                     <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">外部サイトへ</h3>
                     <nav className={`flex flex-col ${menuSpacing}`}>
                       <a
-                        href="https://sakuya-kyudogu.jp/select_guide"
+                        href={withGalleryTracking("https://sakuya-kyudogu.jp/select_guide", 'header_mobile')}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
@@ -562,23 +580,23 @@ export const Header = () => {
                           e.preventDefault();
                           e.stopPropagation();
                           trackOutboundClick({
-                            url: 'https://sakuya-kyudogu.jp/select_guide',
+                            url: withGalleryTracking('https://sakuya-kyudogu.jp/select_guide', 'header_mobile'),
                             location: 'header_mobile',
                             label: '矢の選び方',
                           });
                           closeMenu();
-                          window.open("https://sakuya-kyudogu.jp/select_guide", "_blank", "noopener,noreferrer");
+                          window.open(withGalleryTracking("https://sakuya-kyudogu.jp/select_guide", 'header_mobile'), "_blank", "noopener,noreferrer");
                         }}
                         onTouchEnd={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
                           trackOutboundClick({
-                            url: 'https://sakuya-kyudogu.jp/select_guide',
+                            url: withGalleryTracking('https://sakuya-kyudogu.jp/select_guide', 'header_mobile'),
                             location: 'header_mobile',
                             label: '矢の選び方',
                           });
                           closeMenu();
-                          window.open("https://sakuya-kyudogu.jp/select_guide", "_blank", "noopener,noreferrer");
+                          window.open(withGalleryTracking("https://sakuya-kyudogu.jp/select_guide", 'header_mobile'), "_blank", "noopener,noreferrer");
                         }}
                         style={{ touchAction: 'manipulation' }}
                       >
@@ -586,7 +604,7 @@ export const Header = () => {
                         矢の選び方
                       </a>
                       <a
-                        href="https://sakuya-kyudogu.jp/contact"
+                        href={withGalleryTracking("https://sakuya-kyudogu.jp/contact", 'header_mobile')}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center text-[#333333] hover:bg-gray-100"
@@ -594,23 +612,23 @@ export const Header = () => {
                           e.preventDefault();
                           e.stopPropagation();
                           trackOutboundClick({
-                            url: 'https://sakuya-kyudogu.jp/contact',
+                            url: withGalleryTracking('https://sakuya-kyudogu.jp/contact', 'header_mobile'),
                             location: 'header_mobile',
                             label: 'お問い合わせ',
                           });
                           closeMenu();
-                          window.open("https://sakuya-kyudogu.jp/contact", "_blank", "noopener,noreferrer");
+                          window.open(withGalleryTracking("https://sakuya-kyudogu.jp/contact", 'header_mobile'), "_blank", "noopener,noreferrer");
                         }}
                         onTouchEnd={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
                           trackOutboundClick({
-                            url: 'https://sakuya-kyudogu.jp/contact',
+                            url: withGalleryTracking('https://sakuya-kyudogu.jp/contact', 'header_mobile'),
                             location: 'header_mobile',
                             label: 'お問い合わせ',
                           });
                           closeMenu();
-                          window.open("https://sakuya-kyudogu.jp/contact", "_blank", "noopener,noreferrer");
+                          window.open(withGalleryTracking("https://sakuya-kyudogu.jp/contact", 'header_mobile'), "_blank", "noopener,noreferrer");
                         }}
                         style={{ touchAction: 'manipulation' }}
                       >
@@ -618,7 +636,7 @@ export const Header = () => {
                         お問い合わせ
                       </a>
                       <a
-                        href="https://sakuya-kyudogu.jp/order_made"
+                        href={withGalleryTracking("https://sakuya-kyudogu.jp/order_made", 'header_mobile')}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="relative px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left cursor-pointer touch-manipulation tap-highlight-none flex items-center bg-[#C84C38]/10 text-[#C84C38] font-bold hover:bg-[#C84C38]/20"
@@ -626,23 +644,23 @@ export const Header = () => {
                           e.preventDefault();
                           e.stopPropagation();
                           trackOutboundClick({
-                            url: 'https://sakuya-kyudogu.jp/order_made',
+                            url: withGalleryTracking('https://sakuya-kyudogu.jp/order_made', 'header_mobile'),
                             location: 'header_mobile',
                             label: 'オーダーする',
                           });
                           closeMenu();
-                          window.open("https://sakuya-kyudogu.jp/order_made", "_blank", "noopener,noreferrer");
+                          window.open(withGalleryTracking("https://sakuya-kyudogu.jp/order_made", 'header_mobile'), "_blank", "noopener,noreferrer");
                         }}
                         onTouchEnd={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
                           trackOutboundClick({
-                            url: 'https://sakuya-kyudogu.jp/order_made',
+                            url: withGalleryTracking('https://sakuya-kyudogu.jp/order_made', 'header_mobile'),
                             location: 'header_mobile',
                             label: 'オーダーする',
                           });
                           closeMenu();
-                          window.open("https://sakuya-kyudogu.jp/order_made", "_blank", "noopener,noreferrer");
+                          window.open(withGalleryTracking("https://sakuya-kyudogu.jp/order_made", 'header_mobile'), "_blank", "noopener,noreferrer");
                         }}
                         style={{ touchAction: 'manipulation' }}
                       >

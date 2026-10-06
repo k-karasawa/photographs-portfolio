@@ -4,8 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { MobileTrailEffect } from '@/components/MobileTrailEffect'
 import { ArrowImage } from '@/types/arrow'
 import { PrimaryButton } from '@/components/PrimaryButton'
-import { HiOutlineChevronRight, HiOutlineChevronDown } from 'react-icons/hi2'
+import { HiOutlineChevronRight, HiOutlineChevronDown, HiOutlineArrowTopRightOnSquare } from 'react-icons/hi2'
 import { NewsPopupContext } from '@/components/Layout'
+import { trackOutboundClick, withGalleryTracking } from '@/lib/analytics'
+
+// ファーストビューから本店へ直接進める導線（SNS・Direct 来訪者向け）
+const HERO_ORDER_URL = withGalleryTracking('https://sakuya-kyudogu.jp/order_made', 'hero')
+const HERO_ORDER_LABEL = 'すぐに注文する（本店オーダーページへ）'
 
 const MIN_DISTANCE_FOR_NEW_IMAGE = 80
 const MAX_MOVE_SPEED = 50
@@ -128,15 +133,9 @@ export const Top = () => {
     }
   }
 
-  // 初期化が完了していない場合は空のセクションのみを表示
-  if (!isInitialized) {
-    return (
-      <section className="min-h-screen bg-white overflow-hidden relative">
-        {/* ここに必要に応じてローディング表示を追加 */}
-      </section>
-    )
-  }
-
+  // 初期化前（ポップアップ表示の有無が決まる前）は内容を透明にしておき、初期化後にフェードインさせる。
+  // ※ 以前は初期化前に空セクションを返していたが、その場合 h1 やヒーロー文が
+  //    サーバー出力 HTML に含まれず検索エンジンに届かないため、常に描画する。
   return (
     <section className="min-h-screen bg-white overflow-hidden relative">
       <AnimatePresence>
@@ -216,16 +215,18 @@ export const Top = () => {
         ))}
       </AnimatePresence>
 
-      <div className={`flex items-start md:items-center justify-center min-h-screen relative z-10 
-        ${isPopupVisible 
-          ? 'pt-[20vh]' 
+      <div className={`flex items-start md:items-center justify-center min-h-screen relative z-10
+        transition-opacity duration-300
+        ${isInitialized ? 'opacity-100' : 'opacity-0'}
+        ${isPopupVisible
+          ? 'pt-[20vh]'
           : 'pt-[25vh]'}
         md:pt-0 md:-mt-[5vh]`}
       >
         <div className="relative">
           <div className="max-w-3xl mx-auto text-left md:text-left px-4">
             <div className="md:max-w-3xl max-w-[280px] mx-auto md:mx-0">
-              <h1 className="sr-only">矢のオーダーメイド</h1>
+              <h1 className="sr-only">弓道の矢 柄・色の組み合わせ作例集 ― 咲矢弓道具 オーダー矢ギャラリー</h1>
               <div className="text-3xl md:text-6xl lg:text-7xl font-normal text-[#333333] leading-tight mb-6 
                 text-center md:text-left"
               >
@@ -237,6 +238,9 @@ export const Top = () => {
                 text-center md:text-left"
               >
                 <span className="md:ml-[2px]">Discover your destined arrow,</span>
+              </p>
+              <p className="text-sm md:text-base text-[#666666] mb-6 text-center md:text-left">
+                <span className="md:ml-[2px]">羽根の柄と糸・和紙の色で選ぶ、<br className="md:hidden" />オーダー矢の作例集。</span>
               </p>
 
               <div className="relative flex justify-center md:justify-start">
@@ -278,12 +282,30 @@ export const Top = () => {
                   </motion.div>
                 </motion.div>
               </div>
+
+              {/* 作例を見ずに注文したい来訪者（SNS・Direct）向けの本店直行リンク */}
+              <div className="mt-5 flex justify-center md:justify-start">
+                <a
+                  href={HERO_ORDER_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackOutboundClick({
+                    url: HERO_ORDER_URL,
+                    location: 'hero',
+                    label: HERO_ORDER_LABEL,
+                  })}
+                  className="inline-flex items-center gap-1 text-sm md:text-base font-medium text-[#C84C38] underline underline-offset-4 decoration-[#C84C38]/40 hover:decoration-[#C84C38] transition-colors"
+                >
+                  {HERO_ORDER_LABEL}
+                  <HiOutlineArrowTopRightOnSquare className="w-4 h-4" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {isClient && (
+      {isClient && isInitialized && (
         isMobile.current ? (
           <MobileTrailEffect setParentImages={setImages} />
         ) : (

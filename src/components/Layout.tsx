@@ -20,7 +20,7 @@ type LayoutProps = {
 
 export const Layout: React.FC<LayoutProps> = ({ 
   children, 
-  title = '咲矢弓道具 | 矢羽根のオーダーメイド専門店' 
+  title = '弓道の矢 柄・色の組み合わせ作例集 | 咲矢弓道具 オーダー矢ギャラリー'
 }) => {
   // 設定から遅延時間を取得
   const popupDelay = appConfig.newsPopup.delay;
@@ -30,7 +30,7 @@ export const Layout: React.FC<LayoutProps> = ({
     <>
       <Head>
         <title>{title}</title>
-        <meta name="description" content="弓道具のオーダーメイド専門店。オリジナルの矢羽根デザインをお作りします。" />
+        <meta name="description" content="弓道の矢を見た目で選ぶ作例ギャラリー。羽根の柄と糸・和紙の色の組み合わせ作例を写真で紹介します。" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

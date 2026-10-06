@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { HiOutlineArrowTopRightOnSquare } from 'react-icons/hi2'
 import { NewArrivalContent } from './NewArrivalContent'
 import { HiArrowDown } from 'react-icons/hi'
-import { trackOutboundClick } from '@/lib/analytics'
+import { trackOutboundClick, withGalleryTracking } from '@/lib/analytics'
 
 export const NewArrival = () => {
   return (
@@ -30,11 +30,11 @@ export const NewArrival = () => {
             />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent"></div>
             <a
-              href="https://sakuya-kyudogu.jp/order_made?rid=69"
+              href={withGalleryTracking('https://sakuya-kyudogu.jp/order_made?rid=69', 'newarrival')}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackOutboundClick({
-                url: 'https://sakuya-kyudogu.jp/order_made?rid=69',
+                url: withGalleryTracking('https://sakuya-kyudogu.jp/order_made?rid=69', 'newarrival'),
                 location: 'newarrival',
                 label: 'カスタマイズしてみる（新商品1: kasuo2）',
               })}
@@ -56,11 +56,11 @@ export const NewArrival = () => {
             />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent"></div>
             <a
-              href="https://sakuya-kyudogu.jp/order_made?rid=70"
+              href={withGalleryTracking('https://sakuya-kyudogu.jp/order_made?rid=70', 'newarrival')}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackOutboundClick({
-                url: 'https://sakuya-kyudogu.jp/order_made?rid=70',
+                url: withGalleryTracking('https://sakuya-kyudogu.jp/order_made?rid=70', 'newarrival'),
                 location: 'newarrival',
                 label: 'カスタマイズしてみる（新商品2: komonnami）',
               })}
