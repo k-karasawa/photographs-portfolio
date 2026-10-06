@@ -64,7 +64,9 @@ GA4 上での `cta_label` の形式:
 
 | cta_location | cta_label | 配置 |
 |---|---|---|
-| header | オーダーする | Header（PC版・モバイル版） |
+| hero | すぐに注文する（本店オーダーページへ） | Top セクション（ファーストビュー）のテキストリンク |
+| header | オーダーする | Header（PC版） |
+| header_mobile | オーダーする（常設ボタン） | Header モバイル右上の常設ボタン |
 | header_mobile | オーダーする | Header モバイルメニュー |
 | header | 矢の選び方 | Header → /select_guide |
 | header_mobile | 矢の選び方 | Header モバイル → /select_guide |

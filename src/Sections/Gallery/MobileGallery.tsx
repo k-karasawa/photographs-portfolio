@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
-import { GalleryImage } from './galleryData'
+import { GalleryImage, galleryImageAlt } from './galleryData'
 import { useRef } from 'react'
 
 interface MobileGalleryProps {
@@ -73,7 +73,7 @@ export const MobileGallery = ({
               <div className="relative w-full h-full rounded-2xl overflow-hidden">
                 <Image
                   src={featuredImage.src}
-                  alt={`Featured arrow - ${featuredImage.title}`}
+                  alt={galleryImageAlt(featuredImage)}
                   fill
                   className="object-cover"
                   priority
@@ -131,9 +131,12 @@ export const MobileGallery = ({
               y: galleryTitleY
             }}
           >
-            <h2 className="text-2xl font-bold text-[#333333] mb-4">
+            <h2 className="text-2xl font-bold text-[#333333] mb-2">
               Arrow Gallery
             </h2>
+            <p className="text-xs text-[#666666] mb-3">
+              羽根の柄・糸と和紙の色の組み合わせ作例 15選。タップで仕様と注文ページへ。
+            </p>
             <div className="w-full h-[1px] bg-[#333333] opacity-20"></div>
           </motion.div>
 
@@ -155,7 +158,7 @@ export const MobileGallery = ({
                 <div className="relative aspect-[3/4] w-full">
                   <Image
                     src={image.src}
-                    alt={`Traditional Japanese arrow ${index + 1}`}
+                    alt={galleryImageAlt(image)}
                     fill
                     className="object-cover"
                   />

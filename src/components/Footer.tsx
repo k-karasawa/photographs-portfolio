@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { GiArrowhead } from 'react-icons/gi'
 import { FiShoppingCart, FiMail, FiInstagram } from 'react-icons/fi'
 import { RiTwitterXLine } from 'react-icons/ri'
-import { trackOutboundClick } from '@/lib/analytics'
+import { trackOutboundClick, withGalleryTracking } from '@/lib/analytics'
 
 interface MenuItem {
   label: string
@@ -106,10 +106,11 @@ export const Footer = () => {
     isProcessingRef.current = true
 
     if (url) {
-      // 本店（sakuya-kyudogu.jp）への遷移は GA4 に計測イベントを送る
+      // 本店（sakuya-kyudogu.jp）への遷移は識別パラメータを付与し、GA4 に計測イベントを送る
+      const destination = withGalleryTracking(url, 'footer')
       if (url.includes('sakuya-kyudogu.jp')) {
         trackOutboundClick({
-          url,
+          url: destination,
           location: 'footer',
           label: label ?? url,
         })
@@ -117,7 +118,7 @@ export const Footer = () => {
 
       // setTimeout を使用して非同期でリンクを開く
       setTimeout(() => {
-        window.open(url, '_blank', 'noopener,noreferrer')
+        window.open(destination, '_blank', 'noopener,noreferrer')
 
         // 処理が完了したらフラグをリセット
         setTimeout(() => {
@@ -215,7 +216,7 @@ export const Footer = () => {
             </div>
             <div className="flex justify-center md:justify-start w-full mb-6">
               <a
-                href="https://sakuya-kyudogu.jp/order_made"
+                href={withGalleryTracking("https://sakuya-kyudogu.jp/order_made", 'footer')}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/order_made", "オーダーする（CTA）")}
@@ -251,7 +252,7 @@ export const Footer = () => {
             <h3 className="text-base font-bold text-gray-800 mb-4">外部リンク</h3>
             <nav className="flex flex-col space-y-3">
               <a
-                href="https://sakuya-kyudogu.jp"
+                href={withGalleryTracking("https://sakuya-kyudogu.jp", 'footer')}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={getLinkClickHandler("https://sakuya-kyudogu.jp", "咲矢弓道具 公式サイト")}
@@ -262,7 +263,7 @@ export const Footer = () => {
                 咲矢弓道具 公式サイト
               </a>
               <a
-                href="https://sakuya-kyudogu.jp/order_made"
+                href={withGalleryTracking("https://sakuya-kyudogu.jp/order_made", 'footer')}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/order_made", "矢のオーダーメイドシステム")}
@@ -273,7 +274,7 @@ export const Footer = () => {
                 矢のオーダーメイドシステム
               </a>
               <a
-                href="https://sakuya-kyudogu.jp/select_guide"
+                href={withGalleryTracking("https://sakuya-kyudogu.jp/select_guide", 'footer')}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/select_guide", "矢の選び方")}
@@ -285,7 +286,7 @@ export const Footer = () => {
                 矢の選び方
               </a>
               <a
-                href="https://sakuya-kyudogu.jp/contact"
+                href={withGalleryTracking("https://sakuya-kyudogu.jp/contact", 'footer')}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={getLinkClickHandler("https://sakuya-kyudogu.jp/contact", "お問い合わせ")}

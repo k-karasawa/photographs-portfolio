@@ -28,7 +28,7 @@ export default function Document() {
         />
         
         {/* デフォルトのOGP設定 - 各ページで上書き可能 */}
-        <meta property="og:site_name" content="咲矢弓道具 | 矢のオーダーメイド" />
+        <meta property="og:site_name" content="咲矢弓道具 オーダー矢ギャラリー | 矢の柄・色の作例集" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="ja_JP" />
         

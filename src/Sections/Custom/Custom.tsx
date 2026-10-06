@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { AnimatedTargetButton } from '@/components/AnimatedTargetButton'
 import { features } from './featuresData'
-import { trackOutboundClick } from '@/lib/analytics'
+import { trackOutboundClick, withGalleryTracking } from '@/lib/analytics'
 
 export const CustomOrderSection = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -90,9 +90,9 @@ export const CustomOrderSection = () => {
         >
           <AnimatedTargetButton
             triggerOnScroll={true}
-            href="https://sakuya-kyudogu.jp/order_made"
+            href={withGalleryTracking('https://sakuya-kyudogu.jp/order_made', 'custom')}
             onClick={() => trackOutboundClick({
-              url: 'https://sakuya-kyudogu.jp/order_made',
+              url: withGalleryTracking('https://sakuya-kyudogu.jp/order_made', 'custom'),
               location: 'custom',
               label: 'カスタムオーダーを始める',
             })}

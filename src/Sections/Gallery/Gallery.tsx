@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { GalleryModal } from './GalleryModal'
-import { GalleryImage, galleryImages } from './galleryData'
+import { GalleryImage, galleryImages, galleryImageAlt } from './galleryData'
 import { MobileGallery } from './MobileGallery'
 
 export const Gallery = () => {
@@ -116,6 +116,9 @@ export const Gallery = () => {
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#333333] mb-4 drop-shadow-[0_2px_2px_rgba(255,255,255,0.5)] ml-[-40px]">
                 Arrow Gallery
               </h2>
+              <p className="text-sm lg:text-base text-[#666666] mb-3 ml-[-40px]">
+                羽根の柄・糸と和紙の色の組み合わせ作例 15選。気になる矢をクリックすると、仕様の確認と注文ページへ進めます。
+              </p>
               <div className="w-[calc(100%+80px)] h-[1px] bg-[#333333] opacity-20 ml-[-40px]"></div>
             </motion.div>
 
@@ -211,7 +214,7 @@ export const Gallery = () => {
                     <div className="relative w-full h-full">
                       <Image
                         src={galleryImages[index].src}
-                        alt={`Traditional Japanese arrow ${index + 1}`}
+                        alt={galleryImageAlt(galleryImages[index])}
                         fill
                         className="object-cover"
                       />

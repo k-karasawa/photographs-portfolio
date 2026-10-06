@@ -10,13 +10,14 @@
  * イベントパラメータ:
  *   - cta_location: CTAが配置されている場所
  *   - cta_label: CTAのラベル
- *   - destination_url: 遷移先URL（クエリパラメータ含む）
+ *   - destination_url: 遷移先URL（クエリパラメータ含む。via=gallery 等の識別パラメータも含まれる）
  *   - destination_path: 遷移先パス
  *   - is_customized: カスタマイズ済みデザイン経由かどうか（?rid=XX が付与されている場合 true）
  *   - customization_id: カスタマイズID（rid 値、未指定時は undefined）
  */
 
-type CtaLocation =
+export type CtaLocation =
+  | 'hero'
   | 'header'
   | 'header_mobile'
   | 'footer'
@@ -25,6 +26,57 @@ type CtaLocation =
   | 'other'
   | 'newarrival'
   | 'gallery';
+
+/**
+ * 本店側 GA4 で「ギャラリー経由の着地」を識別するためのクエリパラメータ方式。
+ *
+ *   - 'via'  : `?via=gallery&via_cta=<location>` を付与する（既定）。
+ *              GA4 のキャンペーン解析を発火させないため、本店側の既存の
+ *              参照元／メディア（Paid Search 等）の帰属を壊さない。
+ *              本店 GA4 では「ランディングページ + クエリ文字列」に
+ *              `via=gallery` を含むセッションで絞り込める。
+ *   - 'utm'  : `utm_source=gallery&utm_medium=referral&utm_content=<location>` を付与する。
+ *              本店側で参照元が gallery / referral に上書きされ、
+ *              元の広告流入の帰属が切れる点に注意（本店担当と合意の上で切り替える）。
+ *
+ * ギャラリーと本店はルートドメインの Cookie を共有しているため、
+ * パラメータ無しではセッションが引き継がれ、本店側で gallery が参照元として現れない。
+ */
+const MAIN_SITE_TRACKING_MODE = 'via' as 'via' | 'utm';
+
+const MAIN_SITE_HOST = 'sakuya-kyudogu.jp';
+
+/**
+ * 本店（sakuya-kyudogu.jp）への URL に、ギャラリー経由であることを示す
+ * 識別パラメータを付与して返す。
+ *
+ * - 本店以外の URL はそのまま返す
+ * - 既存のクエリ（?rid=52 等）は保持する
+ * - 既に付与済みの場合は上書きする（二重付与しない）
+ */
+export const withGalleryTracking = (url: string, location: CtaLocation): string => {
+  try {
+    const u = new URL(url);
+    if (u.hostname !== MAIN_SITE_HOST && !u.hostname.endsWith(`.${MAIN_SITE_HOST}`)) {
+      return url;
+    }
+    if (u.hostname.startsWith('gallery.')) {
+      return url;
+    }
+
+    if (MAIN_SITE_TRACKING_MODE === 'utm') {
+      u.searchParams.set('utm_source', 'gallery');
+      u.searchParams.set('utm_medium', 'referral');
+      u.searchParams.set('utm_content', location);
+    } else {
+      u.searchParams.set('via', 'gallery');
+      u.searchParams.set('via_cta', location);
+    }
+    return u.toString();
+  } catch {
+    return url;
+  }
+};
 
 interface TrackOutboundClickParams {
   /** 遷移先URL（?rid=XX 等のクエリパラメータが付いていれば自動的にカスタマイズ判定する） */

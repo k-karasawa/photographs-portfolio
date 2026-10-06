@@ -16,6 +16,19 @@ export interface GalleryImage {
   }
 }
 
+/** 「1. スタンダード黒」→「スタンダード黒」のように先頭の番号を除いた作例名 */
+export const galleryImageName = (image: GalleryImage): string =>
+  image.title.replace(/^\d+\.\s*/, '')
+
+/**
+ * 検索エンジン・スクリーンリーダー向けの画像 alt。
+ * 作例名と「羽根の柄 / 糸・和紙 / シャフト」の組み合わせを文章化する。
+ */
+export const galleryImageAlt = (image: GalleryImage): string => {
+  const { fletching, paper, shaft } = image.specs.material
+  return `${galleryImageName(image)}の矢 ― 羽根: ${fletching} / 糸・和紙: ${paper} / シャフト: ${shaft}`
+}
+
 export const galleryImages: GalleryImage[] = [
   {
     id: 1,
